@@ -8,23 +8,44 @@ import {
 } from "react-native";
 import React from "react";
 
+import { useSelector } from "react-redux";
+import { selectIsFindNavigate } from "../slices/navSlice";
+
 const EventProfil = () => {
+  const isFindNavigate = useSelector(selectIsFindNavigate);
+
+  const containerStyle = {
+      ...styles.container,
+      paddingTop: !isFindNavigate ? 60 : styles.container.paddingTop,
+    };
+
+
   return (
+
+
+
+
+
+
     <View
       style={{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        paddingBottom: 30,
+        backgroundColor: "transparent",
       }}
     >
-      <View
+
+    {!isFindNavigate &&     //! le && pour remplacer l interogation et pas besoin de mettre de "null"
+    <View
         testID="containerButtonEventProfil"
         style={{
           flexDirection: "row",
           gap: 10,
           position: "absolute",
           zIndex: 10,
-          bottom: 14,
+          top: 10,
           backgroundColor: "transparent",
         }}
       >
@@ -62,9 +83,11 @@ const EventProfil = () => {
             EVENT CREATED
           </Text>
         </TouchableOpacity>
-      </View>
+      </View> 
+      }
 
-      <ScrollView style={styles.container}>
+
+      <ScrollView style={containerStyle}>
         <TouchableOpacity>
           <View
             style={{
@@ -476,7 +499,7 @@ const EventProfil = () => {
         </TouchableOpacity>
         <View
           style={{
-            height: 70,
+            height: 120,
           }}
         ></View>
       </ScrollView>

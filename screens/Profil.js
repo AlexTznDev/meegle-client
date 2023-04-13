@@ -15,7 +15,7 @@ const Profil = () => {
         backgroundColor: "#1D2328",
         color: "#fff",
         borderBottomRightRadius: 37,
-        borderBottomLeftRadius: 37,
+        // borderBottomLeftRadius: 37,
       }}
     >
       <View
@@ -51,23 +51,6 @@ const Profil = () => {
             <Text style={styles.h1}>Alex Tuysuzian</Text>
             <Text style={styles.h3}>Valencia, Alboraya</Text>
           </View>
-        </View>
-
-        <View
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image
-            style={{
-              width: 70,
-              height: 20,
-            }}
-            resizeMode="contain"
-            source={require("../assets/Meegle.png")}
-          />
         </View>
 
         <View
@@ -108,6 +91,23 @@ const Profil = () => {
           >
             <Text style={styles.h3}>Find someone</Text>
           </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            style={{
+              width: 70,
+              height: 20,
+            }}
+            resizeMode="contain"
+            source={require("../assets/Meegle.png")}
+          />
         </View>
       </View>
     </SafeAreaView>

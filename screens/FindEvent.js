@@ -12,6 +12,7 @@ import React from "react";
 
 const FindEvent = () => {
   return (
+
     <SafeAreaView
       style={{
         backgroundColor: "#1D2328",
@@ -22,8 +23,6 @@ const FindEvent = () => {
         alignItems: "center",
       }}
     >
-
-
 
 <View 
 

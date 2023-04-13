@@ -5,15 +5,20 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     origin:null,
     destination:null,
-    travelTimeInformation:null
+    travelTimeInformation:null,
+    isFindNavigate:false
 }
+
+
+
+
 
 
 //preparation du reducer grace a action
 export const navSlice = createSlice({
     name:"nav",
     initialState,
-    reducer:{
+    reducers:{  //! reducerS avec un s tres important
         setOrigin: (state, action) => {
             state.origin = action.payload
         },
@@ -21,18 +26,23 @@ export const navSlice = createSlice({
             state.destination = action.payload
         },
         setTravelTimeInformation: (state, action) => {
-            state.origin = action.payload
+            state.travelTimeInformation = action.payload
+        },
+        setIsFindNavigate:(state, action)=>{
+            state.isFindNavigate = action.payload
         }
     }
 })
 
 //destructuration
-export const {setOrigin, setDestination, setTravelTimeInformation} =  navSlice.actions
+export const {setOrigin, setDestination, setTravelTimeInformation, setIsFindNavigate} =  navSlice.actions
 
 //selector pour recupere la data 
 export const selectOrigin = (state) => state.nav.origin
 export const selectDestination = (state) => state.nav.destination
 export const selectTravelTimeInformation = (state) => state.nav.travelTimeInformation
+export const selectIsFindNavigate = (state) => state.nav.isFindNavigate
+
 
 
 export default navSlice.reducer

@@ -1,7 +1,13 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { setIsFindNavigate } from "../slices/navSlice.js";
 
 const NavBar = () => {
+  const dispatch = useDispatch(); //! modification etat avec redux
+  const navigation = useNavigation();
+
   return (
     <View
       style={{
@@ -18,59 +24,66 @@ const NavBar = () => {
         alignItems: "center",
       }}
     >
-
-    <TouchableOpacity>
-    <Image
-        style={{
-          width: 25,
-          height: 25,
+      <TouchableOpacity>
+        <Image
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          resizeMode="contain"
+          source={require("../assets/chat.png")}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(setIsFindNavigate(true));
+          navigation.navigate("FindEventMain");
         }}
-        resizeMode = "contain"
-        source={require("../assets/chat.png")}
-      />
-    </TouchableOpacity>
-    <TouchableOpacity>
-    <Image
-        style={{
-          width: 25,
-          height: 25,
+      >
+        <Image
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          resizeMode="contain"
+          source={require("../assets/search.png")}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          resizeMode="contain"
+          source={require("../assets/circle.png")}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          resizeMode="contain"
+          source={require("../assets/chat.png")}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("ProfilMain");
+          dispatch(setIsFindNavigate(false));
         }}
-        resizeMode = "contain"
-        source={require("../assets/search.png")}
-      />
-    </TouchableOpacity>
-    <TouchableOpacity>
-    <Image
-        style={{
-          width: 25,
-          height: 25,
-        }}
-        resizeMode = "contain"
-        source={require("../assets/circle.png")}
-      />
-    </TouchableOpacity>
-    <TouchableOpacity>
-    <Image
-        style={{
-          width: 25,
-          height: 25,
-        }}
-        resizeMode = "contain"
-        source={require("../assets/chat.png")}
-      />
-    </TouchableOpacity>
-    <TouchableOpacity>
-    <Image
-        style={{
-          width: 25,
-          height: 25,
-        }}
-        resizeMode = "contain"
-        source={require("../assets/profil.png")}
-      />
-    </TouchableOpacity>
-
-
+      >
+        <Image
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          resizeMode="contain"
+          source={require("../assets/profil.png")}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
