@@ -5,13 +5,16 @@ import EventProfil from '../EventProfil'
 
 
 const ProfilMain = () => {
+
+
+
   return (
     <View
     style={{
       flex:1
     }}>
           <Profil /> 
-          <EventProfil />
+          <EventProfil/>
     </View>
   )
 }

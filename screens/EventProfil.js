@@ -9,25 +9,21 @@ import {
 import React from "react";
 
 import { useSelector } from "react-redux";
-import { selectIsFindNavigate } from "../slices/navSlice";
+import { selectIsActiveNavigate } from "../slices/navSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const EventProfil = () => {
-  const isFindNavigate = useSelector(selectIsFindNavigate);
+  const isActiveNavigate = useSelector(selectIsActiveNavigate);
+  const navigation = useNavigation();
 
   const containerStyle = {
-      ...styles.container,
-      paddingTop: !isFindNavigate ? 60 : styles.container.paddingTop,
-    };
-
+    ...styles.container,
+    paddingTop: isActiveNavigate === "Profil"  ? 60 : styles.container.paddingTop,
+  };
 
   return (
-
-
-
-
-
-
     <View
+      testID="Container"
       style={{
         flex: 1,
         justifyContent: "center",
@@ -36,59 +32,61 @@ const EventProfil = () => {
         backgroundColor: "transparent",
       }}
     >
-
-    {!isFindNavigate &&     //! le && pour remplacer l interogation et pas besoin de mettre de "null"
-    <View
-        testID="containerButtonEventProfil"
-        style={{
-          flexDirection: "row",
-          gap: 10,
-          position: "absolute",
-          zIndex: 10,
-          top: 10,
-          backgroundColor: "transparent",
-        }}
-      >
-        <TouchableOpacity
+      {isActiveNavigate === "Profil" && ( //! le && pour remplacer l interogation et pas besoin de mettre de "null"
+        <View
+          testID="containerButtonEventProfil"
           style={{
-            width: 150,
-            paddingTop: 10,
-            paddingBottom: 10,
-            backgroundColor: "#FFB25F",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 5,
+            flexDirection: "row",
+            gap: 10,
+            position: "absolute",
+            zIndex: 10,
+            top: 10,
+            backgroundColor: "transparent",
           }}
         >
-          <Text>EVENT I GO</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: 150,
-            paddingTop: 10,
-            paddingBottom: 10,
-            backgroundColor: "#FFEBD6",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 5,
-          }}
-        >
-          <Text
+          <TouchableOpacity
             style={{
-              opacity: 0.5,
+              width: 150,
+              paddingTop: 10,
+              paddingBottom: 10,
+              backgroundColor: "#FFB25F",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 5,
             }}
           >
-            EVENT CREATED
-          </Text>
-        </TouchableOpacity>
-      </View> 
-      }
-
+            <Text>EVENT I GO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: 150,
+              paddingTop: 10,
+              paddingBottom: 10,
+              backgroundColor: "#FFEBD6",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 5,
+            }}
+          >
+            <Text
+              style={{
+                opacity: 0.5,
+              }}
+            >
+              EVENT CREATED
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       <ScrollView style={containerStyle}>
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={()=>{
+          navigation.navigate("EventInfo")
+          }}
+        >
           <View
             style={{
               display: "flex",
@@ -497,11 +495,22 @@ const EventProfil = () => {
             </View>
           </View>
         </TouchableOpacity>
-        <View
-          style={{
-            height: 120,
-          }}
-        ></View>
+
+        {!isActiveNavigate ? (
+          <View
+            testID="ajustView"
+            style={{
+              height: 120,
+            }}
+          ></View>
+        ) : (
+          <View
+            testID="ajustView"
+            style={{
+              height: 70,
+            }}
+          ></View>
+        )}
       </ScrollView>
     </View>
   );
@@ -514,5 +523,6 @@ const styles = StyleSheet.create({
     display: "flex",
     padding: 10,
     gap: 10,
+    paddingTop: 10,
   },
 });

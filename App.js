@@ -7,11 +7,12 @@ import NavBar from "./screens/NavBar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ProfilMain from "./screens/mainComponent/ProfilMain";
 import FindEventMain from "./screens/mainComponent/FindEventMain";
+import EventInfo from "./screens/EventInfo";
 
-import { createStackNavigator } from "@react-navigation/stack"
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-//1 setup redux
+
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -27,16 +28,24 @@ export default function App() {
                 name="ProfilMain"
                 component={ProfilMain}
                 options={{
-                headerShown: false,
-                animationEnabled: false
+                  headerShown: false,
+                  animationEnabled: false,
                 }}
               />
-              <Stack.Screen 
-              name="FindEventMain" 
-              component={FindEventMain} 
-              options={{
+              <Stack.Screen
+                name="FindEventMain"
+                component={FindEventMain}
+                options={{
                   headerShown: false,
-                  animationEnabled: false
+                  animationEnabled: false,
+                }}
+              />
+              <Stack.Screen
+                name="EventInfo"
+                component={EventInfo}
+                options={{
+                  headerShown: false,
+                  animationEnabled: true
                 }}
               />
             </Stack.Navigator>

@@ -6,7 +6,7 @@ const initialState = {
     origin:null,
     destination:null,
     travelTimeInformation:null,
-    isFindNavigate:false
+    isActiveNavigate:"Profil"
 }
 
 
@@ -28,20 +28,20 @@ export const navSlice = createSlice({
         setTravelTimeInformation: (state, action) => {
             state.travelTimeInformation = action.payload
         },
-        setIsFindNavigate:(state, action)=>{
-            state.isFindNavigate = action.payload
+        setIsActiveNavigate:(state, action)=>{
+            state.isActiveNavigate = action.payload
         }
     }
 })
 
 //destructuration
-export const {setOrigin, setDestination, setTravelTimeInformation, setIsFindNavigate} =  navSlice.actions
+export const {setOrigin, setDestination, setTravelTimeInformation, setIsActiveNavigate} =  navSlice.actions
 
 //selector pour recupere la data 
 export const selectOrigin = (state) => state.nav.origin
 export const selectDestination = (state) => state.nav.destination
 export const selectTravelTimeInformation = (state) => state.nav.travelTimeInformation
-export const selectIsFindNavigate = (state) => state.nav.isFindNavigate
+export const selectIsActiveNavigate = (state) => state.nav.isActiveNavigate
 
 
 

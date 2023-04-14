@@ -2,11 +2,15 @@ import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { setIsFindNavigate } from "../slices/navSlice.js";
+import { setIsActiveNavigate } from "../slices/navSlice.js";
+import { selectIsActiveNavigate } from "../slices/navSlice";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
   const dispatch = useDispatch(); //! modification etat avec redux
   const navigation = useNavigation();
+  const isActiveNavigate = useSelector(selectIsActiveNavigate);
+  console.log(isActiveNavigate);
 
   return (
     <View
@@ -36,7 +40,7 @@ const NavBar = () => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          dispatch(setIsFindNavigate(true));
+          dispatch(setIsActiveNavigate("FindEvent"));
           navigation.navigate("FindEventMain");
         }}
       >
@@ -46,7 +50,11 @@ const NavBar = () => {
             height: 25,
           }}
           resizeMode="contain"
-          source={require("../assets/search.png")}
+          source={
+            isActiveNavigate === "FindEvent"
+              ? require("../assets/searchOrange.png")
+              : require("../assets/search.png")
+          }
         />
       </TouchableOpacity>
       <TouchableOpacity>
@@ -72,7 +80,7 @@ const NavBar = () => {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("ProfilMain");
-          dispatch(setIsFindNavigate(false));
+          dispatch(setIsActiveNavigate("Profil"));
         }}
       >
         <Image
@@ -81,7 +89,11 @@ const NavBar = () => {
             height: 25,
           }}
           resizeMode="contain"
-          source={require("../assets/profil.png")}
+          source={
+            isActiveNavigate === "Profil"
+              ? require("../assets/profilOrange.png")
+              : require("../assets/profil.png")
+          }
         />
       </TouchableOpacity>
     </View>
