@@ -1,26 +1,27 @@
 import {
-  StyleSheet,
-  Image,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Text,
-} from "react-native";
-import React from "react";
+    StyleSheet,
+    Image,
+    View,
+    TouchableOpacity,
+    ScrollView,
+    Text,
+  } from "react-native";
+  import React from "react";
+  
+  import { useSelector } from "react-redux";
+  import { selectIsActiveNavigate } from "../slices/navSlice";
+  import { useNavigation } from "@react-navigation/native";
 
-import { useSelector } from "react-redux";
-import { selectIsActiveNavigate } from "../slices/navSlice";
-import { useNavigation } from "@react-navigation/native";
+const EventFind = () => {
 
-const EventProfil = () => {
-  const isActiveNavigate = useSelector(selectIsActiveNavigate);
-  const navigation = useNavigation();
+    const isActiveNavigate = useSelector(selectIsActiveNavigate);
+    const navigation = useNavigation();
+  
+    const containerStyle = {
+      ...styles.container,
+      paddingTop: isActiveNavigate === "Profil"  ? 60 : styles.container.paddingTop,
+    };
 
-  const containerStyle = {
-    ...styles.container,
-    paddingTop:
-      isActiveNavigate === "Profil" ? 60 : styles.container.paddingTop,
-  };
 
   return (
     <View
@@ -84,12 +85,8 @@ const EventProfil = () => {
 
       <ScrollView style={containerStyle}>
         <TouchableOpacity
-          onPress={() => {
-            {
-              isActiveNavigate === "Profil"
-                ? navigation.navigate("EventInfo", { origin: "ProfilMain" })
-                : navigation.navigate("EventInfo", { origin: "FindEventMain" });
-            }
+        onPress={()=>{
+          navigation.navigate("EventInfo")
           }}
         >
           <View
@@ -194,7 +191,7 @@ const EventProfil = () => {
           </View>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity>
+        <TouchableOpacity>
           <View
             style={{
               display: "flex",
@@ -295,7 +292,7 @@ const EventProfil = () => {
               </View>
             </View>
           </View>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         <TouchableOpacity>
           <View
             style={{
@@ -521,13 +518,13 @@ const EventProfil = () => {
   );
 };
 
-export default EventProfil;
+export default EventFind
 
 const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    padding: 10,
-    gap: 10,
-    paddingTop: 10,
-  },
-});
+    container: {
+        display: "flex",
+        padding: 10,
+        gap: 10,
+        paddingTop: 10,
+      },
+})

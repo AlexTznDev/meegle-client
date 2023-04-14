@@ -45,7 +45,8 @@ export default function App() {
                 component={EventInfo}
                 options={{
                   headerShown: false,
-                  animationEnabled: true
+                  animationEnabled: true,
+
                 }}
               />
             </Stack.Navigator>
