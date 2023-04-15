@@ -6,7 +6,8 @@ const initialState = {
     origin:null,
     destination:null,
     travelTimeInformation:null,
-    isActiveNavigate:"Profil"
+    isActiveNavigate:"Profil",
+    imageEvent: null
 }
 
 
@@ -30,18 +31,22 @@ export const navSlice = createSlice({
         },
         setIsActiveNavigate:(state, action)=>{
             state.isActiveNavigate = action.payload
+        },
+        setImageEvent:(state, action)=>{
+            state.isActiveNavigate = action.payload
         }
     }
 })
 
 //destructuration
-export const {setOrigin, setDestination, setTravelTimeInformation, setIsActiveNavigate} =  navSlice.actions
+export const {setOrigin, setDestination, setTravelTimeInformation, setIsActiveNavigate, setImageEvent} =  navSlice.actions
 
 //selector pour recupere la data 
 export const selectOrigin = (state) => state.nav.origin
 export const selectDestination = (state) => state.nav.destination
 export const selectTravelTimeInformation = (state) => state.nav.travelTimeInformation
 export const selectIsActiveNavigate = (state) => state.nav.isActiveNavigate
+export const selectImageEvent = (state) => state.nav.imageEvent
 
 
 

@@ -7,12 +7,13 @@ import NavBar from "./screens/NavBar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ProfilMain from "./screens/mainComponent/ProfilMain";
 import FindEventMain from "./screens/mainComponent/FindEventMain";
+import CreateMain from "./screens/mainComponent/CreateMain";
 import EventInfo from "./screens/EventInfo";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-
+import { CardStyleInterpolators } from '@react-navigation/stack';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -27,14 +28,22 @@ export default function App() {
               <Stack.Screen
                 name="ProfilMain"
                 component={ProfilMain}
+                options={({ route }) => ({
+                  headerShown: false,
+                  animationEnabled: route.params?.shouldAnimate || false,
+                })}
+              />
+              <Stack.Screen
+                name="FindEventMain"
+                component={FindEventMain}
                 options={{
                   headerShown: false,
                   animationEnabled: false,
                 }}
               />
               <Stack.Screen
-                name="FindEventMain"
-                component={FindEventMain}
+                name="CreateMain"
+                component={CreateMain}
                 options={{
                   headerShown: false,
                   animationEnabled: false,
@@ -46,7 +55,6 @@ export default function App() {
                 options={{
                   headerShown: false,
                   animationEnabled: true,
-
                 }}
               />
             </Stack.Navigator>

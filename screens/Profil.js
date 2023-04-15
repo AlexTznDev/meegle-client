@@ -21,7 +21,7 @@ const Profil = () => {
       <View
         testID="containerProfil"
         style={{
-          paddingBottom: 30,
+          paddingBottom: 20,
           paddingTop: 20,
           display: "flex",
           flexDirection: "column",
@@ -102,8 +102,8 @@ const Profil = () => {
         >
           <Image
             style={{
-              width: 70,
-              height: 20,
+              width: 90,
+              height: 30,
             }}
             resizeMode="contain"
             source={require("../assets/Meegle.png")}
