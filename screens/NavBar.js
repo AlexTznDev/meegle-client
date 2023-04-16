@@ -13,7 +13,7 @@ const NavBar = () => {
 
   return (
     <>
-      {isActiveNavigate !== "CreateMain" ? (
+      {isActiveNavigate !== "CreateMain" || isActiveNavigate === "CreateMain"? (
         <View
           style={{
             paddingBottom: 40,
@@ -69,7 +69,7 @@ const NavBar = () => {
                 width: 25,
                 height: 25,
               }}
-              resizeMode="Profil"
+              resizeMode="contain"
               source={
                 isActiveNavigate === "CreateMain"
                   ? require("../assets/circleOrange.png")

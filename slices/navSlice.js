@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import BarCocktail from "../assets/BarCocktail.jpg"
+import rando from "../assets/rando.jpg"
 
 
 //initialisation etat
@@ -7,6 +9,7 @@ const initialState = {
     destination:null,
     travelTimeInformation:null,
     isActiveNavigate:"Profil",
+    // imageEvent: BarCocktail
     imageEvent: null
 }
 
@@ -33,7 +36,7 @@ export const navSlice = createSlice({
             state.isActiveNavigate = action.payload
         },
         setImageEvent:(state, action)=>{
-            state.isActiveNavigate = action.payload
+            state.imageEvent = action.payload
         }
     }
 })

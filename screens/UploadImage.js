@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Button, Image, View, StyleSheet } from "react-native";
+import React from "react";
+import { Text, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
+import { setImageEvent } from "../slices/navSlice";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const UploadImage = () => {
-    
   const dispatch = useDispatch(); //! modification etat avec redux
-  const [imageEvent, setImageEvent] = useState(null);
 
   const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -34,22 +34,17 @@ const UploadImage = () => {
 
     if (!result.canceled) {
       const selectedImage = result.assets[0];
-      setImageEvent(selectedImage.uri);
+      dispatch(setImageEvent(selectedImage.uri));
     }
   };
 
   return (
     <View style={styles.container}>
-      {imageEvent && (
-        <Image
-          source={{ uri: imageEvent }}
-          style={{ width: 350, height: 200 }}
-        />
-      )}
-      <Button
-        title="Choisi une image depuis t'as bibliothéque"
-        onPress={pickImage}
-      />
+      <TouchableOpacity onPress={pickImage}>
+        <Text style={styles.buttonImage}>
+          Choisi une image depuis t'as bibliothéque
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -58,6 +53,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
+    flex: 1,
+  },
+  buttonImage: {
+    color: "#007BFF",
+    fontSize: 18,
   },
 });
 
