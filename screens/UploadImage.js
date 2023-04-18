@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import { setImageEvent } from "../slices/navSlice";
+import { setIsImageFromAppli } from "../slices/navSlice.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const UploadImage = () => {
@@ -34,6 +35,7 @@ const UploadImage = () => {
 
     if (!result.canceled) {
       const selectedImage = result.assets[0];
+      dispatch(setIsImageFromAppli(false));
       dispatch(setImageEvent(selectedImage.uri));
     }
   };
@@ -41,9 +43,7 @@ const UploadImage = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={pickImage}>
-        <Text style={styles.buttonImage}>
-          Image de t'as bibliothéque
-        </Text>
+        <Text style={styles.buttonImage}>Image de t'as bibliothéque</Text>
       </TouchableOpacity>
     </View>
   );
@@ -53,22 +53,20 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop:30
-
+    marginTop: 30,
   },
   buttonImage: {
     color: "#fff",
     fontSize: 18,
-    borderWidth:1,
+    borderWidth: 1,
     paddingBottom: 15,
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 15,
-    borderRadius:25,
-    borderColor:"#fff",
-    backgroundColor:"#333333",
-    overflow:"hidden"
-
+    borderRadius: 25,
+    borderColor: "#fff",
+    backgroundColor: "#333333",
+    overflow: "hidden",
   },
 });
 

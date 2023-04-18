@@ -1,9 +1,16 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+
+//redux
 import { useDispatch } from "react-redux";
 import { setIsActiveNavigate } from "../slices/navSlice.js";
 import { selectIsActiveNavigate } from "../slices/navSlice";
+import { setEventStep } from "../slices/navSlice";
+import { setImageEvent } from "../slices/navSlice";
+import { setIsImageFromAppli } from "../slices/navSlice";
+import { setSelectImage } from "../slices/navSlice";
+
 import { useSelector } from "react-redux";
 
 const NavBar = () => {
@@ -42,6 +49,10 @@ const NavBar = () => {
           <TouchableOpacity
             onPress={() => {
               dispatch(setIsActiveNavigate("FindEvent"));
+              dispatch(setEventStep(0));
+              dispatch(setImageEvent(null));
+              dispatch(setIsImageFromAppli(true));
+              dispatch(setSelectImage(0));
               navigation.navigate("FindEventMain");
             }}
           >
@@ -61,6 +72,10 @@ const NavBar = () => {
           <TouchableOpacity
             onPress={() => {
               dispatch(setIsActiveNavigate("CreateMain"));
+              dispatch(setEventStep(0));
+              dispatch(setImageEvent(null));
+              dispatch(setIsImageFromAppli(true));
+              dispatch(setSelectImage(0));
               navigation.navigate("CreateMain");
             }}
           >
@@ -90,7 +105,11 @@ const NavBar = () => {
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("ProfilMain");
+              dispatch(setEventStep(0));
+              dispatch(setImageEvent(null));
+              dispatch(setSelectImage(0));
               dispatch(setIsActiveNavigate("Profil"));
+              dispatch(setIsImageFromAppli(true));
             }}
           >
             <Image

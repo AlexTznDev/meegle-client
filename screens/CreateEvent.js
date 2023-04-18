@@ -1,25 +1,33 @@
 import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 
-import { useSelector } from "react-redux";
-import { selectImageEvent } from "../slices/navSlice";
+
 import { AntDesign } from "@expo/vector-icons";
 
 import { useNavigation } from "@react-navigation/native";
 
 //REDUX
+
 import { useDispatch } from "react-redux";
 import { setIsActiveNavigate } from "../slices/navSlice.js";
+import { setIsImageFromAppli } from "../slices/navSlice.js";
+import { setEventStep } from "../slices/navSlice.js";
 import { setImageEvent } from "../slices/navSlice";
+import { setSelectImage } from "../slices/navSlice";
+import { selectImageAppli } from "../slices/navSlice";
+import { selectIsImageFromAppli } from "../slices/navSlice";
+import { selectImage } from "../slices/navSlice";
+import { useSelector } from "react-redux";
+import { selectImageEvent } from "../slices/navSlice";
 
 const CreateEvent = () => {
   const imageEvent = useSelector(selectImageEvent);
+  const SelectImage = useSelector(selectImage);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const ImageAppli = useSelector(selectImageAppli);
+  const IsImageFromAppli = useSelector(selectIsImageFromAppli);
 
-  useEffect(() => {
-    console.log(imageEvent);
-  }, [imageEvent]);
 
   return (
     <View>
@@ -37,6 +45,8 @@ const CreateEvent = () => {
             navigation.navigate("ProfilMain", { shouldAnimate: true });
             dispatch(setIsActiveNavigate("Profil"));
             dispatch(setImageEvent(null));
+            dispatch(setIsImageFromAppli(true));
+            dispatch(setSelectImage(0));
           }}
         >
           <View
@@ -57,7 +67,12 @@ const CreateEvent = () => {
         >
           Creer évenement
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(setEventStep(1));
+            dispatch(setIsActiveNavigate("createEvent2"))
+          }}
+        >
           <Text
             style={{
               color: "#007BFF",
@@ -81,10 +96,14 @@ const CreateEvent = () => {
             justifyContent: "center",
           }}
         >
-          {imageEvent !== null && (
+          {IsImageFromAppli ? (
+            <Image
+              source={ImageAppli[SelectImage]}
+              style={{ width: "80%", height: 300 }}
+            />
+          ) : (
             <Image
               source={{ uri: imageEvent }}
-              // source={imageEvent}
               style={{ width: "80%", height: 300 }}
             />
           )}
@@ -98,6 +117,7 @@ const CreateEvent = () => {
             backgroundColor: "#333333",
             paddingTop: 10,
             paddingBottom: 10,
+            marginTop: 20,
           }}
         >
           <View
@@ -124,37 +144,117 @@ const CreateEvent = () => {
               alignItems: "center",
             }}
           >
-            <View style={styles.containerImgText}>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setSelectImage(0)), dispatch(setIsImageFromAppli(true));dispatch(setImageEvent(null))
+              }}
+              style={styles.containerImgText}
+            >
+              <View
+                style={
+                  selectImage === 0 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/Beach_voley.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Beach volley</Text>
-            </View>
+            </TouchableOpacity>
 
-            <View style={styles.containerImgText}>
+            <TouchableOpacity
+              style={styles.containerImgText}
+              onPress={() => {
+                dispatch(setSelectImage(1)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+              }}
+            >
+              <View
+                style={
+                  selectImage === 1 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/Plage_Friend.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Beach & Friend</Text>
-            </View>
+            </TouchableOpacity>
 
-            <View style={styles.containerImgText}>
+            <TouchableOpacity
+              style={styles.containerImgText}
+              onPress={() => {
+                dispatch(setSelectImage(2)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+              }}
+            >
+              <View
+                style={
+                  selectImage === 2 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/Concert_Festival.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Concert & Festival</Text>
-            </View>
+            </TouchableOpacity>
 
-            <View style={styles.containerImgText}>
+            <TouchableOpacity
+              style={styles.containerImgText}
+              onPress={() => {
+                dispatch(setSelectImage(3)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+              }}
+            >
+              <View
+                style={
+                  selectImage === 3 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/BarCocktail.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Bar & Cocktail</Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -164,36 +264,116 @@ const CreateEvent = () => {
               alignItems: "center",
             }}
           >
-            <View style={styles.containerImgText}>
+            <TouchableOpacity
+              style={styles.containerImgText}
+              onPress={() => {
+                dispatch(setSelectImage(4)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+              }}
+            >
+              <View
+                style={
+                  selectImage === 4 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/padel.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Padel</Text>
-            </View>
+            </TouchableOpacity>
 
-            <View style={styles.containerImgText}>
+            <TouchableOpacity
+              style={styles.containerImgText}
+              onPress={() => {
+                dispatch(setSelectImage(5)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+              }}
+            >
+              <View
+                style={
+                  selectImage === 5 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/Gorge_mountain.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Gorge & Mountain</Text>
-            </View>
+            </TouchableOpacity>
 
-            <View style={styles.containerImgText}>
+            <TouchableOpacity
+              style={styles.containerImgText}
+              onPress={() => {
+                dispatch(setSelectImage(6)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+              }}
+            >
+              <View
+                style={
+                  selectImage === 6 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/foot_volley.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Foot volley</Text>
-            </View>
-            <View style={styles.containerImgText}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.containerImgText}
+              onPress={() => {
+                dispatch(setSelectImage(7)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+              }}
+            >
+              <View
+                style={
+                  selectImage === 7 && IsImageFromAppli
+                    ? {
+                        position: "absolute",
+                        top: -1,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "#ffffff60",
+                        zIndex: 1,
+                      }
+                    : null
+                }
+              ></View>
               <Image
                 source={require("../assets/rando.jpg")}
                 style={styles.imageSmall}
               />
               <Text style={styles.textImage}>Randonnée</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
