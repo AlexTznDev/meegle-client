@@ -12,7 +12,13 @@ const CreateMain = () => {
       }}
     >
       <CreateEvent />
-      <UploadImage />
+      <View
+      style={{
+        justifyContent:"center"
+      }}
+      >
+        <UploadImage />
+      </View>
     </SafeAreaView>
   );
 };

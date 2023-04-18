@@ -13,7 +13,7 @@ const NavBar = () => {
 
   return (
     <>
-      {isActiveNavigate !== "CreateMain" || isActiveNavigate === "CreateMain"? (
+      {isActiveNavigate !== "CreateMain" ? (
         <View
           style={{
             paddingBottom: 40,

@@ -72,43 +72,151 @@ const CreateEvent = () => {
 
       <View
         style={{
-          alignItems: "center",
-          justifyContent: "center",
+          gap: 20,
         }}
       >
-        {imageEvent !== null && (
-          <Image
-            source={{ uri: imageEvent }}
-            // source={imageEvent}
-            style={{ width: "80%", height: 300 }}
-          />
-        )}
-      </View>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {imageEvent !== null && (
+            <Image
+              source={{ uri: imageEvent }}
+              // source={imageEvent}
+              style={{ width: "80%", height: 300 }}
+            />
+          )}
+        </View>
 
-      {/* <Text
-        style={{
-          color: "#fff",
-          fontSize: 20,
-          padding: 20,
-        }}
-        onPress={() => dispatch(setImageEvent("rando"))}
-      >
-        rando
-      </Text>
-      <Text
-        onPress={() => dispatch(setImageEvent(BarCocktail))}
-        style={{
-          color: "#fff",
-          fontSize: 20,
-          padding: 20,
-        }}
-      >
-        rando
-      </Text> */}
+        <View
+          style={{
+            gap: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#333333",
+            paddingTop: 10,
+            paddingBottom: 10,
+          }}
+        >
+          <View
+            style={{
+              width: "100%",
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 14,
+                paddingLeft: 10,
+              }}
+            >
+              Image de notre bibliothéque
+            </Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 2,
+              alignContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/Beach_voley.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Beach volley</Text>
+            </View>
+
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/Plage_Friend.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Beach & Friend</Text>
+            </View>
+
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/Concert_Festival.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Concert & Festival</Text>
+            </View>
+
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/BarCocktail.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Bar & Cocktail</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 2,
+              alignContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/padel.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Padel</Text>
+            </View>
+
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/Gorge_mountain.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Gorge & Mountain</Text>
+            </View>
+
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/foot_volley.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Foot volley</Text>
+            </View>
+            <View style={styles.containerImgText}>
+              <Image
+                source={require("../assets/rando.jpg")}
+                style={styles.imageSmall}
+              />
+              <Text style={styles.textImage}>Randonnée</Text>
+            </View>
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
 
 export default CreateEvent;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  imageSmall: {
+    width: "100%",
+    height: 74,
+    resizeMode: "cover",
+  },
+  textImage: {
+    fontSize: 10,
+    color: "#fff",
+  },
+  containerImgText: {
+    width: "24.5%",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 2,
+  },
+});

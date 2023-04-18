@@ -42,7 +42,7 @@ const UploadImage = () => {
     <View style={styles.container}>
       <TouchableOpacity onPress={pickImage}>
         <Text style={styles.buttonImage}>
-          Choisi une image depuis t'as bibliothéque
+          Image de t'as bibliothéque
         </Text>
       </TouchableOpacity>
     </View>
@@ -53,11 +53,22 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
+    marginTop:30
+
   },
   buttonImage: {
-    color: "#007BFF",
+    color: "#fff",
     fontSize: 18,
+    borderWidth:1,
+    paddingBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 15,
+    borderRadius:25,
+    borderColor:"#fff",
+    backgroundColor:"#333333",
+    overflow:"hidden"
+
   },
 });
 
