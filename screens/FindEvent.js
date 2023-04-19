@@ -24,9 +24,7 @@ const FindEvent = () => {
       }}
     >
 
-<View 
-
->
+<View>
 
 
 </View>
@@ -248,7 +246,7 @@ const FindEvent = () => {
             borderRadius:50,
             backgroundColor:"#7A7A7A18",
             marginBottom:15,
-            marginRight:20,
+            marginRight:10,
             justifyContent:"center"
 
           }}
@@ -272,12 +270,15 @@ const FindEvent = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            padding:15,
+            width:80,
+            height:80, 
             alignItems:"center",
+            justifyContent:"center",
+            gap:5,
             borderRadius:50,
             backgroundColor:"#7A7A7A18",
             marginBottom:15,
-            marginRight:20,
+            marginRight:40,
             justifyContent:"center"
 
           }}
@@ -299,6 +300,7 @@ const FindEvent = () => {
             Meeting
           </Text>
         </TouchableOpacity>
+
       </ScrollView>
     </SafeAreaView>
     

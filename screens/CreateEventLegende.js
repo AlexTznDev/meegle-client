@@ -10,7 +10,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  SafeAreaView
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,10 +34,19 @@ const CreateEventLegende = () => {
   const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
   
 
+  
+
 
 
 
   return (
+
+    <SafeAreaView
+    style={{
+      flex: 1,
+      backgroundColor: "#ffffff",
+    }}
+  >
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
@@ -122,6 +132,7 @@ const CreateEventLegende = () => {
 
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

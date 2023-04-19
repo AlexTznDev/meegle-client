@@ -27,7 +27,8 @@ const initialState = {
   imageEvent: null,
   isImageFromAppli: true,
   eventStep: 0,
-  selectImage: 0
+  selectImage: 0,
+  isBtnAmisAndDateOn: false
 };
 
 //preparation du reducer grace a action
@@ -63,6 +64,9 @@ export const navSlice = createSlice({
     setSelectImage: (state, action) => {
       state.selectImage = action.payload;
     },
+    setIsBtnAmisAndDateOn: (state, action) => {
+      state.isBtnAmisAndDateOn = action.payload;
+    },
   },
 });
 
@@ -76,7 +80,8 @@ export const {
   setImageAppli,
   setIsImageFromAppli,
   setEventStep,
-  setSelectImage
+  setSelectImage,
+  setIsBtnAmisAndDateOn
 } = navSlice.actions;
 
 //selector pour recupere la data
@@ -90,5 +95,6 @@ export const selectImageAppli = (state) => state.nav.ImageAppli;
 export const selectIsImageFromAppli = (state) => state.nav.isImageFromAppli;
 export const selectEventStep = (state) => state.nav.eventStep;
 export const selectImage = (state) => state.nav.selectImage;
+export const selectIsBtnAmisAndDateOn = (state) => state.nav.isBtnAmisAndDateOn;
 
 export default navSlice.reducer;

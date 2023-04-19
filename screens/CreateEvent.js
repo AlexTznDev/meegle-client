@@ -154,7 +154,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 0 && IsImageFromAppli
+                  SelectImage === 0 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
@@ -184,7 +184,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 1 && IsImageFromAppli
+                  SelectImage === 1 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
@@ -214,7 +214,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 2 && IsImageFromAppli
+                  SelectImage === 2 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
@@ -244,7 +244,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 3 && IsImageFromAppli
+                  SelectImage === 3 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
@@ -282,7 +282,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 4 && IsImageFromAppli
+                  SelectImage === 4 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
@@ -312,7 +312,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 5 && IsImageFromAppli
+                  SelectImage === 5 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
@@ -342,7 +342,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 6 && IsImageFromAppli
+                  SelectImage === 6 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
@@ -371,7 +371,7 @@ const CreateEvent = () => {
             >
               <View
                 style={
-                  selectImage === 7 && IsImageFromAppli
+                  SelectImage === 7 && IsImageFromAppli
                     ? {
                         position: "absolute",
                         top: -1,
