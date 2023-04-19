@@ -1,4 +1,4 @@
-import { StyleSheet, View, StatusBar } from "react-native";
+import { StyleSheet, View, StatusBar, KeyboardAvoidingView, Platform } from "react-native";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
@@ -13,16 +13,25 @@ import EventInfo from "./screens/EventInfo";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-import { CardStyleInterpolators } from '@react-navigation/stack';
+
+
+import { CardStyleInterpolators } from "@react-navigation/stack";
 
 export default function App() {
+
   const Stack = createStackNavigator();
+
   return (
     <View style={styles.container}>
       <NavigationContainer>
         <SafeAreaProvider>
           <Provider store={store}>
+
+
+
+          
             <StatusBar backgroundColor="#ff0000" barStyle="light-content" />
+            
 
             <Stack.Navigator>
               <Stack.Screen
@@ -60,6 +69,7 @@ export default function App() {
             </Stack.Navigator>
 
             <NavBar />
+            
           </Provider>
         </SafeAreaProvider>
       </NavigationContainer>

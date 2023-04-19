@@ -16,7 +16,7 @@ const EventInfo = ({ navigation, route }) => {
   const onGestureEvent = ({ nativeEvent }) => {
     const { translationX } = nativeEvent;
 
-    if (translationX > 100) {
+    if (translationX > 50) {
       if (navigation.canGoBack()) {
         const originScreen = route.params?.origin;
         if (originScreen) {
