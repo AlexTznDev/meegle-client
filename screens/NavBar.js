@@ -1,17 +1,19 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import BtnAmisAndDate from "./BtnAmisAndDate";
 
 //redux
-import { useDispatch } from "react-redux";
-import { setIsActiveNavigate } from "../slices/navSlice.js";
-import { selectIsActiveNavigate } from "../slices/navSlice";
-import { setEventStep } from "../slices/navSlice";
-import { setImageEvent } from "../slices/navSlice";
-import { setIsImageFromAppli } from "../slices/navSlice";
-import { setSelectImage } from "../slices/navSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useSelector } from "react-redux";
+import {
+  selectIsActiveNavigate,
+  setEventStep,
+  setImageEvent,
+  setIsImageFromAppli,
+  setSelectImage,
+  setIsActiveNavigate,
+} from "../slices/navSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch(); //! modification etat avec redux
@@ -21,110 +23,112 @@ const NavBar = () => {
   return (
     <>
       {isActiveNavigate !== "CreateMain" ? (
-        <View
-          style={{
-            paddingBottom: 40,
-            paddingTop: 20,
-            position: "absolute",
-            bottom: 0,
-            backgroundColor: "#F5F5F5",
-            flex: 1,
-            flexDirection: "row",
-            gap: 50,
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity>
-            <Image
-              style={{
-                width: 25,
-                height: 25,
-              }}
-              resizeMode="contain"
-              source={require("../assets/chat.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              dispatch(setIsActiveNavigate("FindEvent"));
-              dispatch(setEventStep(0));
-              dispatch(setImageEvent(null));
-              dispatch(setIsImageFromAppli(true));
-              dispatch(setSelectImage(0));
-              navigation.navigate("FindEventMain");
+        <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
+          <BtnAmisAndDate />
+
+          <View
+            style={{
+              paddingBottom: 40,
+              paddingTop: 20,
+              backgroundColor: "#F5F5F5",
+              flex: 1,
+              flexDirection: "row",
+              gap: 50,
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Image
-              style={{
-                width: 25,
-                height: 25,
+            <TouchableOpacity>
+              <Image
+                style={{
+                  width: 25,
+                  height: 25,
+                }}
+                resizeMode="contain"
+                source={require("../assets/chat.png")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setIsActiveNavigate("FindEvent"));
+                dispatch(setEventStep(0));
+                dispatch(setImageEvent(null));
+                dispatch(setIsImageFromAppli(true));
+                dispatch(setSelectImage(0));
+                navigation.navigate("FindEventMain");
               }}
-              resizeMode="contain"
-              source={
-                isActiveNavigate === "FindEvent"
-                  ? require("../assets/searchOrange.png")
-                  : require("../assets/search.png")
-              }
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              dispatch(setIsActiveNavigate("CreateMain"));
-              dispatch(setEventStep(0));
-              dispatch(setImageEvent(null));
-              dispatch(setIsImageFromAppli(true));
-              dispatch(setSelectImage(0));
-              navigation.navigate("CreateMain");
-            }}
-          >
-            <Image
-              style={{
-                width: 25,
-                height: 25,
+            >
+              <Image
+                style={{
+                  width: 25,
+                  height: 25,
+                }}
+                resizeMode="contain"
+                source={
+                  isActiveNavigate === "FindEvent"
+                    ? require("../assets/searchOrange.png")
+                    : require("../assets/search.png")
+                }
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setIsActiveNavigate("CreateMain"));
+                dispatch(setEventStep(0));
+                dispatch(setImageEvent(null));
+                dispatch(setIsImageFromAppli(true));
+                dispatch(setSelectImage(0));
+                navigation.navigate("CreateMain");
               }}
-              resizeMode="contain"
-              source={
-                isActiveNavigate === "CreateMain"
-                  ? require("../assets/circleOrange.png")
-                  : require("../assets/circle.png")
-              }
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              style={{
-                width: 25,
-                height: 25,
+            >
+              <Image
+                style={{
+                  width: 25,
+                  height: 25,
+                }}
+                resizeMode="contain"
+                source={
+                  isActiveNavigate === "CreateMain2"
+                    ? require("../assets/circleOrange.png")
+                    : require("../assets/circle.png")
+                }
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                style={{
+                  width: 25,
+                  height: 25,
+                }}
+                resizeMode="contain"
+                source={require("../assets/chat.png")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("ProfilMain");
+                dispatch(setEventStep(0));
+                dispatch(setImageEvent(null));
+                dispatch(setSelectImage(0));
+                dispatch(setIsActiveNavigate("Profil"));
+                dispatch(setIsImageFromAppli(true));
               }}
-              resizeMode="contain"
-              source={require("../assets/chat.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("ProfilMain");
-              dispatch(setEventStep(0));
-              dispatch(setImageEvent(null));
-              dispatch(setSelectImage(0));
-              dispatch(setIsActiveNavigate("Profil"));
-              dispatch(setIsImageFromAppli(true));
-            }}
-          >
-            <Image
-              style={{
-                width: 25,
-                height: 25,
-              }}
-              resizeMode="contain"
-              source={
-                isActiveNavigate === "Profil"
-                  ? require("../assets/profilOrange.png")
-                  : require("../assets/profil.png")
-              }
-            />
-          </TouchableOpacity>
+            >
+              <Image
+                style={{
+                  width: 25,
+                  height: 25,
+                }}
+                resizeMode="contain"
+                source={
+                  isActiveNavigate === "Profil"
+                    ? require("../assets/profilOrange.png")
+                    : require("../assets/profil.png")
+                }
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       ) : null}
     </>

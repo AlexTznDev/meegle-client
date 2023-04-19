@@ -1,10 +1,13 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet,TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
+
+
+
 import { setImageEvent } from "../slices/navSlice";
 import { setIsImageFromAppli } from "../slices/navSlice.js";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 
 const UploadImage = () => {
   const dispatch = useDispatch(); //! modification etat avec redux

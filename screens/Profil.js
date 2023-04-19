@@ -15,7 +15,7 @@ const Profil = () => {
         backgroundColor: "#1D2328",
         color: "#fff",
         borderBottomRightRadius: 37,
-        // borderBottomLeftRadius: 37,
+      
       }}
     >
       <View

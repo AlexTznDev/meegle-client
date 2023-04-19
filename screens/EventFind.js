@@ -34,7 +34,7 @@ const EventFind = () => {
         backgroundColor: "transparent",
       }}
     >
-      {isActiveNavigate === "Profil" && ( //! le && pour remplacer l interogation et pas besoin de mettre de "null"
+      {isActiveNavigate === "Profil" && ( 
         <View
           testID="containerButtonEventProfil"
           style={{

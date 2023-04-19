@@ -30,13 +30,17 @@ const CreateEventLegende = () => {
   const ImageAppli = useSelector(selectImageAppli);
   const IsImageFromAppli = useSelector(selectIsImageFromAppli);
   const [text, setText] = useState("");
-  const windowHeight = Dimensions.get("window").height;
+  const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
+  
+
+
+
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0}
     >
     <TouchableWithoutFeedback
     onPress={Keyboard.dismiss}
@@ -85,6 +89,7 @@ const CreateEventLegende = () => {
           style={{
             alignItems: "center",
             justifyContent: "center",
+            paddingBottom:10
           }}
         >
           {IsImageFromAppli ? (
@@ -112,16 +117,6 @@ const CreateEventLegende = () => {
 
       </View>
 
-      <View style={styles.footer}>
-        <View style={styles.BtnDown}>
-          <Text style={{ fontSize: 17 }}>Ajouter amis</Text>
-          <AntDesign name="right" size={25} color="#222222" />
-        </View>
-        <View style={[styles.BtnDown, { borderTopWidth: 0 }]}>
-          <Text style={{ fontSize: 17 }}>Date de l'évenement</Text>
-          <AntDesign name="right" size={25} color="#222222" />
-        </View>
-      </View>
 
     </View>
 
@@ -148,20 +143,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 30,
     paddingRight: 30,
-  },
-  footer: {
-    marginBottom: -20,
-  },
-  BtnDown: {
-    paddingLeft: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingRight: 2,
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
-    borderColor: "#00000020",
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+  }
+
 });

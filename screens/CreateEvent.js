@@ -1,24 +1,25 @@
 import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 import React from "react";
-
-
 import { AntDesign } from "@expo/vector-icons";
-
 import { useNavigation } from "@react-navigation/native";
 
-//REDUX
 
-import { useDispatch } from "react-redux";
-import { setIsActiveNavigate } from "../slices/navSlice.js";
-import { setIsImageFromAppli } from "../slices/navSlice.js";
-import { setEventStep } from "../slices/navSlice.js";
-import { setImageEvent } from "../slices/navSlice";
-import { setSelectImage } from "../slices/navSlice";
-import { selectImageAppli } from "../slices/navSlice";
-import { selectIsImageFromAppli } from "../slices/navSlice";
-import { selectImage } from "../slices/navSlice";
-import { useSelector } from "react-redux";
-import { selectImageEvent } from "../slices/navSlice";
+
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectImageEvent,
+  selectImage,
+  setIsActiveNavigate,
+  setIsImageFromAppli,
+  setEventStep,
+  setImageEvent,
+  setSelectImage,
+  selectImageAppli,
+  selectIsImageFromAppli,
+} from "../slices/navSlice.js";
+
+
 
 const CreateEvent = () => {
   const imageEvent = useSelector(selectImageEvent);
@@ -27,7 +28,6 @@ const CreateEvent = () => {
   const dispatch = useDispatch();
   const ImageAppli = useSelector(selectImageAppli);
   const IsImageFromAppli = useSelector(selectIsImageFromAppli);
-
 
   return (
     <View>
@@ -70,7 +70,7 @@ const CreateEvent = () => {
         <TouchableOpacity
           onPress={() => {
             dispatch(setEventStep(1));
-            dispatch(setIsActiveNavigate("createEvent2"))
+            dispatch(setIsActiveNavigate("CreateMain2"));
           }}
         >
           <Text
@@ -146,7 +146,9 @@ const CreateEvent = () => {
           >
             <TouchableOpacity
               onPress={() => {
-                dispatch(setSelectImage(0)), dispatch(setIsImageFromAppli(true));dispatch(setImageEvent(null))
+                dispatch(setSelectImage(0)),
+                  dispatch(setIsImageFromAppli(true));
+                dispatch(setImageEvent(null));
               }}
               style={styles.containerImgText}
             >
@@ -175,7 +177,9 @@ const CreateEvent = () => {
             <TouchableOpacity
               style={styles.containerImgText}
               onPress={() => {
-                dispatch(setSelectImage(1)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+                dispatch(setSelectImage(1)),
+                  dispatch(setIsImageFromAppli(true)),
+                  dispatch(setImageEvent(null));
               }}
             >
               <View
@@ -203,7 +207,9 @@ const CreateEvent = () => {
             <TouchableOpacity
               style={styles.containerImgText}
               onPress={() => {
-                dispatch(setSelectImage(2)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+                dispatch(setSelectImage(2)),
+                  dispatch(setIsImageFromAppli(true)),
+                  dispatch(setImageEvent(null));
               }}
             >
               <View
@@ -231,7 +237,9 @@ const CreateEvent = () => {
             <TouchableOpacity
               style={styles.containerImgText}
               onPress={() => {
-                dispatch(setSelectImage(3)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+                dispatch(setSelectImage(3)),
+                  dispatch(setIsImageFromAppli(true)),
+                  dispatch(setImageEvent(null));
               }}
             >
               <View
@@ -267,7 +275,9 @@ const CreateEvent = () => {
             <TouchableOpacity
               style={styles.containerImgText}
               onPress={() => {
-                dispatch(setSelectImage(4)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+                dispatch(setSelectImage(4)),
+                  dispatch(setIsImageFromAppli(true)),
+                  dispatch(setImageEvent(null));
               }}
             >
               <View
@@ -295,7 +305,9 @@ const CreateEvent = () => {
             <TouchableOpacity
               style={styles.containerImgText}
               onPress={() => {
-                dispatch(setSelectImage(5)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+                dispatch(setSelectImage(5)),
+                  dispatch(setIsImageFromAppli(true)),
+                  dispatch(setImageEvent(null));
               }}
             >
               <View
@@ -323,7 +335,9 @@ const CreateEvent = () => {
             <TouchableOpacity
               style={styles.containerImgText}
               onPress={() => {
-                dispatch(setSelectImage(6)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+                dispatch(setSelectImage(6)),
+                  dispatch(setIsImageFromAppli(true)),
+                  dispatch(setImageEvent(null));
               }}
             >
               <View
@@ -350,7 +364,9 @@ const CreateEvent = () => {
             <TouchableOpacity
               style={styles.containerImgText}
               onPress={() => {
-                dispatch(setSelectImage(7)), dispatch(setIsImageFromAppli(true)), dispatch(setImageEvent(null));
+                dispatch(setSelectImage(7)),
+                  dispatch(setIsImageFromAppli(true)),
+                  dispatch(setImageEvent(null));
               }}
             >
               <View
