@@ -16,6 +16,7 @@ const EventProfil = () => {
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
   const navigation = useNavigation();
 
+
   const containerStyle = {
     ...styles.container,
     paddingTop:
@@ -194,108 +195,6 @@ const EventProfil = () => {
           </View>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: 13,
-              width: "100%",
-              backgroundColor: "#fff",
-              borderRadius: 10,
-              marginBottom: 10,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                width: 160,
-                height: 130,
-                borderRadius: 20,
-              }}
-              source={{
-                uri: "https://cdn.sortiraparis.com/images/80/1665/613916-top-20-des-concerts-les-plus-attendus-a-paris-en-2021.jpg",
-              }}
-            />
-            <View
-              style={{
-                gap: 20,
-                alignItems: "flex-start",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/localisation.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>Port saplaya</Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/date.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>03/04, 17:30</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/friend.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <View
-                  testID="wrappertext"
-                  style={{
-                    width: 140,
-                  }}
-                >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    Anthony, alex, andrea, camila, piere
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity> */}
         <TouchableOpacity>
           <View
             style={{
@@ -501,21 +400,22 @@ const EventProfil = () => {
           </View>
         </TouchableOpacity>
 
-        {!isActiveNavigate ? (
+        {isActiveNavigate === "Profil" && (
           <View
             testID="ajustView"
             style={{
               height: 120,
             }}
           ></View>
-        ) : (
+        ) }
+        {isActiveNavigate === "FindEvent" && (
           <View
             testID="ajustView"
             style={{
               height: 70,
             }}
           ></View>
-        )}
+        ) }
       </ScrollView>
     </View>
   );

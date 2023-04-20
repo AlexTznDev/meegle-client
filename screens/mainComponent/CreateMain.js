@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import CreateEvent from "../CreateEvent";
 import UploadImage from "../UploadImage";
 import CreateEventLegende from "../CreateEventLegende";
+import MapEvent from "../MapEvent";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -11,6 +12,9 @@ import { useSelector } from "react-redux";
 import { selectEventStep } from "../../slices/navSlice";
 import AddFriendEvent from "../AddFriendEvent";
 import AddDateToEvent from "../AddDateToEvent";
+
+
+
 
 const CreateMain = () => {
   const eventStep = useSelector(selectEventStep);
@@ -59,6 +63,14 @@ const CreateMain = () => {
             <Stack.Screen
               name="AddDateToEvent"
               component={AddDateToEvent}
+              options={{
+                headerShown: false,
+                animationEnabled: true,
+              }}
+            />
+            <Stack.Screen
+              name="MapEvent"
+              component={MapEvent}
               options={{
                 headerShown: false,
                 animationEnabled: true,

@@ -13,6 +13,9 @@ import {
   setIsImageFromAppli,
   setSelectImage,
   setIsActiveNavigate,
+  setIsBtnAmisAndDateOn,
+  setTimeEvent,
+  setDateEvent,
 } from "../slices/navSlice";
 
 const NavBar = () => {
@@ -56,6 +59,9 @@ const NavBar = () => {
                 dispatch(setImageEvent(null));
                 dispatch(setIsImageFromAppli(true));
                 dispatch(setSelectImage(0));
+                dispatch(setIsBtnAmisAndDateOn(false));
+                dispatch(setDateEvent(null));
+                dispatch(setTimeEvent(null));
                 navigation.navigate("FindEventMain");
               }}
             >
@@ -79,6 +85,9 @@ const NavBar = () => {
                 dispatch(setImageEvent(null));
                 dispatch(setIsImageFromAppli(true));
                 dispatch(setSelectImage(0));
+                dispatch(setIsBtnAmisAndDateOn(false));
+                dispatch(setDateEvent(null));
+                dispatch(setTimeEvent(null));
                 navigation.navigate("CreateMain");
               }}
             >
@@ -113,6 +122,9 @@ const NavBar = () => {
                 dispatch(setSelectImage(0));
                 dispatch(setIsActiveNavigate("Profil"));
                 dispatch(setIsImageFromAppli(true));
+                dispatch(setIsBtnAmisAndDateOn(false));
+                dispatch(setDateEvent(null));
+                dispatch(setTimeEvent(null));
               }}
             >
               <Image

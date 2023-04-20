@@ -1,7 +1,14 @@
-import { StyleSheet, Text, SafeAreaView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect } from "react";
 
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 import { setIsBtnAmisAndDateOn } from "../slices/navSlice";
 import { useDispatch } from "react-redux";
@@ -13,11 +20,11 @@ const AddFriendEvent = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       dispatch(setIsBtnAmisAndDateOn(true));
-    //   console.log("Le composant est maintenant focalisé");
+      //   console.log("Le composant est maintenant focalisé");
     });
     const subscribe = navigation.addListener("blur", () => {
       dispatch(setIsBtnAmisAndDateOn(false));
-    //   console.log("Le composant est maintenant defocalisé");
+      //   console.log("Le composant est maintenant defocalisé");
     });
 
     return () => {
@@ -31,12 +38,42 @@ const AddFriendEvent = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        justifyContent:"center",
-        alignItems:"center",
         backgroundColor: "#ffffff",
       }}
     >
-      <Text>AddFriendEvent</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: "#222222",
+            fontSize: 20,
+          }}
+        >
+          Ajouter des amis
+        </Text>
+      </View>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("CreateEventLegende");
+        }}
+      >
+        <Text
+          style={{
+            color: "#007BFF",
+            fontSize: 16,
+            transform: [{ translateY: -10 }],
+            marginLeft: 15,
+            width:"18%"
+          }}
+        >
+          Annuler
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
