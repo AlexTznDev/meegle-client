@@ -10,7 +10,12 @@ import Randonnée from "../assets/rando.jpg";
 
 //initialisation etat
 const initialState = {
-  origin: null,
+  origin: {
+    location: {
+      lat: 37.78825,
+      lng: -122.4324,
+    },
+  },
   destination: null,
   travelTimeInformation: null,
   isActiveNavigate: "Profil",
@@ -29,8 +34,8 @@ const initialState = {
   eventStep: 0,
   selectImage: 0,
   isBtnAmisAndDateOn: false,
-  timeEvent:null,
-  dateEvent:null
+  timeEvent: null,
+  dateEvent: null,
 };
 
 //preparation du reducer grace a action
@@ -91,8 +96,7 @@ export const {
   setSelectImage,
   setIsBtnAmisAndDateOn,
   setTimeEvent,
-  setDateEvent
-
+  setDateEvent,
 } = navSlice.actions;
 
 //selector pour recupere la data
