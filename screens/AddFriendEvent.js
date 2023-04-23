@@ -4,6 +4,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
   View,
+  ScrollView,
+  Image,
+  TextInput,
 } from "react-native";
 import React, { useEffect } from "react";
 
@@ -41,22 +44,6 @@ const AddFriendEvent = () => {
         backgroundColor: "#ffffff",
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Text
-          style={{
-            color: "#222222",
-            fontSize: 20,
-          }}
-        >
-          Ajouter des amis
-        </Text>
-      </View>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("CreateEventLegende");
@@ -68,16 +55,70 @@ const AddFriendEvent = () => {
             fontSize: 16,
             transform: [{ translateY: -10 }],
             marginLeft: 15,
-            width:"18%"
+            width: "18%",
           }}
         >
           Annuler
         </Text>
       </TouchableOpacity>
+
+      <View style={styles.containerTextInput}>
+        <TextInput
+          style={{
+            backgroundColor: "#F5F5F5",
+            width: "90%",
+            padding: 10,
+            borderRadius: 5,
+          }}
+          placeholder=" Rechercher"
+        ></TextInput>
+      </View>
+
+      <ScrollView
+        style={{
+          paddingTop: 20,
+        }}
+      >
+        <View style={styles.containerCardsFriend}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 30,
+              }}
+              source={require("../assets/girlAngela.png")}
+            />
+            <Text style={styles.h2}>Angela electra</Text>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default AddFriendEvent;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  containerCardsFriend: {
+    flexDirection: "row",
+    paddingLeft: 20,
+    alignItems: "center",
+  },
+  containerTextInput: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 4,
+  },
+  h2: {
+    fontSize: 20,
+    fontWeight: 400,
+    paddingLeft: 20,
+  },
+});
