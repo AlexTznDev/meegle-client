@@ -50,6 +50,7 @@ const MapEvent = () => {
 
   useEffect(() => {
     if (mapRef.current) {
+    
       mapRef.current.animateToRegion({
         latitude: origin.location.lat,
         longitude: origin.location.lng,

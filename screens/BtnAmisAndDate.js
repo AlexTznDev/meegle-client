@@ -13,6 +13,7 @@ import {
   selectIsBtnAmisAndDateOn,
   selectTimeEvent,
   selectDateEvent,
+  SelectListFriendAdded
 } from "../slices/navSlice";
 import { useSelector } from "react-redux";
 
@@ -22,6 +23,7 @@ const BtnAmisAndDate = () => {
   const timeEvent = useSelector(selectTimeEvent);
   const dateEvent = useSelector(selectDateEvent);
   const EventStep = useSelector(selectEventStep);
+  const addedFriendList = useSelector(SelectListFriendAdded);
   const IsBtnAmisAndDateOn = useSelector(selectIsBtnAmisAndDateOn);
   const [animationValue1] = useState(new Animated.Value(50));
   const [animationValue2] = useState(new Animated.Value(50));
@@ -63,6 +65,11 @@ const BtnAmisAndDate = () => {
                 ]}
               >
                 <Text style={{ fontSize: 17 }}>Ajouter amis</Text>
+                {addedFriendList.length !== 0 ? (
+                  <Text style={{ fontSize: 11, color:"#00000050" }}>
+                    {addedFriendList.length} amis
+                  </Text>
+                ) : null}
                 <AntDesign name="right" size={25} color="#222222" />
               </Animated.View>
             </TouchableOpacity>

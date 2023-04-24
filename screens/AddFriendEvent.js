@@ -8,8 +8,9 @@ import {
   TextInput,
   FlatList,
   TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -26,10 +27,39 @@ const AddFriendEvent = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const [searchUser, setSearchUser] = useState("");
+  const [userToDisplay, setUserToDisplay] = useState([]);
+
+  const handleSearchChange = (text) => {
+    if (text !== "") {
+      setSearchUser(text), searchingUser();
+    } else {
+      setSearchUser(text);
+      setUserToDisplay([]);
+    }
+  };
+  const searchingUser = () => {
+    const foundUser = friend.filter((eachUser) => {
+      const userToSearch = searchUser.toLowerCase();
+      const eachUsername = eachUser.name.toLowerCase();
+
+      if (eachUsername.includes(userToSearch)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setUserToDisplay(foundUser);
+  };
+
+  useEffect(() => {
+    searchingUser();
+  }, [searchUser]);
+
   const friend = [
     {
       _id: "643057d24f7cc1cc638935cd",
-      name: "Angela electra",
+      name: "angela electra",
       imageProfil: "girlAngela",
     },
     {
@@ -42,6 +72,51 @@ const AddFriendEvent = () => {
       name: "Aurelie laurga",
       imageProfil: "Girl2",
     },
+    {
+      _id: "643057d24f7cc1cc638935cg",
+      name: "Angela electra",
+      imageProfil: "girlAngela",
+    },
+    {
+      _id: "643057d24f7cc1cc638935ch",
+      name: "Alex new",
+      imageProfil: "boy",
+    },
+    {
+      _id: "643057d24f7cc1cc638935ci",
+      name: "Aurelie laurga",
+      imageProfil: "Girl2",
+    },
+    {
+      _id: "643057d24f7cc1cc638935cj",
+      name: "Angela electra",
+      imageProfil: "girlAngela",
+    },
+    {
+      _id: "643057d24f7cc1cc638935ck",
+      name: "Alex new",
+      imageProfil: "boy",
+    },
+    {
+      _id: "643057d24f7cc1cc638935cl",
+      name: "Aurelie laurga",
+      imageProfil: "Girl2",
+    },
+    {
+      _id: "643057d24f7cc1cc638935cm",
+      name: "Angela electra",
+      imageProfil: "girlAngela",
+    },
+    {
+      _id: "643057d24f7cc1cc638935cn",
+      name: "Alex new",
+      imageProfil: "boy",
+    },
+    {
+      _id: "643057d24f7cc1cc638935co",
+      name: "Aurelie laurga",
+      imageProfil: "Girl2",
+    },
   ];
 
   //! sera a enlever avec le uri plus tard
@@ -51,30 +126,33 @@ const AddFriendEvent = () => {
     Girl2: require("../assets/Girl2.png"),
   };
 
-  const toggleFriend = (id) => {
-    // Vérifier si ami dans la liste
-    const friendInList = addedFriendList.includes(id);
+  const toggleFriend = (user) => {
+    // Check if the friend is in the list
+    const friendInList = addedFriendList.some(
+      (eachUser) => eachUser._id === user._id
+    );
 
     if (!friendInList) {
-      // Si l'ami n'est pas présent
-      dispatch(addFriend(id));
+      // If the friend is not in the list, add them
+      dispatch(addFriend(user));
     } else {
-      // Si l'ami est présent et que je souhaite supprimer
-      dispatch(removeFriend(id));
+      // If the friend is in the list and should be removed
+      dispatch(removeFriend(user));
     }
-  };
-
-  const checkBoxImage = (id) => {
-    if (addedFriendList.includes(id)) {
-      return require("../assets/validate.png");
-    } else {
-      return require("../assets/checkBox.png");
-    }
+    console.log(user);
   };
 
   useEffect(() => {
     console.log(addedFriendList);
   }, [addedFriendList]);
+
+  const checkBoxImage = (id) => {
+    if (addedFriendList.some((friend) => friend._id === id)) {
+      return require("../assets/validate.png");
+    } else {
+      return require("../assets/checkBox.png");
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -100,6 +178,23 @@ const AddFriendEvent = () => {
         backgroundColor: "#ffffff",
       }}
     >
+      <TouchableOpacity
+        style={[
+          styles.btn,
+          {
+            position: "absolute",
+            bottom: "15%",
+            alignSelf: "center", //! centrer un element
+            zIndex: 1,
+          },
+        ]}
+        onPress={() => {
+          console.log("amis ajouté");
+          navigation.navigate("CreateEventLegende");
+        }}
+      >
+        <Text style={{ color: "#fff", fontSize: 20 }}>Ajouter amis</Text>
+      </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("CreateEventLegende");
@@ -127,59 +222,205 @@ const AddFriendEvent = () => {
             borderRadius: 5,
           }}
           placeholder=" Rechercher"
-        ></TextInput>
+          onChangeText={handleSearchChange}
+        />
       </View>
 
-      <FlatList
-        contentContainerStyle={{
-          paddingTop: 20,
-          gap: 20,
-        }}
-        data={friend}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.containerCardsFriend}>
-              <View
+      {addedFriendList.length !== 0 ? (
+        <FlatList
+          contentContainerStyle={{
+            paddingTop: 10,
+            gap: 12,
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          data={addedFriendList}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+              onPress={()=>{toggleFriend(item)}}
                 style={{
-                  flexDirection: "row",
+                  flexDirection: "column",
+                  marginTop: 20,
                   alignItems: "center",
-                  width: "70%",
+                  gap: 10,
+                  width: 50,
                 }}
+                key={item._id}
+              >
+              <View
+              style={{
+                width:20,
+                height:20,
+                position:"absolute",
+                zIndex:2,
+                top:-8,
+                right:0
+              }}
               >
                 <Image
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 30,
-                  }}
+                style={{width:"100%", height:"100%"}}
+                  source={require("../assets/remove.png")}
+                />
+              </View>
+                <Image
+                  style={{ width: 50, height: 50, resizeMode: "cover"}}
                   source={imagePaths[item.imageProfil]}
                 />
-                <Text style={styles.h2}>{item.name}</Text>
-              </View>
-              <View
-                style={{
-                  width: "30%",
-                  justifyContent: "center",
-                  alignItems: "flex-end",
-                  paddingRight: 20,
-                }}
+                <Text
+                  style={{
+                    textAlign:"center",
+                    width:"100%",
+                    fontSize: 10,
+                    marginBottom: 40,
+                    lineHeight: 12
+                  }}
+                  numberOfLines={2}
+                  lineBreakMode="strict"
+                >
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          }}
+          horizontal={true}
+        />
+      ) : null}
+
+      <View
+        style={{
+          borderWidth: 0.5,
+          width: "90%",
+          marginLeft: "auto",
+          marginRight: "auto",
+          marginTop: 20,
+          borderColor: "#00000020",
+        }}
+      ></View>
+      {userToDisplay.length === 0 ? (
+        <FlatList
+          contentContainerStyle={{
+            paddingTop: 30,
+            gap: 20,
+            paddingBottom: 140,
+          }}
+          data={friend}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => {
+            return (
+              <TouchableWithoutFeedback
+                onPress={() => toggleFriend(item)}
+                style={styles.containerCardsFriend}
               >
-                <View style={styles.containerCheckBox}>
-                  <TouchableWithoutFeedback
-                    onPress={() => toggleFriend(item._id)}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    paddingLeft: 20,
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      width: "70%",
+                    }}
                   >
                     <Image
-                      style={{ width: "100%", height: "100%" }}
-                      source={checkBoxImage(item._id)}
+                      style={{
+                        width: 35,
+                        height: 35,
+                        borderRadius: 30,
+                      }}
+                      source={imagePaths[item.imageProfil]}
                     />
-                  </TouchableWithoutFeedback>
+                    <Text style={styles.h2}>{item.name}</Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "30%",
+                      justifyContent: "center",
+                      alignItems: "flex-end",
+                      paddingRight: 20,
+                    }}
+                  >
+                    <View style={styles.containerCheckBox}>
+                      <TouchableWithoutFeedback>
+                        <Image
+                          style={{ width: "100%", height: "100%" }}
+                          source={checkBoxImage(item._id)}
+                        />
+                      </TouchableWithoutFeedback>
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View>
-          );
-        }}
-      />
+              </TouchableWithoutFeedback>
+            );
+          }}
+        />
+      ) : (
+        <FlatList
+          contentContainerStyle={{
+            paddingTop: 30,
+            gap: 20,
+            paddingBottom: 140,
+          }}
+          data={userToDisplay}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => {
+            return (
+              <TouchableWithoutFeedback
+                onPress={() => toggleFriend(item)}
+                style={styles.containerCardsFriend}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    paddingLeft: 20,
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      width: "70%",
+                    }}
+                  >
+                    <Image
+                      style={{
+                        width: 35,
+                        height: 35,
+                        borderRadius: 30,
+                      }}
+                      source={imagePaths[item.imageProfil]}
+                    />
+                    <Text style={styles.h2}>{item.name}</Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "30%",
+                      justifyContent: "center",
+                      alignItems: "flex-end",
+                      paddingRight: 20,
+                    }}
+                  >
+                    <View style={styles.containerCheckBox}>
+                      <TouchableWithoutFeedback>
+                        <Image
+                          style={{ width: "100%", height: "100%" }}
+                          source={checkBoxImage(item._id)}
+                        />
+                      </TouchableWithoutFeedback>
+                    </View>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            );
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -188,8 +429,6 @@ export default AddFriendEvent;
 
 const styles = StyleSheet.create({
   containerCardsFriend: {
-    flexDirection: "row",
-    paddingLeft: 20,
     alignItems: "center",
     marginBottom: 10,
   },
@@ -200,12 +439,20 @@ const styles = StyleSheet.create({
     paddingTop: 4,
   },
   h2: {
-    fontSize: 20,
-    fontWeight: 400,
+    fontSize: 15,
+    fontWeight: 600,
     paddingLeft: 20,
   },
   containerCheckBox: {
     width: 25,
     height: 25,
+  },
+  btn: {
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: "#FFB25F",
+    borderRadius: 10,
   },
 });

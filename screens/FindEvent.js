@@ -8,11 +8,12 @@ import {
   Image,
   Text,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 const FindEvent = () => {
-  return (
+  const [IndexFindEvent, setIndexFindEvent] = useState(0);
 
+  return (
     <SafeAreaView
       style={{
         backgroundColor: "#1D2328",
@@ -23,34 +24,6 @@ const FindEvent = () => {
         alignItems: "center",
       }}
     >
-
-<View>
-
-
-</View>
-
-
-      <View
-        style={{
-          paddingTop: 10,
-          width: "82%",
-        }}
-      >
-        <TextInput
-          style={{
-            paddingTop: 15,
-            paddingBottom: 15,
-            paddingLeft: 15,
-            paddingRight: 15,
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: "#fff",
-            color: "#fff",
-          }}
-        >
-          Quel ?
-        </TextInput>
-      </View>
 
       <View
         style={{
@@ -75,9 +48,9 @@ const FindEvent = () => {
               borderColor: "#fff",
               color: "#fff",
             }}
-          >
-            Localisation ?
-          </TextInput>
+            placeholder="Localisation ?"
+            placeholderTextColor="#ffffff80"
+          ></TextInput>
         </View>
         <View
           style={{
@@ -97,49 +70,52 @@ const FindEvent = () => {
               color: "#fff",
               marginBottom: 15,
             }}
-          >
-            Date ?
-          </TextInput>
+            placeholder="Date ?"
+            placeholderTextColor="#ffffff80"
+          ></TextInput>
         </View>
       </View>
 
-      <ScrollView 
-      horizontal={true}
-      pagingEnabled={true}
-      showsHorizontalScrollIndicator={false}
-      style={{
-        display:"flex",
-        paddingLeft:20,
-        paddingRight:20
-      }}
+      <ScrollView
+        horizontal={true}
+        pagingEnabled={true}
+        showsHorizontalScrollIndicator={false}
+        style={{
+          display: "flex",
+          paddingLeft: 20,
+          paddingRight: 20,
+        }}
       >
         <TouchableOpacity
           style={{
-            width:80,
-            height:80, 
-            alignItems:"center",
-            justifyContent:"center",
-            gap:5,
-            borderRadius:50,
-            backgroundColor:"#7A7A7A18",
-            marginBottom:15,
-            marginRight:10,
-            borderWidth:1,
-            borderColor:"#FF9D33"
+            width: 80,
+            height: 80,
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+            borderRadius: 50,
+            backgroundColor: "#7A7A7A18",
+            marginBottom: 15,
+            marginRight: 10,
+
+            ...(IndexFindEvent === 0
+              ? { borderWidth: 1, borderColor: "#FF9D33" }
+              : {}),
           }}
+          onPress={()=>{setIndexFindEvent(0)}}
         >
-          <Image 
-          source={require("../assets/friendWhite.png")} 
-          style={{
-            width:30,
-            height:30,
-            resizeMode:"contain",
-            
-          }} />
+          <Image
+            source={require("../assets/friendWhite.png")}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "contain",
+            }}
+          />
           <Text
             style={{
               color: "#fff",
-              fontSize:10
+              fontSize: 10,
             }}
           >
             Meeting
@@ -147,30 +123,34 @@ const FindEvent = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width:80,
-            height:80, 
-            alignItems:"center",
-            justifyContent:"center",
-            gap:5,
-            borderRadius:50,
-            backgroundColor:"#7A7A7A18",
-            marginBottom:15,
-            marginRight:10,
+            width: 80,
+            height: 80,
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+            borderRadius: 50,
+            backgroundColor: "#7A7A7A18",
+            marginBottom: 15,
+            marginRight: 10,
+            ...(IndexFindEvent === 1
+              ? { borderWidth: 1, borderColor: "#FF9D33" }
+              : {}),
 
           }}
+          onPress={()=>{setIndexFindEvent(1)}}
         >
-          <Image 
-          source={require("../assets/sport.png")} 
-          style={{
-            width:30,
-            height:30,
-            resizeMode:"contain",
-            
-          }} />
+          <Image
+            source={require("../assets/sport.png")}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "contain",
+            }}
+          />
           <Text
             style={{
               color: "#fff",
-              fontSize:10
+              fontSize: 10,
             }}
           >
             Sport
@@ -178,29 +158,33 @@ const FindEvent = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width:80,
-            height:80, 
-            alignItems:"center",
-            justifyContent:"center",
-            gap:5,
-            borderRadius:50,
-            backgroundColor:"#7A7A7A18",
-            marginBottom:15,
-            marginRight:10,
+            width: 80,
+            height: 80,
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+            borderRadius: 50,
+            backgroundColor: "#7A7A7A18",
+            marginBottom: 15,
+            marginRight: 10,
+            ...(IndexFindEvent === 2
+              ? { borderWidth: 1, borderColor: "#FF9D33" }
+              : {})
           }}
+          onPress={()=>{setIndexFindEvent(2)}}
         >
-          <Image 
-          source={require("../assets/coffee.png")} 
-          style={{
-            width:30,
-            height:30,
-            resizeMode:"contain",
-            
-          }} />
+          <Image
+            source={require("../assets/coffee.png")}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "contain",
+            }}
+          />
           <Text
             style={{
               color: "#fff",
-              fontSize:10
+              fontSize: 10,
             }}
           >
             Coffee
@@ -208,29 +192,33 @@ const FindEvent = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width:80,
-            height:80, 
-            alignItems:"center",
-            justifyContent:"center",
-            gap:5,
-            borderRadius:50,
-            backgroundColor:"#7A7A7A18",
-            marginBottom:15,
-            marginRight:10,
+            width: 80,
+            height: 80,
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+            borderRadius: 50,
+            backgroundColor: "#7A7A7A18",
+            marginBottom: 15,
+            marginRight: 10,
+            ...(IndexFindEvent === 3
+              ? { borderWidth: 1, borderColor: "#FF9D33" }
+              : {}),
           }}
+          onPress={()=>{setIndexFindEvent(3)}}
         >
-          <Image 
-          source={require("../assets/friendWhite.png")} 
-          style={{
-            width:30,
-            height:30,
-            resizeMode:"contain",
-            
-          }} />
+          <Image
+            source={require("../assets/friendWhite.png")}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "contain",
+            }}
+          />
           <Text
             style={{
               color: "#fff",
-              fontSize:10
+              fontSize: 10,
             }}
           >
             Meeting
@@ -238,31 +226,34 @@ const FindEvent = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width:80,
-            height:80, 
-            alignItems:"center",
-            justifyContent:"center",
-            gap:5,
-            borderRadius:50,
-            backgroundColor:"#7A7A7A18",
-            marginBottom:15,
-            marginRight:10,
-            justifyContent:"center"
-
+            width: 80,
+            height: 80,
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+            borderRadius: 50,
+            backgroundColor: "#7A7A7A18",
+            marginBottom: 15,
+            marginRight: 10,
+            justifyContent: "center",
+            ...(IndexFindEvent === 4
+              ? { borderWidth: 1, borderColor: "#FF9D33" }
+              : {}),
           }}
+          onPress={()=>{setIndexFindEvent(4)}}
         >
-          <Image 
-          source={require("../assets/friendWhite.png")} 
-          style={{
-            width:30,
-            height:30,
-            resizeMode:"contain",
-            
-          }} />
+          <Image
+            source={require("../assets/friendWhite.png")}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "contain",
+            }}
+          />
           <Text
             style={{
               color: "#fff",
-              fontSize:10
+              fontSize: 10,
             }}
           >
             Meeting
@@ -270,40 +261,41 @@ const FindEvent = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width:80,
-            height:80, 
-            alignItems:"center",
-            justifyContent:"center",
-            gap:5,
-            borderRadius:50,
-            backgroundColor:"#7A7A7A18",
-            marginBottom:15,
-            marginRight:40,
-            justifyContent:"center"
-
+            width: 80,
+            height: 80,
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+            borderRadius: 50,
+            backgroundColor: "#7A7A7A18",
+            marginBottom: 15,
+            marginRight: 40,
+            justifyContent: "center",
+            ...(IndexFindEvent === 5
+              ? { borderWidth: 1, borderColor: "#FF9D33" }
+              : {}),
           }}
+          onPress={()=>{setIndexFindEvent(5)}}
         >
-          <Image 
-          source={require("../assets/friendWhite.png")} 
-          style={{
-            width:30,
-            height:30,
-            resizeMode:"contain",
-            
-          }} />
+          <Image
+            source={require("../assets/friendWhite.png")}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "contain",
+            }}
+          />
           <Text
             style={{
               color: "#fff",
-              fontSize:10
+              fontSize: 10,
             }}
           >
             Meeting
           </Text>
         </TouchableOpacity>
-
       </ScrollView>
     </SafeAreaView>
-    
   );
 };
 

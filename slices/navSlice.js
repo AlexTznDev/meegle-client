@@ -12,8 +12,8 @@ import Randonnée from "../assets/rando.jpg";
 const initialState = {
   origin: {
     location: {
-      lat: 37.78825,
-      lng: -122.4324,
+      lat: 39.4699075,
+      lng: -0.3762881,
     },
   },
   destination: null,
@@ -86,7 +86,7 @@ export const navSlice = createSlice({
     },
     removeFriend: (state, action) => {
       state.ListFriendAdded = state.ListFriendAdded.filter(
-        (friendId) => friendId !== action.payload
+        (friend) => friend._id !== action.payload._id
       );
     },
   },
