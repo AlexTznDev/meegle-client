@@ -32,24 +32,28 @@ const AddFriendEvent = () => {
 
   const handleSearchChange = (text) => {
     if (text !== "") {
-      setSearchUser(text), searchingUser();
+      setSearchUser(text);
     } else {
       setSearchUser(text);
       setUserToDisplay([]);
     }
   };
   const searchingUser = () => {
-    const foundUser = friend.filter((eachUser) => {
-      const userToSearch = searchUser.toLowerCase();
-      const eachUsername = eachUser.name.toLowerCase();
+    if (searchUser === "") {
+      setUserToDisplay([]);
+    } else {
+      const foundUser = friend.filter((eachUser) => {
+        const userToSearch = searchUser.toLowerCase();
+        const eachUsername = eachUser.name.toLowerCase();
 
-      if (eachUsername.includes(userToSearch)) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    setUserToDisplay(foundUser);
+        if (eachUsername.includes(userToSearch)) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      setUserToDisplay(foundUser);
+    }
   };
 
   useEffect(() => {
@@ -139,12 +143,11 @@ const AddFriendEvent = () => {
       // If the friend is in the list and should be removed
       dispatch(removeFriend(user));
     }
-    console.log(user);
   };
 
   useEffect(() => {
-    console.log(addedFriendList);
-  }, [addedFriendList]);
+    console.log(userToDisplay.length);
+  }, [userToDisplay]);
 
   const checkBoxImage = (id) => {
     if (addedFriendList.some((friend) => friend._id === id)) {
@@ -241,7 +244,9 @@ const AddFriendEvent = () => {
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
-              onPress={()=>{toggleFriend(item)}}
+                onPress={() => {
+                  toggleFriend(item);
+                }}
                 style={{
                   flexDirection: "column",
                   marginTop: 20,
@@ -251,32 +256,32 @@ const AddFriendEvent = () => {
                 }}
                 key={item._id}
               >
-              <View
-              style={{
-                width:20,
-                height:20,
-                position:"absolute",
-                zIndex:2,
-                top:-8,
-                right:0
-              }}
-              >
+                <View
+                  style={{
+                    width: 20,
+                    height: 20,
+                    position: "absolute",
+                    zIndex: 2,
+                    top: -8,
+                    right: 0,
+                  }}
+                >
+                  <Image
+                    style={{ width: "100%", height: "100%" }}
+                    source={require("../assets/remove.png")}
+                  />
+                </View>
                 <Image
-                style={{width:"100%", height:"100%"}}
-                  source={require("../assets/remove.png")}
-                />
-              </View>
-                <Image
-                  style={{ width: 50, height: 50, resizeMode: "cover"}}
+                  style={{ width: 50, height: 50, resizeMode: "cover" }}
                   source={imagePaths[item.imageProfil]}
                 />
                 <Text
                   style={{
-                    textAlign:"center",
-                    width:"100%",
+                    textAlign: "center",
+                    width: "100%",
                     fontSize: 10,
                     marginBottom: 40,
-                    lineHeight: 12
+                    lineHeight: 12,
                   }}
                   numberOfLines={2}
                   lineBreakMode="strict"
