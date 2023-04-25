@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "meegle-client",
-    "slug": "meegle-client",
+    "slug": "meegle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +20,8 @@
         "NSLocationWhenInUseUsageDescription": "Nous avons besoin de votre localisation pour afficher la carte",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Nous avons besoin de votre localisation pour afficher la carte",
         "NSLocationAlwaysUsageDescription": "Nous avons besoin de votre localisation pour afficher la carte"
-      }
+      },
+      "bundleIdentifier": "com.alextzn.meegle"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +31,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6c15fe40-ac4d-47e5-8f93-08a5b251b6cf"
+      }
+    },
+    "owner": "alex-tzn"
   }
 }

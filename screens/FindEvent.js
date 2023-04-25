@@ -44,7 +44,7 @@ const FindEvent = () => {
               paddingLeft: 15,
               paddingRight: 15,
               borderRadius: 10,
-              borderWidth: 1,
+              borderWidth:.5,
               borderColor: "#fff",
               color: "#fff",
             }}
@@ -65,7 +65,7 @@ const FindEvent = () => {
               paddingLeft: 15,
               paddingRight: 15,
               borderRadius: 10,
-              borderWidth: 1,
+              borderWidth: .5,
               borderColor: "#fff",
               color: "#fff",
               marginBottom: 15,

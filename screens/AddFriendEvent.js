@@ -7,8 +7,7 @@ import {
   Image,
   TextInput,
   FlatList,
-  TouchableWithoutFeedback,
-  ScrollView,
+  TouchableWithoutFeedback
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -29,6 +28,9 @@ const AddFriendEvent = () => {
 
   const [searchUser, setSearchUser] = useState("");
   const [userToDisplay, setUserToDisplay] = useState([]);
+
+
+  
 
   const handleSearchChange = (text) => {
     if (text !== "") {
@@ -196,7 +198,7 @@ const AddFriendEvent = () => {
           navigation.navigate("CreateEventLegende");
         }}
       >
-        <Text style={{ color: "#fff", fontSize: 20 }}>Ajouter amis</Text>
+        <Text style={{ color: "#fff", fontSize: 20 }}>Valider</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -223,6 +225,7 @@ const AddFriendEvent = () => {
             width: "90%",
             padding: 10,
             borderRadius: 5,
+            marginBottom: 20,
           }}
           placeholder=" Rechercher"
           onChangeText={handleSearchChange}
@@ -230,81 +233,86 @@ const AddFriendEvent = () => {
       </View>
 
       {addedFriendList.length !== 0 ? (
-        <FlatList
-          contentContainerStyle={{
-            paddingTop: 10,
-            gap: 12,
-            paddingLeft: 10,
-            paddingRight: 10,
-          }}
-          pagingEnabled={true}
-          showsHorizontalScrollIndicator={false}
-          data={addedFriendList}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  toggleFriend(item);
-                }}
-                style={{
-                  flexDirection: "column",
-                  marginTop: 20,
-                  alignItems: "center",
-                  gap: 10,
-                  width: 50,
-                }}
-                key={item._id}
-              >
-                <View
-                  style={{
-                    width: 20,
-                    height: 20,
-                    position: "absolute",
-                    zIndex: 2,
-                    top: -8,
-                    right: 0,
+        <View
+        >
+          <FlatList
+            contentContainerStyle={{
+              paddingTop: 10,
+              gap: 12,
+              paddingLeft: 10,
+              paddingRight: 10,
+            }}
+            pagingEnabled={true}
+            showsHorizontalScrollIndicator={false}
+            data={addedFriendList}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    toggleFriend(item);
                   }}
+                  style={{
+                    flexDirection: "column",
+
+                    alignItems: "center",
+                    gap: 10,
+                    width: 50,
+                    height: 90,
+                  }}
+                  key={item._id}
                 >
+                  <View
+                    style={{
+                      width: 20,
+                      height: 20,
+                      position: "absolute",
+                      zIndex: 2,
+                      top: -8,
+                      right: 0,
+                    }}
+                  >
+                    <Image
+                      style={{ width: "100%", height: "100%" }}
+                      source={require("../assets/remove.png")}
+                    />
+                  </View>
                   <Image
-                    style={{ width: "100%", height: "100%" }}
-                    source={require("../assets/remove.png")}
+                    style={{ width: 50, height: 50, resizeMode: "cover" }}
+                    source={imagePaths[item.imageProfil]}
                   />
-                </View>
-                <Image
-                  style={{ width: 50, height: 50, resizeMode: "cover" }}
-                  source={imagePaths[item.imageProfil]}
-                />
-                <Text
-                  style={{
-                    textAlign: "center",
-                    width: "100%",
-                    fontSize: 10,
-                    marginBottom: 40,
-                    lineHeight: 12,
-                  }}
-                  numberOfLines={2}
-                  lineBreakMode="strict"
-                >
-                  {item.name}
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
-          horizontal={true}
-        />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      width: "100%",
+                      fontSize: 10,
+                      marginBottom: 40,
+                      lineHeight: 12,
+                    }}
+                    numberOfLines={2}
+                    lineBreakMode="strict"
+                  >
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+            horizontal={true}
+          />
+        </View>
       ) : null}
 
       <View
+        $
         style={{
-          borderWidth: 0.5,
           width: "90%",
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop: 20,
-          borderColor: "#00000020",
+          height: 0.5,
+          backgroundColor: "#00000020",
         }}
       ></View>
+
       {userToDisplay.length === 0 ? (
         <FlatList
           contentContainerStyle={{
@@ -370,7 +378,8 @@ const AddFriendEvent = () => {
           contentContainerStyle={{
             paddingTop: 30,
             gap: 20,
-            paddingBottom: 140,
+            marginBottom: "100%",
+            // backgroundColor:"black"
           }}
           data={userToDisplay}
           keyExtractor={(item) => item._id}

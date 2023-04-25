@@ -104,14 +104,30 @@ const NavBar = () => {
                 }
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("ChatMain");
+                dispatch(setEventStep(0));
+                dispatch(setImageEvent(null));
+                dispatch(setSelectImage(0));
+                dispatch(setIsActiveNavigate("ChatMain"));
+                dispatch(setIsImageFromAppli(true));
+                dispatch(setIsBtnAmisAndDateOn(false));
+                dispatch(setDateEvent(null));
+                dispatch(setTimeEvent(null));
+              }}
+            >
               <Image
                 style={{
                   width: 25,
                   height: 25,
                 }}
                 resizeMode="contain"
-                source={require("../assets/chat.png")}
+                source={
+                  isActiveNavigate === "ChatMain"
+                    ? require("../assets/chatOrange.png")
+                    : require("../assets/chat.png")}
+                
               />
             </TouchableOpacity>
             <TouchableOpacity

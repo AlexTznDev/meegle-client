@@ -9,9 +9,12 @@ import ProfilMain from "./screens/mainComponent/ProfilMain";
 import FindEventMain from "./screens/mainComponent/FindEventMain";
 import CreateMain from "./screens/mainComponent/CreateMain";
 import EventInfo from "./screens/EventInfo";
+import ChatMain from "./screens/mainComponent/ChatMain";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+
+import "expo-dev-client"  //! to authentification eas build
 
 
 export default function App() {
@@ -61,6 +64,14 @@ export default function App() {
                 options={{
                   headerShown: false,
                   animationEnabled: true,
+                }}
+              />
+              <Stack.Screen
+                name="ChatMain"
+                component={ChatMain}
+                options={{
+                  headerShown: false,
+                  animationEnabled: false,
                 }}
               />
             </Stack.Navigator>
