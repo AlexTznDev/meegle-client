@@ -2,6 +2,12 @@ import { StyleSheet, View, StatusBar, KeyboardAvoidingView, Platform } from "rea
 import { Provider } from "react-redux";
 import { store } from "./store";
 
+
+
+import { enableScreens } from "react-native-screens";//! tres important pour le buil eas
+enableScreens()    //! tres important pour le buil eas avec le package react native screen
+
+
 import NavBar from "./screens/NavBar";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -17,12 +23,15 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import "expo-dev-client"//! to authentification eas build
 
+
 //ios   :    1014731523069-46q5a8689krdt10mmbnafa5lcnnn1af9.apps.googleusercontent.com
 //android : 1014731523069-9ilas3r1shkv09ieu3osforca7sevrgv.apps.googleusercontent.com
 
 
 
 export default function App() {
+
+
 
   const Stack = createStackNavigator();
 

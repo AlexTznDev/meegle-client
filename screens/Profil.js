@@ -58,7 +58,7 @@ const Profil = () => {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: "10px",
+            gap: 10,
             justifyContent: "center",
           }}
         >
