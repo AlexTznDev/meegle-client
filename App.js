@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 
 
-
 import { enableScreens } from "react-native-screens";//! tres important pour le buil eas
 enableScreens()    //! tres important pour le buil eas avec le package react native screen
 
@@ -21,7 +20,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
 
-import "expo-dev-client"//! to authentification eas build
+// import "expo-dev-client"//! to authentification eas build
 
 
 //ios   :    1014731523069-46q5a8689krdt10mmbnafa5lcnnn1af9.apps.googleusercontent.com
@@ -30,7 +29,6 @@ import "expo-dev-client"//! to authentification eas build
 
 
 export default function App() {
-
 
 
   const Stack = createStackNavigator();
