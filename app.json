@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme":"com.alextzn.meegle",
+    "scheme": "com.alextzn.meegle",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -25,7 +25,7 @@
       "bundleIdentifier": "com.alextzn.meegle"
     },
     "android": {
-      "package":"com.alextzn.meegle",
+      "package": "com.alextzn.meegle",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

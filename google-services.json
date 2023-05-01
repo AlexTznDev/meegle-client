@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "621288007374",
+    "project_id": "meegle-project-385014",
+    "storage_bucket": "meegle-project-385014.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621288007374:android:edbca06076a075028f529f",
+        "android_client_info": {
+          "package_name": "com.alextzn.meegle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621288007374-s35nf4b11qcn1q9db1t9859gtto3eaa1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alextzn.meegle",
+            "certificate_hash": "b9ee56f79cccc918da23532ede8d5b4b061ba397"
+          }
+        },
+        {
+          "client_id": "621288007374-h2ds5i6uuqcgaqgo818m9441d99gvc7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKWFGNFnoSlM5bSqVfE_oyS4sWfSs3RzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621288007374-h2ds5i6uuqcgaqgo818m9441d99gvc7e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "621288007374-umtio2qe2de5a29gqkjvnl6cqk09a6o8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alextzn.meegle"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
