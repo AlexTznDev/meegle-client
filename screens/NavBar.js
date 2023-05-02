@@ -25,7 +25,7 @@ const NavBar = () => {
 
   return (
     <>
-      {isActiveNavigate !== "CreateMain" ? (
+      {isActiveNavigate !== "CreateMain" && isActiveNavigate !== "SignIn" && isActiveNavigate !== "Login" ? (
         <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
           <BtnAmisAndDate />
 
@@ -42,7 +42,12 @@ const NavBar = () => {
               alignItems: "center",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={()=>{
+              dispatch(setIsActiveNavigate("SignIn"));
+                navigation.navigate("SignIn");
+            }}
+            >
               <Image
                 style={{
                   width: 25,

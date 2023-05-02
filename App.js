@@ -15,6 +15,7 @@ import FindEventMain from "./screens/mainComponent/FindEventMain";
 import CreateMain from "./screens/mainComponent/CreateMain";
 import EventInfo from "./screens/EventInfo";
 import ChatMain from "./screens/mainComponent/ChatMain";
+import SignIn from "./screens/auth/SignIn"
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -41,6 +42,16 @@ export default function App() {
             
 
             <Stack.Navigator>
+
+            <Stack.Screen
+                name="SignIn"
+                component={SignIn}
+                options={{
+                  headerShown: false,
+                  animationEnabled: false,
+                }}
+              />
+            
               <Stack.Screen
                 name="ProfilMain"
                 component={ProfilMain}
