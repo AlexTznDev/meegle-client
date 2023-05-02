@@ -3,6 +3,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignIn from "../../screens/auth/SignIn"
 import SignUp from "../../screens/auth/SignUp"
+import UserNameChoose from "../../screens/auth/UserNameChoose"
 const AuthMain = () => {
   const Stack = createStackNavigator();
 
@@ -20,6 +21,14 @@ const AuthMain = () => {
         <Stack.Screen
           name="SignUp"
           component={SignUp}
+          options={{
+            headerShown: false,
+            animationEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="UserNameChoose"
+          component={UserNameChoose}
           options={{
             headerShown: false,
             animationEnabled: true,

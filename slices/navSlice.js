@@ -37,6 +37,7 @@ const initialState = {
   timeEvent: null,
   dateEvent: null,
   ListFriendAdded: [],
+  firstTimeUser: true
 };
 
 //preparation du reducer grace a action
@@ -89,6 +90,10 @@ export const navSlice = createSlice({
         (friend) => friend._id !== action.payload._id
       );
     },
+    SetfirstTimeUser: (state, action) => {
+      state.firstTimeUser = action.payload;
+    },
+  
   },
 });
 
@@ -107,7 +112,8 @@ export const {
   setTimeEvent,
   setDateEvent,
   addFriend,
-  removeFriend
+  removeFriend,
+  SetfirstTimeUser
 } = navSlice.actions;
 
 //selector pour recupere la data
@@ -125,5 +131,6 @@ export const selectIsBtnAmisAndDateOn = (state) => state.nav.isBtnAmisAndDateOn;
 export const selectTimeEvent = (state) => state.nav.timeEvent;
 export const selectDateEvent = (state) => state.nav.dateEvent;
 export const SelectListFriendAdded = (state) => state.nav.ListFriendAdded;
+export const SelectfirstTimeUser = (state) => state.nav.firstTimeUser;
 
 export default navSlice.reducer;

@@ -1,6 +1,4 @@
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { setIsActiveNavigate } from "../../slices/navSlice.js";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -18,6 +16,13 @@ import { TextInput } from "react-native-gesture-handler";
 import { CLIENT_ID_GOOGLE } from "@env";
 import { IOS_CLIENT_ID } from "@env";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIsActiveNavigate,
+  SelectfirstTimeUser,
+  SetfirstTimeUser,
+} from "../../slices/navSlice.js";
+
 //! 3 keys to change on .ENV
 
 WebBrowser.maybeCompleteAuthSession();
@@ -25,8 +30,8 @@ WebBrowser.maybeCompleteAuthSession();
 const SignUp = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch(); //! modification etat avec redux
+  const isFirstTimeUser = useSelector(SelectfirstTimeUser);
 
-//   const [accessToken, setAccesToken] = useState(null);
   const [user, setUser] = useState(null);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: CLIENT_ID_GOOGLE,
@@ -43,7 +48,7 @@ const SignUp = () => {
 
       const credential = GoogleAuthProvider.credential(idToken, accessToken);
       signInWithGoogle(credential);
-    //   setAccesToken(accessToken);
+
     }
   }, [response]);
 
@@ -157,7 +162,7 @@ const SignUp = () => {
                 left: 20,
               }}
             >
-              Sign In to your Account
+              Create Account
             </Text>
           </View>
           <View
@@ -275,7 +280,7 @@ const SignUp = () => {
                       color: "#000000",
                     }}
                   >
-                    Sign in with Google
+                    Sign up with Google
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -291,15 +296,15 @@ const SignUp = () => {
                 }}
               >
                 <View style={{ flexDirection: "row" }}>
-                  <Text>Dont't have an account?</Text>
+                  <Text>Already have an account?</Text>
 
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.navigate("SignUp");
+                      navigation.navigate("SignIn");
                     }}
                   >
                     <Text style={{ color: "#FFB25F", marginLeft: 10 }}>
-                      Sign up
+                      Sign in
                     </Text>
                   </TouchableOpacity>
                 </View>
