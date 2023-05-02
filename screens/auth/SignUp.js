@@ -6,9 +6,6 @@ import React, { useEffect, useState } from "react";
 
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { CLIENT_ID_GOOGLE } from "@env";
-import { IOS_CLIENT_ID } from "@env";
-
 
 import { auth } from "../../firebase";
 
@@ -18,16 +15,18 @@ import {
   signInWithCredential,
 } from "@firebase/auth";
 import { TextInput } from "react-native-gesture-handler";
+import { CLIENT_ID_GOOGLE } from "@env";
+import { IOS_CLIENT_ID } from "@env";
 
 //! 3 keys to change on .ENV
 
 WebBrowser.maybeCompleteAuthSession();
 
-const SignIn = () => {
+const SignUp = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch(); //! modification etat avec redux
 
-  // const [accessToken, setAccesToken] = useState(null);
+//   const [accessToken, setAccesToken] = useState(null);
   const [user, setUser] = useState(null);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: CLIENT_ID_GOOGLE,
@@ -43,10 +42,8 @@ const SignIn = () => {
       const { idToken, accessToken } = response.authentication;
 
       const credential = GoogleAuthProvider.credential(idToken, accessToken);
-
       signInWithGoogle(credential);
-
-      // setAccesToken(accessToken);
+    //   setAccesToken(accessToken);
     }
   }, [response]);
 
@@ -297,9 +294,9 @@ const SignIn = () => {
                   <Text>Dont't have an account?</Text>
 
                   <TouchableOpacity
-              onPress={() => {
-                  navigation.navigate("SignUp")
-                  }}
+                    onPress={() => {
+                      navigation.navigate("SignUp");
+                    }}
                   >
                     <Text style={{ color: "#FFB25F", marginLeft: 10 }}>
                       Sign up
@@ -315,7 +312,7 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
 
 const styles = StyleSheet.create({
   container: {
