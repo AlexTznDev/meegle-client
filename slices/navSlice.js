@@ -92,7 +92,7 @@ export const navSlice = createSlice({
     },
     SetfirstTimeUser: (state, action) => {
       state.firstTimeUser = action.payload;
-    },
+    }
   
   },
 });

@@ -7,6 +7,8 @@ import * as Google from "expo-auth-session/providers/google";
 
 import { auth } from "../../firebase";
 
+import axios from "axios";
+
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -33,6 +35,8 @@ const SignUp = () => {
   const isFirstTimeUser = useSelector(SelectfirstTimeUser);
 
   const [user, setUser] = useState(null);
+  const [alreadySignUp, setalreadySignUp] = useState(false);
+
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: CLIENT_ID_GOOGLE,
     iosClientId: IOS_CLIENT_ID,
@@ -43,25 +47,59 @@ const SignUp = () => {
   };
 
   useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
     if (response?.type === "success" && response?.authentication) {
       const { idToken, accessToken } = response.authentication;
-
       const credential = GoogleAuthProvider.credential(idToken, accessToken);
       signInWithGoogle(credential);
-
     }
   }, [response]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log(user);
+      if (user) {
+        try {
+          const response = await axios.post(
+            "http://localhost:5005/api/auth/signup",
+            {
+              email: user.email,
+              firebaseUid: user.uid,
+            }
+          );
+          if (response.data.userExists) {
+            console.log("User already exists in the database.");
+            await auth.signOut()
+            setUser(null);
+            setalreadySignUp(true);
+          } else if (response.data.errorMessage) {
+            console.log(response.data.errorMessage);
+            setUser(null);
+          } else {
+            setUser(user);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
     });
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
+  const goToSignIn = () => {
+      navigation.navigate("SignIn");
+      setalreadySignUp(false);
+  };
+  
+
   const ShowUserInfo = () => {
-    if (user) {
+    if (user && !alreadySignUp) {
       return (
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -106,6 +144,33 @@ const SignUp = () => {
           </View>
         </View>
       );
+    } else {
+      return (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text>User alreadySignUp</Text>
+          <TouchableOpacity
+            style={{
+              paddingTop: 15,
+              paddingBottom: 15,
+              backgroundColor: "#FFB25F",
+              borderRadius: 10,
+              width: 300,
+              justifyContent: "center",
+              alignItems: "center",
+
+            }}
+            onPress={goToSignIn}
+          >
+            <Text
+            style={{
+              color:"#fff"
+            }}
+            >Go sign in</Text>
+          </TouchableOpacity>
+        </View>
+      );
     }
   };
 
@@ -120,9 +185,9 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
-      {user && <ShowUserInfo />}
+      {(user || alreadySignUp) && <ShowUserInfo />}
 
-      {user === null && (
+      {user === null && !alreadySignUp && (
         <>
           <View
             style={{

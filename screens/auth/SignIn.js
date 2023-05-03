@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { useDispatch , use} from "react-redux";
 import { setIsActiveNavigate } from "../../slices/navSlice.js";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -26,6 +26,7 @@ WebBrowser.maybeCompleteAuthSession();
 const SignIn = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch(); //! modification etat avec redux
+  const selectUser = use
 
   // const [accessToken, setAccesToken] = useState(null);
   const [user, setUser] = useState(null);
