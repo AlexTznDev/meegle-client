@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigation } from "@react-navigation/native";
 import BtnAmisAndDate from "./BtnAmisAndDate";
 
@@ -7,7 +7,6 @@ import BtnAmisAndDate from "./BtnAmisAndDate";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  selectIsActiveNavigate,
   setEventStep,
   setImageEvent,
   setIsImageFromAppli,
@@ -16,6 +15,7 @@ import {
   setIsBtnAmisAndDateOn,
   setTimeEvent,
   setDateEvent,
+  selectIsActiveNavigate
 } from "../slices/navSlice";
 
 const NavBar = () => {
@@ -23,9 +23,11 @@ const NavBar = () => {
   const navigation = useNavigation();
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
 
+
+
   return (
-    <>
-      {isActiveNavigate !== "CreateMain" && isActiveNavigate !== "SignIn" && isActiveNavigate !== "Login" ? (
+  
+      
         <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
           <BtnAmisAndDate />
 
@@ -42,12 +44,7 @@ const NavBar = () => {
               alignItems: "center",
             }}
           >
-            <TouchableOpacity
-            onPress={()=>{
-              dispatch(setIsActiveNavigate("SignIn"));
-                navigation.navigate("SignIn");
-            }}
-            >
+            <TouchableOpacity>
               <Image
                 style={{
                   width: 25,
@@ -163,8 +160,7 @@ const NavBar = () => {
             </TouchableOpacity>
           </View>
         </View>
-      ) : null}
-    </>
+
   );
 };
 

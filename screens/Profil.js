@@ -8,14 +8,19 @@ import {
 } from "react-native";
 import React from "react";
 
+import useAuth from "../hooks/useAuth";
+
+import { useNavigation } from "@react-navigation/native";
+
 const Profil = () => {
+  const { user, signOut } = useAuth(); //! context auth
+  const navigation = useNavigation();
   return (
     <SafeAreaView
       style={{
         backgroundColor: "#1D2328",
         color: "#fff",
         borderBottomRightRadius: 37,
-      
       }}
     >
       <View
@@ -44,7 +49,8 @@ const Profil = () => {
               height: 60,
               borderRadius: 30,
             }}
-            source={require("../assets/moi.jpg")}
+            source={{ uri: user.photoURL }}
+            // source={require("../assets/moi.jpg")}
           />
 
           <View>
@@ -77,6 +83,10 @@ const Profil = () => {
             <Text>Edit profil</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => {
+              signOut(), 
+              navigation.navigate("AuthMain");
+            }}
             style={{
               width: 150,
               paddingTop: 10,

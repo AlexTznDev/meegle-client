@@ -18,7 +18,7 @@ const initialState = {
   },
   destination: null,
   travelTimeInformation: null,
-  isActiveNavigate: "Profil",
+  isActiveNavigate: "AuthMain",
   ImageAppli: [
     BeachVolley,
     BeachFriend,

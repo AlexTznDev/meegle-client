@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  StatusBar,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { StatusBar } from "react-native";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
@@ -20,24 +14,15 @@ import StackNavigator from "./screens/StackNavigator";
 
 export default function App() {
   return (
-    
-      <NavigationContainer>
-        <SafeAreaProvider>
-          <Provider store={store}>
-            <StatusBar backgroundColor="#ff0000" barStyle="light-content" />
-            <AuthProvider>
-              <StackNavigator/>
-            </AuthProvider>
-          </Provider>
-        </SafeAreaProvider>
-      </NavigationContainer>
-    
+    <NavigationContainer>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <StatusBar backgroundColor="#ff0000" barStyle="light-content" />
+          <AuthProvider>
+            <StackNavigator />
+          </AuthProvider>
+        </Provider>
+      </SafeAreaProvider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F5F5F5",
-  },
-});

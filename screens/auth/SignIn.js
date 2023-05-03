@@ -8,75 +8,27 @@ import { setIsActiveNavigate } from "../../slices/navSlice";
 import useAuth from "../../hooks/useAuth";
 
 const SignIn = () => {
-  const { user, googleSignInRequest, request, signOut } = useAuth();
+  const { user, googleSignInRequest, request } = useAuth();//! context auth
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+
   useEffect(() => {
-    console.log(user)
-  
- 
+    ShowUserInfo()
+    if(user !== null){
+      dispatch(setIsActiveNavigate("Profil"))
+    }
   }, [user]);
 
+
   const ShowUserInfo = () => {
-    if (user) {
-      return (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text>Welcome</Text>
-          <Image
-            source={{ uri: user.photoURL }}
-            style={{ width: 100, height: 100, borderRadius: 50 }}
-          ></Image>
-          <Text>{user.displayName}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              signOut();
-            }}
-          >
-            <View
-              style={{
-                marginTop: 20,
-                paddingTop: 15,
-                paddingBottom: 15,
-                backgroundColor: "#FFB25F",
-                borderRadius: 10,
-                width: 200,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  color: "#fff",
-                }}
-              >
-                Sign Out
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("ProfilMain"),
-                  dispatch(setIsActiveNavigate("Profil"));
-              }}
-            >
-              <Text>Profil page</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
+    navigation.navigate("ProfilMain");
   };
 
   return (
     <View style={styles.container}>
-      {user && <ShowUserInfo />}
-
-      {user === null && (
+     
         <>
           <View
             style={{
@@ -239,10 +191,6 @@ const SignIn = () => {
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("ProfilMain"),
-                    dispatch(setIsActiveNavigate("Profil"));
-                }}
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
@@ -266,7 +214,7 @@ const SignIn = () => {
             </View>
           </View>
         </>
-      )}
+      
     </View>
   );
 };
