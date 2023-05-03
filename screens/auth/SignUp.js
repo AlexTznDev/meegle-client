@@ -46,9 +46,7 @@ const SignUp = () => {
     await signInWithCredential(auth, credential);
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+
 
   useEffect(() => {
     if (response?.type === "success" && response?.authentication) {
@@ -60,7 +58,7 @@ const SignUp = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log(user);
+
       if (user) {
         try {
           const response = await axios.post(

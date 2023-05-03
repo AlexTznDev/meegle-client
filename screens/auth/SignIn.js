@@ -1,63 +1,23 @@
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch , use} from "react-redux";
-import { setIsActiveNavigate } from "../../slices/navSlice.js";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
-
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
-import { CLIENT_ID_GOOGLE } from "@env";
-import { IOS_CLIENT_ID } from "@env";
-
-
-import { auth } from "../../firebase";
-
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithCredential,
-} from "@firebase/auth";
 import { TextInput } from "react-native-gesture-handler";
+import React, { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { setIsActiveNavigate } from "../../slices/navSlice";
 
-//! 3 keys to change on .ENV
-
-WebBrowser.maybeCompleteAuthSession();
+import useAuth from "../../hooks/useAuth";
 
 const SignIn = () => {
+  const { user, googleSignInRequest, request, signOut } = useAuth();
+
   const navigation = useNavigation();
-  const dispatch = useDispatch(); //! modification etat avec redux
-  const selectUser = use
-
-  // const [accessToken, setAccesToken] = useState(null);
-  const [user, setUser] = useState(null);
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: CLIENT_ID_GOOGLE,
-    iosClientId: IOS_CLIENT_ID,
-  });
-
-  const signInWithGoogle = async (credential) => {
-    await signInWithCredential(auth, credential);
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (response?.type === "success" && response?.authentication) {
-      const { idToken, accessToken } = response.authentication;
-
-      const credential = GoogleAuthProvider.credential(idToken, accessToken);
-
-      signInWithGoogle(credential);
-
-      // setAccesToken(accessToken);
-    }
-  }, [response]);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-
-    return unsubscribe;
-  }, []);
+    console.log(user)
+  
+ 
+  }, [user]);
 
   const ShowUserInfo = () => {
     if (user) {
@@ -71,7 +31,11 @@ const SignIn = () => {
             style={{ width: 100, height: 100, borderRadius: 50 }}
           ></Image>
           <Text>{user.displayName}</Text>
-          <TouchableOpacity onPress={signOut}>
+          <TouchableOpacity
+            onPress={() => {
+              signOut();
+            }}
+          >
             <View
               style={{
                 marginTop: 20,
@@ -108,15 +72,6 @@ const SignIn = () => {
     }
   };
 
-  const signOut = async () => {
-    try {
-      await auth.signOut();
-      setUser(null);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <View style={styles.container}>
       {user && <ShowUserInfo />}
@@ -125,7 +80,7 @@ const SignIn = () => {
         <>
           <View
             style={{
-              height: "40%",
+              height: "45%",
               width: "100%",
               marginBottom: 50,
             }}
@@ -249,7 +204,7 @@ const SignIn = () => {
               <TouchableOpacity
                 disabled={!request}
                 onPress={() => {
-                  promptAsync();
+                  googleSignInRequest();
                 }}
               >
                 <View
@@ -298,9 +253,9 @@ const SignIn = () => {
                   <Text>Dont't have an account?</Text>
 
                   <TouchableOpacity
-              onPress={() => {
-                  navigation.navigate("SignUp")
-                  }}
+                    onPress={() => {
+                      navigation.navigate("SignUp");
+                    }}
                   >
                     <Text style={{ color: "#FFB25F", marginLeft: 10 }}>
                       Sign up
