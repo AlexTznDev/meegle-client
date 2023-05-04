@@ -20,6 +20,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isUserVerified, setisUserVerified] = useState(false);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: CLIENT_ID_GOOGLE,
     iosClientId: IOS_CLIENT_ID,
@@ -68,7 +69,10 @@ export const AuthProvider = ({ children }) => {
         user,
         request,
         googleSignInRequest,
-        signOut
+        signOut,
+        setUser,
+        setisUserVerified,
+        isUserVerified
       }}
     >
       {children}

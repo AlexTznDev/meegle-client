@@ -6,17 +6,38 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 
 import useAuth from "../hooks/useAuth";
 
 import { useNavigation } from "@react-navigation/native";
 
+import { setIsActiveNavigate } from "../slices/navSlice";
+import { useDispatch } from "react-redux";
+
 const Profil = () => {
-  const { user, signOut } = useAuth(); //! context auth
+  const { user, signOut , setUser} = useAuth(); //! context auth
   const navigation = useNavigation();
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    if (user === null) {
+      signOut();
+      dispatch(setIsActiveNavigate("AuthMain"))
+      navigation.navigate("AuthMain");
+      
+    }
+  }, [user, signOut, navigation]);
+
+
+
+
   return (
-    <SafeAreaView
+<>
+
+{user !== null ? 
+(<SafeAreaView
       style={{
         backgroundColor: "#1D2328",
         color: "#fff",
@@ -84,8 +105,7 @@ const Profil = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              signOut(), 
-              navigation.navigate("AuthMain");
+              setUser(null);
             }}
             style={{
               width: 150,
@@ -120,7 +140,11 @@ const Profil = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView>):(<View><Text>...is fetching</Text></View>)}
+
+</>
+
+
   );
 };
 

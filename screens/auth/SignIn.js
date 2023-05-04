@@ -8,19 +8,17 @@ import { setIsActiveNavigate } from "../../slices/navSlice";
 import useAuth from "../../hooks/useAuth";
 
 const SignIn = () => {
-  const { user, googleSignInRequest, request } = useAuth();//! context auth
+  const { user, googleSignInRequest, request } = useAuth(); //! context auth
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    ShowUserInfo()
-    if(user !== null){
-      dispatch(setIsActiveNavigate("Profil"))
+    ShowUserInfo();
+    if (user !== null) {
+      dispatch(setIsActiveNavigate("Profil"));
     }
   }, [user]);
-
 
   const ShowUserInfo = () => {
     navigation.navigate("ProfilMain");
@@ -28,69 +26,140 @@ const SignIn = () => {
 
   return (
     <View style={styles.container}>
-     
-        <>
-          <View
+      <>
+        <View
+          style={{
+            height: "45%",
+            width: "100%",
+            marginBottom: 50,
+          }}
+        >
+          <Image
+            source={require("../../assets/valenciaImg.png")}
             style={{
-              height: "45%",
               width: "100%",
-              marginBottom: 50,
+              height: "100%",
+            }}
+            resizeMode="cover"
+          />
+
+          <Image
+            style={{
+              width: 100,
+              height: 50,
+              left: "50%",
+              transform: [{ translateX: -50 }],
+              position: "absolute",
+              top: "20%",
+            }}
+            resizeMode="contain"
+            source={require("../../assets/Meegle.png")}
+          />
+          <Text
+            style={{
+              position: "absolute",
+              fontSize: 40,
+              color: "#fff",
+              fontWeight: "bold",
+              bottom: 40,
+              left: 20,
             }}
           >
-            <Image
-              source={require("../../assets/valenciaImg.png")}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-              resizeMode="cover"
-            />
-
-            <Image
-              style={{
-                width: 100,
-                height: 50,
-                left: "50%",
-                transform: [{ translateX: -50 }],
-                position: "absolute",
-                top: "20%",
-              }}
-              resizeMode="contain"
-              source={require("../../assets/Meegle.png")}
-            />
-            <Text
-              style={{
-                position: "absolute",
-                fontSize: 40,
-                color: "#fff",
-                fontWeight: "bold",
-                bottom: 40,
-                left: 20,
-              }}
-            >
-              Sign In to your Account
-            </Text>
-          </View>
+            Sign In to your Account
+          </Text>
+        </View>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            gap: 10,
+          }}
+        >
           <View
             style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
+              width: "90%",
               gap: 10,
             }}
           >
-            <View
+            <TextInput
+              placeholder="Email"
               style={{
-                width: "90%",
+                paddingTop: 15,
+                paddingBottom: 15,
+                paddingLeft: 20,
+                borderWidth: 0.5,
+                borderColor: "#00000070",
+                borderRadius: 10,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
                 gap: 10,
+                marginBottom: 3,
+              }}
+            ></TextInput>
+            <TextInput
+              secureTextEntry={true}
+              placeholder="Password"
+              style={{
+                paddingTop: 15,
+                paddingBottom: 15,
+                paddingLeft: 20,
+                borderWidth: 0.5,
+                borderColor: "#00000070",
+                borderRadius: 10,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
+                gap: 10,
+                marginBottom: 10,
+              }}
+            ></TextInput>
+
+            <TouchableOpacity
+              style={{
+                alignItems: "flex-end",
+                paddingBottom: 5,
               }}
             >
-              <TextInput
-                placeholder="Email"
+              <Text style={{ color: "#FFB25F" }}>Forgot Password?</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <View
                 style={{
                   paddingTop: 15,
                   paddingBottom: 15,
-                  paddingLeft: 20,
+                  backgroundColor: "#FFB25F",
+                  borderRadius: 10,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                  }}
+                >
+                  Login
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              disabled={!request}
+              onPress={() => {
+                googleSignInRequest();
+              }}
+            >
+              <View
+                style={{
+                  paddingTop: 15,
+                  paddingBottom: 15,
                   borderWidth: 0.5,
                   borderColor: "#00000070",
                   borderRadius: 10,
@@ -99,122 +168,54 @@ const SignIn = () => {
                   alignItems: "center",
                   flexDirection: "row",
                   gap: 10,
-                  marginBottom: 3,
-                }}
-              ></TextInput>
-              <TextInput
-                secureTextEntry={true}
-                placeholder="Password"
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 15,
-                  paddingLeft: 20,
-                  borderWidth: 0.5,
-                  borderColor: "#00000070",
-                  borderRadius: 10,
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  gap: 10,
-                  marginBottom: 10,
-                }}
-              ></TextInput>
-
-              <TouchableOpacity
-                style={{
-                  alignItems: "flex-end",
-                  paddingBottom: 5,
                 }}
               >
-                <Text style={{ color: "#FFB25F" }}>Forgot Password?</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <View
+                <Image
+                  source={require("../../assets/google.png")}
                   style={{
-                    paddingTop: 15,
-                    paddingBottom: 15,
-                    backgroundColor: "#FFB25F",
-                    borderRadius: 10,
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    gap: 10,
+                    width: 20,
+                    height: 20,
+                  }}
+                  resizeMode="contain"
+                />
+                <Text
+                  style={{
+                    color: "#000000",
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "#fff",
-                    }}
-                  >
-                    Login
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                disabled={!request}
-                onPress={() => {
-                  googleSignInRequest();
-                }}
-              >
-                <View
-                  style={{
-                    paddingTop: 15,
-                    paddingBottom: 15,
-                    borderWidth: 0.5,
-                    borderColor: "#00000070",
-                    borderRadius: 10,
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    gap: 10,
+                  Sign in with Google
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setIsActiveNavigate("SignUp"));
+                navigation.navigate("SignUp");
+              }}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 30,
+              }}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <Text>Dont't have an account?</Text>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(setIsActiveNavigate("SignUp"));
+                    navigation.navigate("SignUp");
                   }}
                 >
-                  <Image
-                    source={require("../../assets/google.png")}
-                    style={{
-                      width: 20,
-                      height: 20,
-                    }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      color: "#000000",
-                    }}
-                  >
-                    Sign in with Google
+                  <Text style={{ color: "#FFB25F", marginLeft: 10 }}>
+                    Sign up
                   </Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: 30,
-                }}
-              >
-                <View style={{ flexDirection: "row" }}>
-                  <Text>Dont't have an account?</Text>
-
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("SignUp");
-                    }}
-                  >
-                    <Text style={{ color: "#FFB25F", marginLeft: 10 }}>
-                      Sign up
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </TouchableOpacity>
-            </View>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
           </View>
-        </>
-      
+        </View>
+      </>
     </View>
   );
 };

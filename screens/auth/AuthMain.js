@@ -4,12 +4,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SignIn from "../../screens/auth/SignIn"
 import SignUp from "../../screens/auth/SignUp"
 import UserNameChoose from "../../screens/auth/UserNameChoose"
+import GenreChoose from "./GenreChoose";
+import PictureChoose from "./PictureChoose";
 const AuthMain = () => {
   const Stack = createStackNavigator();
 
   return (
     <>
       <Stack.Navigator>
+      
         <Stack.Screen
           name="SignIn"
           component={SignIn}
@@ -34,6 +37,23 @@ const AuthMain = () => {
             animationEnabled: true,
           }}
         />
+        <Stack.Screen
+          name="GenreChoose"
+          component={GenreChoose}
+          options={{
+            headerShown: false,
+            animationEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="PictureChoose"
+          component={PictureChoose}
+          options={{
+            headerShown: false,
+            animationEnabled: true,
+          }}
+        />
+
       </Stack.Navigator>
     </>
   );

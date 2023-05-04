@@ -51,7 +51,7 @@ const NavBar = () => {
                   height: 25,
                 }}
                 resizeMode="contain"
-                source={require("../assets/chat.png")}
+                source={require("../assets/home.png")}
               />
             </TouchableOpacity>
             <TouchableOpacity

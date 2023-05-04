@@ -25,16 +25,17 @@ import {
   SetfirstTimeUser,
 } from "../../slices/navSlice.js";
 
-//! 3 keys to change on .ENV
+import useAuth from "../../hooks/useAuth";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const SignUp = () => {
   const navigation = useNavigation();
+
   const dispatch = useDispatch(); //! modification etat avec redux
   const isFirstTimeUser = useSelector(SelectfirstTimeUser);
-
-  const [user, setUser] = useState(null);
+  const [isFetching, setisFetching] = useState(false);
+  const { user, setUser, setisUserVerified } = useAuth(); //! context auth
   const [alreadySignUp, setalreadySignUp] = useState(false);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
@@ -43,153 +44,74 @@ const SignUp = () => {
   });
 
   const signInWithGoogle = async (credential) => {
+    console.log(`sign in with google:  ${isFetching}`);
     await signInWithCredential(auth, credential);
   };
-
-
 
   useEffect(() => {
     if (response?.type === "success" && response?.authentication) {
       const { idToken, accessToken } = response.authentication;
       const credential = GoogleAuthProvider.credential(idToken, accessToken);
+      console.log(`etape with succes:  ${isFetching}`);
+      setisFetching(true);
       signInWithGoogle(credential);
     }
   }, [response]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
         try {
           const response = await axios.post(
             "http://localhost:5005/api/auth/signup",
             {
-              email: user.email,
-              firebaseUid: user.uid,
+              email: firebaseUser.email,
+              firebaseUid: firebaseUser.uid,
             }
           );
           if (response.data.userExists) {
             console.log("User already exists in the database.");
-            await auth.signOut()
+            await auth.signOut();
+            setisFetching(false);
             setUser(null);
             setalreadySignUp(true);
+            setisUserVerified(false); 
+            return;
           } else if (response.data.errorMessage) {
             console.log(response.data.errorMessage);
+            setisFetching(false);
             setUser(null);
+            setisUserVerified(false); 
           } else {
-            setUser(user);
+            setisFetching(false);
+            setUser(firebaseUser);
+            setisUserVerified(true);
+            dispatch(setIsActiveNavigate("UserNameChoose"))
+            navigation.navigate("UserNameChoose") 
           }
         } catch (error) {
           console.error(error);
         }
       }
     });
-
     return () => {
       unsubscribe();
     };
   }, []);
 
-  const goToSignIn = () => {
-      navigation.navigate("SignIn");
-      setalreadySignUp(false);
-  };
-  
-
-  const ShowUserInfo = () => {
-    if (user && !alreadySignUp) {
-      return (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text>Welcome</Text>
-          <Image
-            source={{ uri: user.photoURL }}
-            style={{ width: 100, height: 100, borderRadius: 50 }}
-          ></Image>
-          <Text>{user.displayName}</Text>
-          <TouchableOpacity onPress={signOut}>
-            <View
-              style={{
-                marginTop: 20,
-                paddingTop: 15,
-                paddingBottom: 15,
-                backgroundColor: "#FFB25F",
-                borderRadius: 10,
-                width: 200,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  color: "#fff",
-                }}
-              >
-                Sign Out
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("ProfilMain"),
-                  dispatch(setIsActiveNavigate("Profil"));
-              }}
-            >
-              <Text>Profil page</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    } else {
-      return (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text>User alreadySignUp</Text>
-          <TouchableOpacity
-            style={{
-              paddingTop: 15,
-              paddingBottom: 15,
-              backgroundColor: "#FFB25F",
-              borderRadius: 10,
-              width: 300,
-              justifyContent: "center",
-              alignItems: "center",
-
-            }}
-            onPress={goToSignIn}
-          >
-            <Text
-            style={{
-              color:"#fff"
-            }}
-            >Go sign in</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-  };
-
-  const signOut = async () => {
-    try {
-      await auth.signOut();
-      setUser(null);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if (isFetching) {
+    <View>
+      <Text>...isFetching</Text>
+    </View>;
+  }
 
   return (
     <View style={styles.container}>
-      {(user || alreadySignUp) && <ShowUserInfo />}
-
-      {user === null && !alreadySignUp && (
+      {!isFetching && !user && (
         <>
           <View
             style={{
-              height: "40%",
+              height: "45%",
               width: "100%",
               marginBottom: 50,
             }}
@@ -349,8 +271,8 @@ const SignUp = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("ProfilMain"),
-                    dispatch(setIsActiveNavigate("Profil"));
+                  dispatch(setIsActiveNavigate("AuthMain"));
+                  navigation.navigate("SignIn");
                 }}
                 style={{
                   justifyContent: "center",
@@ -359,16 +281,29 @@ const SignUp = () => {
                 }}
               >
                 <View style={{ flexDirection: "row" }}>
-                  <Text>Already have an account?</Text>
+                  {alreadySignUp ? (
+                    <Text style={{ color: "red" }}>
+                      Already have an account:
+                    </Text>
+                  ) : (
+                    <Text> Already have an account?</Text>
+                  )}
 
                   <TouchableOpacity
                     onPress={() => {
+                      dispatch(setIsActiveNavigate("AuthMain"));
                       navigation.navigate("SignIn");
                     }}
                   >
-                    <Text style={{ color: "#FFB25F", marginLeft: 10 }}>
-                      Sign in
-                    </Text>
+                    {alreadySignUp ? (
+                      <Text style={{ color: "red", marginLeft: 10 }}>
+                        Sign in
+                      </Text>
+                    ) : (
+                      <Text style={{ color: "#FFB25F", marginLeft: 10 }}>
+                        Sign in
+                      </Text>
+                    )}
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>

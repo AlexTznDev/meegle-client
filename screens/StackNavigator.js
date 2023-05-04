@@ -9,7 +9,7 @@ import ChatMain from "../screens/mainComponent/ChatMain";
 import AuthMain from "../screens/auth/AuthMain";
 import NavBar from "../screens/NavBar";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { selectIsActiveNavigate } from "../slices/navSlice";
 
@@ -19,15 +19,15 @@ import useAuth from "../hooks/useAuth";
 
 const Stack = createStackNavigator();
 const StackNavigator = () => {
-  const { user } = useAuth(); //! context auth
+
+
+  const { user, isUserVerified } = useAuth(); //! context auth // a revoir pour eviter le bug au sign up
+
+
   const [VisibleNavBar, setVisibleNavBar] = useState(false);
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
 
   useEffect(() => {
-
-    console.log(VisibleNavBar)
-    console.log(isActiveNavigate)
-
     if (isActiveNavigate === "Profil") {
       setVisibleNavBar(true);
     }
@@ -46,74 +46,70 @@ const StackNavigator = () => {
     if (isActiveNavigate === "AuthMain") {
       setVisibleNavBar(false);
     }
+    if (isActiveNavigate === "SignUp") {
+      setVisibleNavBar(false);
+    }
+    if (isActiveNavigate === "UserNameChoose") {
+      setVisibleNavBar(false);
+    }
+    if (isActiveNavigate === "GenreChoose") {
+      setVisibleNavBar(false);
+    }
   }, [isActiveNavigate]);
 
   return (
     <View style={styles.container}>
       <Stack.Navigator>
-        {!user ? (
-          <>
-            <Stack.Screen
-              name="AuthMain"
-              component={AuthMain}
-              options={{
-                headerShown: false,
-                animationEnabled: false,
-              }}
-            />
-            <Stack.Screen
-              name="ProfilMain"
-              component={ProfilMain}
-              options={({ route }) => ({
-                headerShown: false,
-                animationEnabled: route.params?.shouldAnimate || false,
-              })}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="ProfilMain"
-              component={ProfilMain}
-              options={({ route }) => ({
-                headerShown: false,
-                animationEnabled: route.params?.shouldAnimate || false,
-              })}
-            />
-            <Stack.Screen
-              name="FindEventMain"
-              component={FindEventMain}
-              options={{
-                headerShown: false,
-                animationEnabled: false,
-              }}
-            />
-            <Stack.Screen
-              name="CreateMain"
-              component={CreateMain}
-              options={{
-                headerShown: false,
-                animationEnabled: false,
-              }}
-            />
-            <Stack.Screen
-              name="EventInfo"
-              component={EventInfo}
-              options={{
-                headerShown: false,
-                animationEnabled: true,
-              }}
-            />
-            <Stack.Screen
-              name="ChatMain"
-              component={ChatMain}
-              options={{
-                headerShown: false,
-                animationEnabled: false,
-              }}
-            />
-          </>
-        )}
+      
+        <Stack.Screen
+          name="AuthMain"
+          component={AuthMain}
+          options={{
+            headerShown: false,
+            animationEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfilMain"
+          component={ProfilMain}
+          options={({ route }) => ({
+            headerShown: false,
+            animationEnabled: route.params?.shouldAnimate || false,
+          })}
+        />
+
+        <Stack.Screen
+          name="FindEventMain"
+          component={FindEventMain}
+          options={{
+            headerShown: false,
+            animationEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="CreateMain"
+          component={CreateMain}
+          options={{
+            headerShown: false,
+            animationEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="EventInfo"
+          component={EventInfo}
+          options={{
+            headerShown: false,
+            animationEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="ChatMain"
+          component={ChatMain}
+          options={{
+            headerShown: false,
+            animationEnabled: false,
+          }}
+        />
       </Stack.Navigator>
 
       {VisibleNavBar && <NavBar />}

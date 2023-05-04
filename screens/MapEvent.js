@@ -14,6 +14,7 @@ import {
   setOrigin,
   setDestination,
   selectOrigin,
+  setIsActiveNavigate,
 } from "../slices/navSlice";
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -50,7 +51,6 @@ const MapEvent = () => {
 
   useEffect(() => {
     if (mapRef.current) {
-    
       mapRef.current.animateToRegion({
         latitude: origin.location.lat,
         longitude: origin.location.lng,
@@ -110,6 +110,7 @@ const MapEvent = () => {
         style={[styles.btn, { position: "absolute", bottom: "15%" }]}
         onPress={() => {
           CreateEvent();
+          dispatch(setIsActiveNavigate("Profil"));
           navigation.navigate("ProfilMain");
         }}
       >

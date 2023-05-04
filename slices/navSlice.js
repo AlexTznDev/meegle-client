@@ -37,7 +37,9 @@ const initialState = {
   timeEvent: null,
   dateEvent: null,
   ListFriendAdded: [],
-  firstTimeUser: true
+  firstTimeUser: true,
+  Username: "",
+  Gender: null
 };
 
 //preparation du reducer grace a action
@@ -92,6 +94,12 @@ export const navSlice = createSlice({
     },
     SetfirstTimeUser: (state, action) => {
       state.firstTimeUser = action.payload;
+    },
+    SetUsername: (state, action) => {
+      state.Username = action.payload;
+    },
+    SetGender: (state, action) => {
+      state.Gender = action.payload;
     }
   
   },
@@ -113,7 +121,9 @@ export const {
   setDateEvent,
   addFriend,
   removeFriend,
-  SetfirstTimeUser
+  SetfirstTimeUser,
+  SetUsername,
+  SetGender
 } = navSlice.actions;
 
 //selector pour recupere la data
@@ -132,5 +142,7 @@ export const selectTimeEvent = (state) => state.nav.timeEvent;
 export const selectDateEvent = (state) => state.nav.dateEvent;
 export const SelectListFriendAdded = (state) => state.nav.ListFriendAdded;
 export const SelectfirstTimeUser = (state) => state.nav.firstTimeUser;
+export const SelectUsername = (state) => state.nav.Username;
+export const SelectGender = (state) => state.nav.Gender;
 
 export default navSlice.reducer;
