@@ -13,16 +13,20 @@ const SignIn = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    ShowUserInfo();
-    if (user !== null) {
-      dispatch(setIsActiveNavigate("Profil"));
-    }
-  }, [user]);
 
-  const ShowUserInfo = () => {
-    navigation.navigate("ProfilMain");
-  };
+
+
+
+  // useEffect(() => {
+  //   ShowUserInfo();
+  //   if (user !== null) {
+  //     dispatch(setIsActiveNavigate("Profil"));
+  //   }
+  // }, [user]);
+
+  // const ShowUserInfo = () => {
+  //   navigation.navigate("ProfilMain");
+  // };
 
   return (
     <View style={styles.container}>

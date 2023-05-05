@@ -14,14 +14,15 @@ const selectUsername = useSelector(SelectUsername)
 const {user} = useAuth()
 
 
-// const SubmitInformationDb = async() => {
-
+// const SubmitInformationDb = async () => {
 
 // try {
-    
+//   await 
+
 // } catch (error) {
-    
+  
 // }
+
 // }
 
 
@@ -32,7 +33,7 @@ const {user} = useAuth()
       <TouchableOpacity
       style={{marginTop:40}}
       onPress={()=>{
-        SubmitInformationDb
+        SubmitInformationDb()
       }}
       >
         <Text>valider</Text>

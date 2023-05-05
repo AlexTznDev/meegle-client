@@ -37,7 +37,6 @@ const initialState = {
   timeEvent: null,
   dateEvent: null,
   ListFriendAdded: [],
-  firstTimeUser: true,
   Username: "",
   Gender: null
 };
@@ -92,9 +91,6 @@ export const navSlice = createSlice({
         (friend) => friend._id !== action.payload._id
       );
     },
-    SetfirstTimeUser: (state, action) => {
-      state.firstTimeUser = action.payload;
-    },
     SetUsername: (state, action) => {
       state.Username = action.payload;
     },
@@ -121,7 +117,6 @@ export const {
   setDateEvent,
   addFriend,
   removeFriend,
-  SetfirstTimeUser,
   SetUsername,
   SetGender
 } = navSlice.actions;
@@ -141,7 +136,6 @@ export const selectIsBtnAmisAndDateOn = (state) => state.nav.isBtnAmisAndDateOn;
 export const selectTimeEvent = (state) => state.nav.timeEvent;
 export const selectDateEvent = (state) => state.nav.dateEvent;
 export const SelectListFriendAdded = (state) => state.nav.ListFriendAdded;
-export const SelectfirstTimeUser = (state) => state.nav.firstTimeUser;
 export const SelectUsername = (state) => state.nav.Username;
 export const SelectGender = (state) => state.nav.Gender;
 
