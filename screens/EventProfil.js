@@ -214,7 +214,7 @@ const EventProfil = () => {
                 borderRadius: 20,
               }}
               source={{
-                uri: "https://lacanausurfclub.com/wp-content/uploads/2020/08/Capture-d%E2%80%99e%CC%81cran-2020-08-11-a%CC%80-10.23.52.png",
+                uri: "https://www.vallparc.com/wp-content/uploads/2023/03/Los-5-mejores-sitios-para-aprender-padel-en-Barcelona.jpg",
               }}
             />
             <View

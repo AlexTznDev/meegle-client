@@ -4,26 +4,58 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import axios from "axios";
 
 
-import { SelectGender, SelectUsername } from "../../slices/navSlice";
-import { useSelector } from "react-redux";
+import { SelectGender, SelectUsername, setIsActiveNavigate } from "../../slices/navSlice";
+import { useSelector, useDispatch } from "react-redux";
 import useAuth from "../../hooks/useAuth";
+
+
+
 const PictureChoose = () => {
 
 const selectGender = useSelector(SelectGender)
 const selectUsername = useSelector(SelectUsername)
-const {user} = useAuth()
+const {authToken, setisEditStep, updateUserMongoDb} = useAuth()
+const dispatch = useDispatch()
 
 
-// const SubmitInformationDb = async () => {
+const submitInformationDb = async () => {
+  try {
+    
+    if (authToken) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authToken}`,
+        },
+      };
 
-// try {
-//   await 
+      const data = {
+        username: selectUsername,
+        gender: selectGender,
+      };
 
-// } catch (error) {
-  
-// }
+      const response = await axios.patch(
+        "http://localhost:5005/api/profil",
+        data,
+        config
+      );
 
-// }
+      if (response.status === 200) {
+        setisEditStep(false)
+        dispatch(setIsActiveNavigate("Profil"))
+        updateUserMongoDb();
+        console.log("The edit is OK");
+      } else {
+        console.log("There was an error updating the profile");
+      }
+    } else {
+      console.log("No token found");
+    }
+  } catch (error) {
+    console.error("Error updating profile:", error);
+  }
+};
+
 
 
   return (
@@ -33,7 +65,7 @@ const {user} = useAuth()
       <TouchableOpacity
       style={{marginTop:40}}
       onPress={()=>{
-        SubmitInformationDb()
+        submitInformationDb()
       }}
       >
         <Text>valider</Text>

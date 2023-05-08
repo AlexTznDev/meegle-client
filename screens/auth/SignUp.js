@@ -3,108 +3,32 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
 
-import { auth } from "../../firebase";
-
-import axios from "axios";
-
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithCredential,
-} from "@firebase/auth";
 import { TextInput } from "react-native-gesture-handler";
-import { CLIENT_ID_GOOGLE } from "@env";
-import { IOS_CLIENT_ID } from "@env";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setIsActiveNavigate } from "../../slices/navSlice.js";
-
 import useAuth from "../../hooks/useAuth";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const SignUp = () => {
+  const {
+    googleSignInRequest,
+    request,
+    setIsSignUp,
+    alreadySignUp,
+    setalreadySignUp,
+    
+  } = useAuth(); //! context auth
   const navigation = useNavigation();
 
   const dispatch = useDispatch(); //! modification etat avec redux
 
-  const [isFetching, setisFetching] = useState(false);
-  const { setUser, setisUserVerified } = useAuth(); //! context auth
-  const [alreadySignUp, setalreadySignUp] = useState(false);
-
-  useEffect(() => {
-    console.log(alreadySignUp);
-  }, [alreadySignUp]);
-
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: CLIENT_ID_GOOGLE,
-    iosClientId: IOS_CLIENT_ID,
-  });
-
-  const signInWithGoogle = async (credential) => {
-    await signInWithCredential(auth, credential);
+  const handleSignUp = () => {
+    setIsSignUp(true);
+    googleSignInRequest(); 
   };
-
-  useEffect(() => {
-    if (response?.type === "success" && response?.authentication) {
-      const { idToken, accessToken } = response.authentication;
-      const credential = GoogleAuthProvider.credential(idToken, accessToken);
-      setisFetching(true);
-      signInWithGoogle(credential);
-    }
-  }, [response]);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        try {
-          const response = await axios.post(
-            "http://localhost:5005/api/auth/signup",
-            {
-              firebaseToken: firebaseUser.stsTokenManager.accessToken,
-            }
-          );
-          const authToken = response.data.authToken;
-          const message = response.data.message;
-          console.log(authToken, message);
-
-          if (response.data.errorMessage === "Already registered") {
-            console.log(response.data.errorMessage);
-            setalreadySignUp(true);
-            setisFetching(false);
-            await auth.signOut();
-            
-            setUser(null);
-            
-          } else if (response.data.errorMessage === "Invalid token") {
-            console.log(response.data.errorMessage);
-            setisFetching(false);
-            setUser(null);
-            setisUserVerified(false);
-          } else {
-            setisFetching(false);
-            setUser(firebaseUser);
-            setisUserVerified(true);
-            dispatch(setIsActiveNavigate("UserNameChoose"));
-            navigation.navigate("UserNameChoose");
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  if (isFetching) {
-    <View>
-      <Text>...isFetching</Text>
-    </View>;
-  }
 
   return (
     <View style={styles.container}>
@@ -235,7 +159,7 @@ const SignUp = () => {
             <TouchableOpacity
               disabled={!request}
               onPress={() => {
-                promptAsync();
+                handleSignUp();
               }}
             >
               <View
@@ -272,6 +196,7 @@ const SignUp = () => {
             <TouchableOpacity
               onPress={() => {
                 dispatch(setIsActiveNavigate("AuthMain"));
+                setalreadySignUp(false);
                 navigation.navigate("SignIn");
               }}
               style={{

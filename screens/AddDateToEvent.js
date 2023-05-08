@@ -46,14 +46,14 @@ const AddDateToEvent = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       dispatch(setIsBtnAmisAndDateOn(true));
-      //   console.log("Le composant est maintenant focalisé");
+      
     });
     const subscribe = navigation.addListener("blur", () => {
       setTimeout(() => {
         dispatch(setIsBtnAmisAndDateOn(false));
       }, 270);
 
-      //   console.log("Le composant est maintenant defocalisé");
+      
     });
 
     return () => {

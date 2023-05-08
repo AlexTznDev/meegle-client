@@ -11,21 +11,25 @@ import NavBar from "../screens/NavBar";
 
 import { useSelector } from "react-redux";
 
-import { selectIsActiveNavigate } from "../slices/navSlice";
+import {
+  selectIsActiveNavigate,
+} from "../slices/navSlice";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
 import useAuth from "../hooks/useAuth";
 
 const Stack = createStackNavigator();
+
 const StackNavigator = () => {
-
-
-  const { user, isUserVerified } = useAuth(); //! context auth // a revoir pour eviter le bug au sign up
-
+  const { userDBMONGO, isEditStep } = useAuth(); //! context auth // a revoir pour eviter le bug au sign up
 
   const [VisibleNavBar, setVisibleNavBar] = useState(false);
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
+
+
+
+
 
   useEffect(() => {
     if (isActiveNavigate === "Profil") {
@@ -60,23 +64,25 @@ const StackNavigator = () => {
   return (
     <View style={styles.container}>
       <Stack.Navigator>
-      
-        <Stack.Screen
-          name="AuthMain"
-          component={AuthMain}
-          options={{
-            headerShown: false,
-            animationEnabled: false,
-          }}
-        />
-        <Stack.Screen
-          name="ProfilMain"
-          component={ProfilMain}
-          options={({ route }) => ({
-            headerShown: false,
-            animationEnabled: route.params?.shouldAnimate || false,
-          })}
-        />
+        {userDBMONGO && isEditStep === false ? (
+          <Stack.Screen
+            name="ProfilMain"
+            component={ProfilMain}
+            options={({ route }) => ({
+              headerShown: false,
+              animationEnabled: route.params?.shouldAnimate || false,
+            })}
+          />
+        ) : (
+          <Stack.Screen
+            name="AuthMain"
+            component={AuthMain}
+            options={{
+              headerShown: false,
+              animationEnabled: false,
+            }}
+          />
+        )}
 
         <Stack.Screen
           name="FindEventMain"

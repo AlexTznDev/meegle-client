@@ -16,27 +16,16 @@ import { setIsActiveNavigate } from "../slices/navSlice";
 import { useDispatch } from "react-redux";
 
 const Profil = () => {
-  const { user, signOut , setUser} = useAuth(); //! context auth
+  const { signOut , setUser, userDBMONGO, removeToken, setuserDBMONGO} = useAuth(); //! context auth
   const navigation = useNavigation();
   const dispatch = useDispatch()
-
-
-  useEffect(() => {
-    if (user === null) {
-      signOut();
-      dispatch(setIsActiveNavigate("AuthMain"))
-      navigation.navigate("AuthMain");
-      
-    }
-  }, [user, signOut, navigation]);
-
 
 
 
   return (
 <>
 
-{user !== null ? 
+{userDBMONGO !== null ? 
 (<SafeAreaView
       style={{
         backgroundColor: "#1D2328",
@@ -64,7 +53,7 @@ const Profil = () => {
             gap: 40,
           }}
         >
-          <Image
+          {/* <Image
             style={{
               width: 60,
               height: 60,
@@ -72,10 +61,10 @@ const Profil = () => {
             }}
             source={{ uri: user.photoURL }}
             // source={require("../assets/moi.jpg")}
-          />
+          /> */}
 
           <View>
-            <Text style={styles.h1}>Alex Tuysuzian</Text>
+            <Text style={styles.h1}>{userDBMONGO.username}</Text>
             <Text style={styles.h3}>Valencia, Alboraya</Text>
           </View>
         </View>
@@ -105,7 +94,12 @@ const Profil = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
+              removeToken();
+              signOut()
               setUser(null);
+              setuserDBMONGO(null)
+              dispatch(setIsActiveNavigate("AuthMain"))
+
             }}
             style={{
               width: 150,
@@ -119,7 +113,7 @@ const Profil = () => {
               borderRadius: 5,
             }}
           >
-            <Text style={styles.h3}>Find someone</Text>
+            <Text style={styles.h3}>log out</Text>
           </TouchableOpacity>
         </View>
 

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { setIsActiveNavigate } from "../../slices/navSlice";
@@ -8,25 +8,16 @@ import { setIsActiveNavigate } from "../../slices/navSlice";
 import useAuth from "../../hooks/useAuth";
 
 const SignIn = () => {
-  const { user, googleSignInRequest, request } = useAuth(); //! context auth
+
+  const { googleSignInRequest, request, setIsSignUp } = useAuth(); //! context auth
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-
-
-
-
-  // useEffect(() => {
-  //   ShowUserInfo();
-  //   if (user !== null) {
-  //     dispatch(setIsActiveNavigate("Profil"));
-  //   }
-  // }, [user]);
-
-  // const ShowUserInfo = () => {
-  //   navigation.navigate("ProfilMain");
-  // };
+  const handleSignIn = () => {
+    setIsSignUp(false);
+    googleSignInRequest();
+  };
 
   return (
     <View style={styles.container}>
@@ -157,7 +148,7 @@ const SignIn = () => {
             <TouchableOpacity
               disabled={!request}
               onPress={() => {
-                googleSignInRequest();
+                handleSignIn()
               }}
             >
               <View

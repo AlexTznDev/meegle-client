@@ -63,10 +63,10 @@ const MapEvent = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       dispatch(setIsBtnAmisAndDateOn(true));
-      //   console.log("Le composant est maintenant focalisé");
+      
     });
     const subscribe = navigation.addListener("blur", () => {
-      //   console.log("Le composant est maintenant defocalisé");
+      
       dispatch(setIsBtnAmisAndDateOn(false));
     });
 

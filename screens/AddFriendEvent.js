@@ -147,9 +147,7 @@ const AddFriendEvent = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(userToDisplay.length);
-  }, [userToDisplay]);
+
 
   const checkBoxImage = (id) => {
     if (addedFriendList.some((friend) => friend._id === id)) {
@@ -162,11 +160,11 @@ const AddFriendEvent = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       dispatch(setIsBtnAmisAndDateOn(true));
-      //   console.log("Le composant est maintenant focalisé");
+      
     });
     const subscribe = navigation.addListener("blur", () => {
       dispatch(setIsBtnAmisAndDateOn(false));
-      //   console.log("Le composant est maintenant defocalisé");
+      
     });
 
     return () => {
