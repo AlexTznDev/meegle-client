@@ -53,15 +53,15 @@ const Profil = () => {
             gap: 40,
           }}
         >
-          {/* <Image
+          <Image
             style={{
               width: 60,
               height: 60,
               borderRadius: 30,
             }}
-            source={{ uri: user.photoURL }}
-            // source={require("../assets/moi.jpg")}
-          /> */}
+            source={{ uri: userDBMONGO.imageProfile }}
+            
+          />
 
           <View>
             <Text style={styles.h1}>{userDBMONGO.username}</Text>
