@@ -183,10 +183,10 @@ const EventInfo = ({ navigation, route }) => {
                       <View
                         style={[
                           styles.ViewBtnAwesome,
-                          { borderColor: "#FFB25F" },
+                          { borderColor: "#70E000" },
                         ]}
                       >
-                        <Ionicons name="checkmark" size={25} color="#FFB25F" />
+                        <Ionicons name="checkmark" size={25} color="#70E000" />
                       </View>
                     </TouchableOpacity>
 
@@ -252,10 +252,10 @@ const EventInfo = ({ navigation, route }) => {
                       <View
                         style={[
                           styles.ViewBtnAwesome,
-                          { borderColor: "#FFB25F" },
+                          { borderColor: "#70E000" },
                         ]}
                       >
-                        <Ionicons name="checkmark" size={25} color="#FFB25F" />
+                        <Ionicons name="checkmark" size={25} color="#70E000" />
                       </View>
                     </TouchableOpacity>
 

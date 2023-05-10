@@ -130,7 +130,7 @@ const Profil = () => {
               height: 30,
             }}
             resizeMode="contain"
-            source={require("../assets/Meegle.png")}
+            source={require("../assets/Meegel.png")}
           />
         </View>
       </View>

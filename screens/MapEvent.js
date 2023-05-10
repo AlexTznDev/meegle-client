@@ -28,6 +28,8 @@ const MapEvent = () => {
   const origin = useSelector(selectOrigin);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
+
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -49,16 +51,7 @@ const MapEvent = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: origin.location.lat,
-        longitude: origin.location.lng,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    }
-  }, [origin]);
+ 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -106,7 +99,7 @@ const MapEvent = () => {
         )}
       </MapView>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.btn, { position: "absolute", bottom: "15%" }]}
         onPress={() => {
           CreateEvent();
@@ -115,11 +108,11 @@ const MapEvent = () => {
         }}
       >
         <Text style={{ color: "#fff", fontSize: 20 }}>Creer l'evenement</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <GooglePlacesAutocomplete
         styles={{
           container: {
-            flex: 0,
+            
             width: "90%",
             position: "absolute",
             top: "10%",
@@ -177,7 +170,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: "#FFB25F",
+    backgroundColor: "#70E000",
     borderRadius: 10,
   },
 });

@@ -14,10 +14,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import {
-  setIsBtnAmisAndDateOn,
+  
   addFriend,
   removeFriend,
   SelectListFriendAdded,
+  setIsBtnAmisAndDateOn
 } from "../slices/navSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -25,6 +26,7 @@ const AddFriendEvent = () => {
   const addedFriendList = useSelector(SelectListFriendAdded);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
 
   const [searchUser, setSearchUser] = useState("");
   const [userToDisplay, setUserToDisplay] = useState([]);
@@ -169,7 +171,9 @@ const AddFriendEvent = () => {
 
     return () => {
       // Nettoyez le listener lorsque le composant est démonté
+
       unsubscribe();
+
       subscribe();
     };
   }, [navigation]);
@@ -193,6 +197,7 @@ const AddFriendEvent = () => {
         ]}
         onPress={() => {
           console.log("amis ajouté");
+          dispatch(setIsBtnAmisAndDateOn(false))
           navigation.navigate("CreateEventLegende");
         }}
       >
@@ -464,7 +469,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: "#FFB25F",
+    backgroundColor: "#70E000",
     borderRadius: 10,
   },
 });

@@ -44,7 +44,7 @@ const UserNameChoose = () => {
         dispatch(SetUsername(handleChange))
       }}
         style={{
-          backgroundColor: "#FFB25F",
+          backgroundColor: "#70E000",
           width: "100%",
           padding: 10,
           borderRadius: 5,

@@ -46,6 +46,7 @@ const BtnAmisAndDate = () => {
     startAnimation();
   }, []);
 
+
   return (
     <>
       {EventStep === 1 && IsBtnAmisAndDateOn === false ? (

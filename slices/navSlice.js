@@ -1,12 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import BarCocktail from "../assets/BarCocktail.jpg";
-import BeachVolley from "../assets/Beach_voley.jpg";
-import BeachFriend from "../assets/Plage_Friend.jpg";
-import ConcertFestival from "../assets/Concert_Festival.jpg";
-import Padel from "../assets/padel.jpg";
-import GorgeMountain from "../assets/Gorge_mountain.jpg";
-import FootVolley from "../assets/foot_volley.jpg";
-import Randonnée from "../assets/rando.jpg";
+import PadleHortaNord from "../assets/padelHortaNord.jpeg";
+import TerrainBeterro from "../assets/terrainBetero.jpeg";
+import TuPadel from "../assets/TuPadel.jpg";
+import SevenPadel from "../assets/7padel.jpg";
+import TerrainMarxa from "../assets/terrainMarxa.jpeg";
+
 
 //initialisation etat
 const initialState = {
@@ -20,14 +18,46 @@ const initialState = {
   travelTimeInformation: null,
   isActiveNavigate: "AuthMain",
   ImageAppli: [
-    BeachVolley,
-    BeachFriend,
-    ConcertFestival,
-    BarCocktail,
-    Padel,
-    GorgeMountain,
-    FootVolley,
-    Randonnée,
+    {name:PadleHortaNord,
+    origin:{
+      location: {
+        lat: 39.4999571,
+        lng: -0.339315,
+      },
+    }},
+    {name:TerrainBeterro,
+    origin:{
+      location: {
+        lat: 39.4699075,
+        lng: -0.3762881,
+      },
+    }},
+    {name:TuPadel,
+    origin:{
+      location: {
+        lat: 39.4699075,
+        lng: -0.3762881,
+      },
+    }},
+    {name:SevenPadel,
+    origin:{
+      location: {
+        lat: 39.4699075,
+        lng: -0.3762881,
+      },
+    }},
+    {name:TerrainMarxa,
+    origin:{
+      location: {
+        lat: 39.4699075,
+        lng: -0.3762881,
+      },
+    }},
+    
+    
+    
+    
+    
   ],
   imageEvent: null,
   isImageFromAppli: true,

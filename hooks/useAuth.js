@@ -65,9 +65,7 @@ if(response.data){
 }
 
 
-  useEffect(() => {
-    console.log("useeffect auth ", authToken);
-  }, [authToken]);
+
 
   const googleSignInRequest = () => {
     promptAsync();

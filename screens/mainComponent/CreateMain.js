@@ -12,72 +12,49 @@ import { useSelector } from "react-redux";
 import { selectEventStep } from "../../slices/navSlice";
 import AddFriendEvent from "../AddFriendEvent";
 import AddDateToEvent from "../AddDateToEvent";
-
-
-
+import LocalizationCourtMain from "./LocalizationCourtMain";
 
 const CreateMain = () => {
   const eventStep = useSelector(selectEventStep);
   const Stack = createStackNavigator();
 
-  
+
 
   return (
     <>
       {eventStep === 0 && (
-        <SafeAreaView
+        <View
           style={{
             flex: 1,
             backgroundColor: "#222222",
           }}
         >
-          <CreateEvent />
-          <View
-            style={{
-              justifyContent: "center",
-            }}
-          >
-            <UploadImage />
-          </View>
-        </SafeAreaView>
+          <Stack.Navigator screenOptions={{ headerShown: false, animationEnabled: true }}>
+            <Stack.Screen name="CreateEvent" component={CreateEvent} />
+            <Stack.Screen
+              name="LocalizationCourtMain"
+              component={LocalizationCourtMain}
+            />
+          </Stack.Navigator>
+        </View>
       )}
       {eventStep === 1 && (
-
-          <Stack.Navigator>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          <Stack.Navigator screenOptions={{ headerShown: false, animationEnabled: true }}>
             <Stack.Screen
               name="CreateEventLegende"
               component={CreateEventLegende}
-              options={{
-                headerShown: false,
-                animationEnabled: true,
-              }}
             />
-            <Stack.Screen
-              name="AddFriendEvent"
-              component={AddFriendEvent}
-              options={{
-                headerShown: false,
-                animationEnabled: true,
-              }}
-            />
-            <Stack.Screen
-              name="AddDateToEvent"
-              component={AddDateToEvent}
-              options={{
-                headerShown: false,
-                animationEnabled: true,
-              }}
-            />
-            <Stack.Screen
-              name="MapEvent"
-              component={MapEvent}
-              options={{
-                headerShown: false,
-                animationEnabled: true,
-              }}
-            />
+            <Stack.Screen name="AddFriendEvent" component={AddFriendEvent} />
+            <Stack.Screen name="AddDateToEvent" component={AddDateToEvent} />
+            <Stack.Screen name="MapEvent" component={MapEvent} />
           </Stack.Navigator>
-        
+        </View>
       )}
     </>
   );

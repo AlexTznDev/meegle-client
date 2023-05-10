@@ -1,43 +1,55 @@
-import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  ScrollView,
+  SafeAreaView
+} from "react-native";
+import React, {useEffect} from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-
+import { Ionicons } from "@expo/vector-icons";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
+
 import {
-  selectImageEvent,
-  selectImage,
+  
   setIsActiveNavigate,
   setIsImageFromAppli,
   setEventStep,
   setImageEvent,
   setSelectImage,
-  selectImageAppli,
-  selectIsImageFromAppli,
+  selectImageAppli
+  
 } from "../slices/navSlice.js";
 
-
-
 const CreateEvent = () => {
-  const imageEvent = useSelector(selectImageEvent);
-  const SelectImage = useSelector(selectImage);
+ 
+  const ImageAppli = useSelector(selectImageAppli);
+
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const ImageAppli = useSelector(selectImageAppli);
-  const IsImageFromAppli = useSelector(selectIsImageFromAppli);
+
+
+
+
 
   return (
-    <View>
+    <SafeAreaView
+    style={{backgroundColor:"#222222"}}
+    >
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-around",
+          justifyContent: "flex-start",
           paddingTop: 10,
           paddingBottom: 20,
+          paddingLeft:20
         }}
       >
         <TouchableOpacity
@@ -61,18 +73,13 @@ const CreateEvent = () => {
         <Text
           style={{
             color: "#fff",
-            fontSize: 18,
-            transform: [{ translateX: 24 }],
+            fontSize: 20,
+            transform: [{ translateX: 100 }],
           }}
         >
-          Creer évenement
+          Padel court
         </Text>
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(setEventStep(1));
-            dispatch(setIsActiveNavigate("CreateMain2"));
-          }}
-        >
+        <TouchableOpacity>
           <Text
             style={{
               color: "#007BFF",
@@ -80,339 +87,476 @@ const CreateEvent = () => {
               transform: [{ translateX: 10 }],
             }}
           >
-            Suivant
+            
           </Text>
         </TouchableOpacity>
       </View>
 
-      <View
-        style={{
-          gap: 20,
-        }}
-      >
+      <ScrollView>
         <View
           style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {IsImageFromAppli ? (
-            <Image
-              source={ImageAppli[SelectImage]}
-              style={{ width: "80%", height: 300 }}
-            />
-          ) : (
-            <Image
-              source={{ uri: imageEvent }}
-              style={{ width: "80%", height: 300 }}
-            />
-          )}
-        </View>
-
-        <View
-          style={{
-            gap: 10,
+            gap: 20,
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#333333",
-            paddingTop: 10,
-            paddingBottom: 10,
-            marginTop: 20,
+            paddingBottom: 100,
           }}
         >
-          <View
-            style={{
-              width: "100%",
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setEventStep(1));
+              dispatch(setIsActiveNavigate("CreateMain2"));
+              dispatch(setSelectImage(0));
             }}
+            style={styles.ContainerLocationCard}
           >
-            <Text
-              style={{
-                color: "#fff",
-                fontSize: 14,
-                paddingLeft: 10,
-              }}
-            >
-              Image de notre bibliothéque
-            </Text>
-          </View>
+            <View style={styles.card}>
+              <Image
+                source={ImageAppli[0].name}
+                style={{ width: "40%", height: "100%", borderRadius: 10 }}
+              />
 
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 2,
-              alignContent: "center",
-              alignItems: "center",
+              <View
+                style={{
+                  flexShrink: 1,
+                  width: "60%",
+                }}
+              >
+                <Text
+                  style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+                >
+                  Padel Horta Nord
+                </Text>
+                <Text
+                  style={{
+                    color: "#ffffff50",
+                    fontSize: 15,
+                    fontWeight: "500",
+                    marginTop: 30,
+                  }}
+                >
+                  Alboraya
+                </Text>
+                <View style={styles.containerNote}>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 15,
+                    }}
+                  >
+                    4.1
+                  </Text>
+                  <View style={{ flexDirection: "row", gap: 3 }}>
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                  navigation.navigate("LocalizationCourtMain", {origin: ImageAppli[0]});                
+                }}
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    bottom: 0,
+                    padding: 10,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+
+                >
+                  <Ionicons
+                    name="ios-navigate-sharp"
+                    size={15}
+                    color="#007bff"
+                  />
+                  <Text style={{ color: "#007BFF" }}>Localisation</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setEventStep(1));
+              dispatch(setIsActiveNavigate("CreateMain2"));
+              dispatch(setSelectImage(1));
             }}
+            style={styles.ContainerLocationCard}
           >
-            <TouchableOpacity
-              onPress={() => {
-                dispatch(setSelectImage(0)),
-                  dispatch(setIsImageFromAppli(true));
-                dispatch(setImageEvent(null));
-              }}
-              style={styles.containerImgText}
-            >
-              <View
-                style={
-                  SelectImage === 0 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
+            <View style={styles.card}>
               <Image
-                source={require("../assets/Beach_voley.jpg")}
-                style={styles.imageSmall}
+                source={ImageAppli[1].name}
+                style={{ width: "40%", height: "100%", borderRadius: 10 }}
               />
-              <Text style={styles.textImage}>Beach volley</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.containerImgText}
-              onPress={() => {
-                dispatch(setSelectImage(1)),
-                  dispatch(setIsImageFromAppli(true)),
-                  dispatch(setImageEvent(null));
-              }}
-            >
               <View
-                style={
-                  SelectImage === 1 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
-              <Image
-                source={require("../assets/Plage_Friend.jpg")}
-                style={styles.imageSmall}
-              />
-              <Text style={styles.textImage}>Beach & Friend</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.containerImgText}
-              onPress={() => {
-                dispatch(setSelectImage(2)),
-                  dispatch(setIsImageFromAppli(true)),
-                  dispatch(setImageEvent(null));
-              }}
-            >
-              <View
-                style={
-                  SelectImage === 2 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
-              <Image
-                source={require("../assets/Concert_Festival.jpg")}
-                style={styles.imageSmall}
-              />
-              <Text style={styles.textImage}>Concert & Festival</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.containerImgText}
-              onPress={() => {
-                dispatch(setSelectImage(3)),
-                  dispatch(setIsImageFromAppli(true)),
-                  dispatch(setImageEvent(null));
-              }}
-            >
-              <View
-                style={
-                  SelectImage === 3 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
-              <Image
-                source={require("../assets/BarCocktail.jpg")}
-                style={styles.imageSmall}
-              />
-              <Text style={styles.textImage}>Bar & Cocktail</Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 2,
-              alignContent: "center",
-              alignItems: "center",
+                style={{
+                  flexShrink: 1,
+                  width: "60%",
+                }}
+              >
+                <Text
+                  style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+                >
+                  Polideportivo Virgen del Carmen
+                </Text>
+                <Text
+                  style={{
+                    color: "#ffffff50",
+                    fontSize: 15,
+                    fontWeight: "500",
+                    marginTop: 30,
+                  }}
+                >
+                  Betero
+                </Text>
+                <View style={styles.containerNote}>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 15,
+                    }}
+                  >
+                    4.5
+                  </Text>
+                  <View style={{ flexDirection: "row", gap: 3 }}>
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    bottom: 0,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <Ionicons
+                    name="ios-navigate-sharp"
+                    size={15}
+                    color="#007bff"
+                  />
+                  <Text style={{ color: "#007BFF" }}>Localisation</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setEventStep(1));
+              dispatch(setIsActiveNavigate("CreateMain2"));
+              dispatch(setSelectImage(2));
             }}
+            style={styles.ContainerLocationCard}
           >
-            <TouchableOpacity
-              style={styles.containerImgText}
-              onPress={() => {
-                dispatch(setSelectImage(4)),
-                  dispatch(setIsImageFromAppli(true)),
-                  dispatch(setImageEvent(null));
-              }}
-            >
-              <View
-                style={
-                  SelectImage === 4 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
+            <View style={styles.card}>
               <Image
-                source={require("../assets/padel.jpg")}
-                style={styles.imageSmall}
+                source={ImageAppli[2].name}
+                style={{ width: "40%", height: "100%", borderRadius: 10 }}
               />
-              <Text style={styles.textImage}>Padel</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.containerImgText}
-              onPress={() => {
-                dispatch(setSelectImage(5)),
-                  dispatch(setIsImageFromAppli(true)),
-                  dispatch(setImageEvent(null));
-              }}
-            >
-              <View
-                style={
-                  SelectImage === 5 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
+                            <View
+                style={{
+                  flexShrink: 1,
+                  width: "60%",
+                }}
+              >
+                <Text
+                  style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+                >
+                  Tu Padel
+                </Text>
+                <Text
+                  style={{
+                    color: "#ffffff50",
+                    fontSize: 15,
+                    fontWeight: "500",
+                    marginTop: 30,
+                  }}
+                >
+                  Vara de quart
+                </Text>
+                <View style={styles.containerNote}>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 15,
+                    }}
+                  >
+                    4.2
+                  </Text>
+                  <View style={{ flexDirection: "row", gap: 3 }}>
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    bottom: 0,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <Ionicons
+                    name="ios-navigate-sharp"
+                    size={15}
+                    color="#007bff"
+                  />
+                  <Text style={{ color: "#007BFF" }}>Localisation</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.ContainerLocationCard}>
+          <View style={styles.card}>
               <Image
-                source={require("../assets/Gorge_mountain.jpg")}
-                style={styles.imageSmall}
+                source={ImageAppli[3].name}
+                style={{ width: "40%", height: "100%", borderRadius: 10 }}
               />
-              <Text style={styles.textImage}>Gorge & Mountain</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.containerImgText}
-              onPress={() => {
-                dispatch(setSelectImage(6)),
-                  dispatch(setIsImageFromAppli(true)),
-                  dispatch(setImageEvent(null));
-              }}
-            >
-              <View
-                style={
-                  SelectImage === 6 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
+                            <View
+                style={{
+                  flexShrink: 1,
+                  width: "60%",
+                }}
+              >
+                <Text
+                  style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+                >
+                  7 padel
+                </Text>
+                <Text
+                  style={{
+                    color: "#ffffff50",
+                    fontSize: 15,
+                    fontWeight: "500",
+                    marginTop: 30,
+                  }}
+                >
+                  Vara de quart
+                </Text>
+                <View style={styles.containerNote}>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 15,
+                    }}
+                  >
+                    4.7
+                  </Text>
+                  <View style={{ flexDirection: "row", gap: 3 }}>
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    bottom: 0,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <Ionicons
+                    name="ios-navigate-sharp"
+                    size={15}
+                    color="#007bff"
+                  />
+                  <Text style={{ color: "#007BFF" }}>Localisation</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.ContainerLocationCard}>
+          <View style={styles.card}>
               <Image
-                source={require("../assets/foot_volley.jpg")}
-                style={styles.imageSmall}
+                source={ImageAppli[4].name}
+                style={{ width: "40%", height: "100%", borderRadius: 10 }}
               />
-              <Text style={styles.textImage}>Foot volley</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.containerImgText}
-              onPress={() => {
-                dispatch(setSelectImage(7)),
-                  dispatch(setIsImageFromAppli(true)),
-                  dispatch(setImageEvent(null));
-              }}
-            >
-              <View
-                style={
-                  SelectImage === 7 && IsImageFromAppli
-                    ? {
-                        position: "absolute",
-                        top: -1,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        backgroundColor: "#ffffff60",
-                        zIndex: 1,
-                      }
-                    : null
-                }
-              ></View>
-              <Image
-                source={require("../assets/rando.jpg")}
-                style={styles.imageSmall}
-              />
-              <Text style={styles.textImage}>Randonnée</Text>
-            </TouchableOpacity>
-          </View>
+                            <View
+                style={{
+                  flexShrink: 1,
+                  width: "60%",
+                }}
+              >
+                <Text
+                  style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+                >
+                  Poliesportiu MARXALENES-SAIDIA
+                </Text>
+                <Text
+                  style={{
+                    color: "#ffffff50",
+                    fontSize: 15,
+                    fontWeight: "500",
+                    marginTop: 30,
+                  }}
+                >
+                  Marxalenes
+                </Text>
+                <View style={styles.containerNote}>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 15,
+                    }}
+                  >
+                    4.6
+                  </Text>
+                  <View style={{ flexDirection: "row", gap: 3 }}>
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <Image
+                      source={require("../assets/noteLogo.png")}
+                      style={{ width: 15, height: 15 }}
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    bottom: 0,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <Ionicons
+                    name="ios-navigate-sharp"
+                    size={15}
+                    color="#007bff"
+                  />
+                  <Text style={{ color: "#007BFF" }}>Localisation</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default CreateEvent;
 
 const styles = StyleSheet.create({
-  imageSmall: {
+  ContainerLocationCard: {
+    width: "90%",
+    height: 180,
+    backgroundColor: "#00000040",
+    borderRadius: 10,
+    padding: 10,
+    overflow: "hidden",
+  },
+  card: {
+    flexDirection: "row",
+    height: "100%",
     width: "100%",
-    height: 74,
-    resizeMode: "cover",
+    gap: 10,
   },
-  textImage: {
-    fontSize: 10,
-    color: "#fff",
-  },
-  containerImgText: {
-    width: "24.5%",
-    justifyContent: "center",
+  containerNote: {
+    flexDirection: "row",
+    width: "80%",
+    gap: 10,
     alignItems: "center",
-    gap: 2,
+    marginTop: 20,
+    
   },
 });

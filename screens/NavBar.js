@@ -75,7 +75,7 @@ const NavBar = () => {
                 resizeMode="contain"
                 source={
                   isActiveNavigate === "FindEvent"
-                    ? require("../assets/searchOrange.png")
+                    ? require("../assets/searchGreen.png")
                     : require("../assets/search.png")
                 }
               />
@@ -101,7 +101,7 @@ const NavBar = () => {
                 resizeMode="contain"
                 source={
                   isActiveNavigate === "CreateMain2"
-                    ? require("../assets/circleOrange.png")
+                    ? require("../assets/circleGreen.png")
                     : require("../assets/circle.png")
                 }
               />
@@ -127,7 +127,7 @@ const NavBar = () => {
                 resizeMode="contain"
                 source={
                   isActiveNavigate === "ChatMain"
-                    ? require("../assets/chatOrange.png")
+                    ? require("../assets/chatGreen.png")
                     : require("../assets/chat.png")}
                 
               />
@@ -153,7 +153,7 @@ const NavBar = () => {
                 resizeMode="contain"
                 source={
                   isActiveNavigate === "Profil"
-                    ? require("../assets/profilOrange.png")
+                    ? require("../assets/ProfilGreen.png")
                     : require("../assets/profil.png")
                 }
               />
