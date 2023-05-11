@@ -99,7 +99,7 @@ const FindEvent = () => {
             marginRight: 10,
 
             ...(IndexFindEvent === 0
-              ? { borderWidth: 1, borderColor: "#70E000" }
+              ? { borderWidth: 1, borderColor: "#52C234" }
               : {}),
           }}
           onPress={()=>{setIndexFindEvent(0)}}
@@ -133,7 +133,7 @@ const FindEvent = () => {
             marginBottom: 15,
             marginRight: 10,
             ...(IndexFindEvent === 1
-              ? { borderWidth: 1, borderColor: "#70E000" }
+              ? { borderWidth: 1, borderColor: "#52C234" }
               : {}),
 
           }}
@@ -168,7 +168,7 @@ const FindEvent = () => {
             marginBottom: 15,
             marginRight: 10,
             ...(IndexFindEvent === 2
-              ? { borderWidth: 1, borderColor: "#70E000" }
+              ? { borderWidth: 1, borderColor: "#52C234" }
               : {})
           }}
           onPress={()=>{setIndexFindEvent(2)}}
@@ -202,7 +202,7 @@ const FindEvent = () => {
             marginBottom: 15,
             marginRight: 10,
             ...(IndexFindEvent === 3
-              ? { borderWidth: 1, borderColor: "#70E000" }
+              ? { borderWidth: 1, borderColor: "#52C234" }
               : {}),
           }}
           onPress={()=>{setIndexFindEvent(3)}}
@@ -237,7 +237,7 @@ const FindEvent = () => {
             marginRight: 10,
             justifyContent: "center",
             ...(IndexFindEvent === 4
-              ? { borderWidth: 1, borderColor: "#70E000" }
+              ? { borderWidth: 1, borderColor: "#52C234" }
               : {}),
           }}
           onPress={()=>{setIndexFindEvent(4)}}
@@ -272,7 +272,7 @@ const FindEvent = () => {
             marginRight: 40,
             justifyContent: "center",
             ...(IndexFindEvent === 5
-              ? { borderWidth: 1, borderColor: "#70E000" }
+              ? { borderWidth: 1, borderColor: "#52C234" }
               : {}),
           }}
           onPress={()=>{setIndexFindEvent(5)}}

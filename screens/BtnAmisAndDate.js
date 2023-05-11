@@ -65,7 +65,7 @@ const BtnAmisAndDate = () => {
                   },
                 ]}
               >
-                <Text style={{ fontSize: 17 }}>Ajouter amis</Text>
+                <Text style={{ fontSize: 17 }}>Send Invite to meegel Friends</Text>
                 {addedFriendList.length !== 0 ? (
                   <Text style={{ fontSize: 11, color:"#00000050" }}>
                     {addedFriendList.length} amis
@@ -89,7 +89,7 @@ const BtnAmisAndDate = () => {
                   },
                 ]}
               >
-                <Text style={{ fontSize: 17 }}>Date de l'évenement</Text>
+                <Text style={{ fontSize: 17 }}>When you can play ?</Text>
                 {timeEvent || dateEvent ? (
                   <Text style={{ fontSize: 11, color:"#00000050" }}>
                     {dateEvent}, {timeEvent}

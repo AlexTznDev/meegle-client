@@ -74,7 +74,7 @@ const AddDateToEvent = () => {
     const isToday = state === "today";
     const isSelected = marking.selected;
 
-    const textColor = isSelected ? "#70E000" : isToday ? "#8AC926" : "#000";
+    const textColor = isSelected ? "#52C234" : isToday ? "#8AC926" : "#000";
 
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -98,9 +98,9 @@ const AddDateToEvent = () => {
             [selectedDate]: { selected: true },
           }}
           theme={{
-            todayTextColor: "#70E000",
-            selectedDayBackgroundColor: "#70E000",
-            arrowColor: "#70E000",
+            todayTextColor: "#52C234",
+            selectedDayBackgroundColor: "#52C234",
+            arrowColor: "#52C234",
           }}
           renderDay={renderDay}
         />
@@ -167,7 +167,7 @@ const AddDateToEvent = () => {
             marginBottom: 10,
             marginTop: 30,
             borderRadius: 10,
-            backgroundColor: "#70E000",
+            backgroundColor: "#52C234",
           }}
         >
           <Text style={{ color: "#ffffff", fontSize: 20 }}>Valider</Text>

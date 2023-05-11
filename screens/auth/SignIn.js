@@ -119,7 +119,7 @@ const SignIn = () => {
                 paddingBottom: 5,
               }}
             >
-              <Text style={{ color: "#70E000" }}>Forgot Password?</Text>
+              <Text style={{ color: "#52C234" }}>Forgot Password?</Text>
             </TouchableOpacity>
 
             <TouchableOpacity>
@@ -127,7 +127,7 @@ const SignIn = () => {
                 style={{
                   paddingTop: 15,
                   paddingBottom: 15,
-                  backgroundColor: "#70E000",
+                  backgroundColor: "#52C234",
                   borderRadius: 10,
                   width: "100%",
                   justifyContent: "center",
@@ -202,7 +202,7 @@ const SignIn = () => {
                     navigation.navigate("SignUp");
                   }}
                 >
-                  <Text style={{ color: "#70E000", marginLeft: 10 }}>
+                  <Text style={{ color: "#52C234", marginLeft: 10 }}>
                     Sign up
                   </Text>
                 </TouchableOpacity>

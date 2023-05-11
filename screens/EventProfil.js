@@ -6,15 +6,18 @@ import {
   ScrollView,
   Text,
 } from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 
 import { useSelector } from "react-redux";
-import { selectIsActiveNavigate } from "../slices/navSlice";
+import { selectIsActiveNavigate , selectImageAppli} from "../slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const EventProfil = () => {
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
   const navigation = useNavigation();
+  const ImageAppli = useSelector(selectImageAppli)
+
+  
 
   const containerStyle = {
     ...styles.container,
@@ -50,7 +53,7 @@ const EventProfil = () => {
               width: 150,
               paddingTop: 10,
               paddingBottom: 10,
-              backgroundColor: "#70E000",
+              backgroundColor: "#52C234",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -64,7 +67,7 @@ const EventProfil = () => {
               width: 150,
               paddingTop: 10,
               paddingBottom: 10,
-              backgroundColor: "#70E00050",
+              backgroundColor: "#52C23450",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -110,9 +113,7 @@ const EventProfil = () => {
                 height: 130,
                 borderRadius: 20,
               }}
-              source={{
-                uri: "https://www.muhealth.org/sites/default/files/2019-04/shutterstock_385301440-1040.jpg",
-              }}
+              source={ImageAppli[0].name}
             />
             <View
               style={{
@@ -213,9 +214,7 @@ const EventProfil = () => {
                 height: 130,
                 borderRadius: 20,
               }}
-              source={{
-                uri: "https://www.vallparc.com/wp-content/uploads/2023/03/Los-5-mejores-sitios-para-aprender-padel-en-Barcelona.jpg",
-              }}
+              source={ImageAppli[3].name}
             />
             <View
               style={{
@@ -315,9 +314,7 @@ const EventProfil = () => {
                 height: 130,
                 borderRadius: 20,
               }}
-              source={{
-                uri: "https://thumbs.dreamstime.com/b/illustrative-editorial-corona-beer-bottles-beach-sand-genichesk-ukraine-june-illustrative-editorial-corona-beer-223906060.jpg",
-              }}
+              source={ImageAppli[2].name}
             />
             <View
               style={{
@@ -417,9 +414,7 @@ const EventProfil = () => {
                 height: 130,
                 borderRadius: 20,
               }}
-              source={{
-                uri: "https://thumbs.dreamstime.com/b/illustrative-editorial-corona-beer-bottles-beach-sand-genichesk-ukraine-june-illustrative-editorial-corona-beer-223906060.jpg",
-              }}
+              source={ImageAppli[4].name}
             />
             <View
               style={{
@@ -520,9 +515,7 @@ const EventProfil = () => {
                 height: 130,
                 borderRadius: 20,
               }}
-              source={{
-                uri: "https://lacanausurfclub.com/wp-content/uploads/2020/08/Capture-d%E2%80%99e%CC%81cran-2020-08-11-a%CC%80-10.23.52.png",
-              }}
+              source={ImageAppli[1].name}
             />
             <View
               style={{

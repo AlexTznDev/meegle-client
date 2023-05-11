@@ -9,7 +9,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { selectImage, selectImageAppli } from "../slices/navSlice";
+import {
+  selectImage,
+  selectImageAppli,
+  SelectPadelCourtUnknown,
+} from "../slices/navSlice";
 
 import MapView, { Marker } from "react-native-maps";
 
@@ -21,8 +25,9 @@ const MapEvent = (props) => {
 
   const SelectImage = useSelector(selectImage);
   const ImageAppli = useSelector(selectImageAppli);
+  const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
 
-  
+ 
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -47,29 +52,31 @@ const MapEvent = (props) => {
 
   useEffect(() => {
     if (mapRef.current) {
+      {
+        (props?.origin !== undefined && PadelCourtUnknown.location.lat === null) ?
+           mapRef.current.animateToRegion({
+              latitude: props.origin.origin.origin.location.lat,
+              longitude: props.origin.origin.origin.location.lng,
+              latitudeDelta: 0.0202,
+              longitudeDelta: 0.0002,
+            })
+          : mapRef.current.animateToRegion({
+              latitude: ImageAppli[SelectImage].origin.location.lat,
+              longitude: ImageAppli[SelectImage].origin.location.lng,
+              latitudeDelta: 0.0102,
+              longitudeDelta: 0.0002,
+            });
+      }
 
-
-{props?.origin !== undefined ? 
-
-  mapRef.current.animateToRegion({
-    latitude: props.origin.origin.origin.location.lat,
-    longitude: props.origin.origin.origin.location.lng,
-    latitudeDelta: 0.0202,
-    longitudeDelta: 0.0002,
-  }): 
-  mapRef.current.animateToRegion({
-   
-    
-    latitude: ImageAppli[SelectImage].origin.location.lat,
-    longitude: ImageAppli[SelectImage].origin.location.lng,
-    latitudeDelta: 0.0102,
-    longitudeDelta: 0.0002,
-  })
-
-}
-
-
-
+      {
+        PadelCourtUnknown.location.lat !== null &&
+          mapRef.current.animateToRegion({
+            latitude: PadelCourtUnknown.location.lat,
+            longitude: PadelCourtUnknown.location.lng,
+            latitudeDelta: 0.0102,
+            longitudeDelta: 0.0002,
+          });
+      }
     }
   }, []);
 
@@ -89,7 +96,20 @@ const MapEvent = (props) => {
           }
         }}
       >
-        {props?.origin?.origin?.origin?.location ? (
+
+
+{PadelCourtUnknown.location.lat !== null ? 
+  <Marker
+            coordinate={{
+              latitude: PadelCourtUnknown.location.lat,
+              longitude: PadelCourtUnknown.location.lng,
+            }}
+            identifier="origin"
+            //! rajouter description au click sur marker
+          />: 
+          
+       <>
+       {props?.origin?.origin?.origin?.location ? (
           <Marker
             coordinate={{
               latitude: props.origin.origin.origin.location.lat,
@@ -98,8 +118,8 @@ const MapEvent = (props) => {
             identifier="origin"
             //! rajouter description au click sur marker
           />
-        ):
-        <Marker
+        ) : (
+          <Marker
             coordinate={{
               latitude: ImageAppli[SelectImage].origin.location.lat,
               longitude: ImageAppli[SelectImage].origin.location.lng,
@@ -107,8 +127,12 @@ const MapEvent = (props) => {
             identifier="origin"
             //! rajouter description au click sur marker
           />
-        
-        }
+        )}
+       </>   
+          
+          }
+
+
       </MapView>
     </View>
   );
@@ -128,7 +152,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: "#70E000",
+    backgroundColor: "#52C234",
     borderRadius: 10,
   },
 });

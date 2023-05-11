@@ -3,7 +3,9 @@ import PadleHortaNord from "../assets/padelHortaNord.jpeg";
 import TerrainBeterro from "../assets/terrainBetero.jpeg";
 import TuPadel from "../assets/TuPadel.jpg";
 import SevenPadel from "../assets/7padel.jpg";
+import CourtUnknown from "../assets/padelUnknown.jpg"
 import TerrainMarxa from "../assets/terrainMarxa.jpeg";
+
 
 
 //initialisation etat
@@ -17,6 +19,13 @@ const initialState = {
   destination: null,
   travelTimeInformation: null,
   isActiveNavigate: "AuthMain",
+  PadelCourtUnknown:{
+    name: CourtUnknown,
+    location:{
+      lat: null,
+      lng: null,
+    },
+  },
   ImageAppli: [
     {name:PadleHortaNord,
     origin:{
@@ -28,29 +37,29 @@ const initialState = {
     {name:TerrainBeterro,
     origin:{
       location: {
-        lat: 39.4699075,
-        lng: -0.3762881,
+        lat: 39.475,
+        lng: -0.3370044,
       },
     }},
     {name:TuPadel,
     origin:{
       location: {
-        lat: 39.4699075,
-        lng: -0.3762881,
+        lat: 39.4613918,
+        lng: -0.4061311,
       },
     }},
     {name:SevenPadel,
     origin:{
       location: {
-        lat: 39.4699075,
-        lng: -0.3762881,
+        lat: 39.46128879999999,
+        lng: -0.4085225999999999,
       },
     }},
     {name:TerrainMarxa,
     origin:{
       location: {
-        lat: 39.4699075,
-        lng: -0.3762881,
+        lat: 39.48872779999999,
+        lng: -0.3811638,
       },
     }},
     
@@ -126,7 +135,16 @@ export const navSlice = createSlice({
     },
     SetGender: (state, action) => {
       state.Gender = action.payload;
-    }
+    },
+    SetPadelCourtUnknown: (state, action) => {
+      state.PadelCourtUnknown = action.payload;
+    },
+    resetPadelCourtUnknown: (state) => {
+      state.PadelCourtUnknown = initialState.PadelCourtUnknown;
+    },
+    resetOrigin: (state) => {
+      state.origin = initialState.origin;
+    },
   
   },
 });
@@ -148,7 +166,10 @@ export const {
   addFriend,
   removeFriend,
   SetUsername,
-  SetGender
+  SetGender,
+  SetPadelCourtUnknown,
+  resetPadelCourtUnknown,
+  resetOrigin
 } = navSlice.actions;
 
 //selector pour recupere la data
@@ -168,5 +189,6 @@ export const selectDateEvent = (state) => state.nav.dateEvent;
 export const SelectListFriendAdded = (state) => state.nav.ListFriendAdded;
 export const SelectUsername = (state) => state.nav.Username;
 export const SelectGender = (state) => state.nav.Gender;
+export const SelectPadelCourtUnknown = (state) => state.nav.PadelCourtUnknown;
 
 export default navSlice.reducer;

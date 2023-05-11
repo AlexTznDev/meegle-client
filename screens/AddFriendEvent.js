@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: "#70E000",
+    backgroundColor: "#52C234",
     borderRadius: 10,
   },
 });

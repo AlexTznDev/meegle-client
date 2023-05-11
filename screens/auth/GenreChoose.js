@@ -74,7 +74,7 @@ const GenreChoose = () => {
           dispatch(SetGender(selectedButton));
         }}
         style={{
-          backgroundColor: "#70E000",
+          backgroundColor: "#52C234",
           width: "100%",
           padding: 10,
           borderRadius: 5,
@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
     borderColor: "#00000030",
   },
   selectedBtn: {
-    backgroundColor: "#70E000",
+    backgroundColor: "#52C234",
   },
 });
