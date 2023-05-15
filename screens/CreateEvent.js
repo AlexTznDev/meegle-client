@@ -25,6 +25,8 @@ import {
   SelectPadelCourtUnknown,
 } from "../slices/navSlice.js";
 
+
+
 const CreateEvent = () => {
   const ImageAppli = useSelector(selectImageAppli);
   const selectPadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
@@ -35,7 +37,7 @@ const CreateEvent = () => {
 
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#222222" }}>
+    <SafeAreaView style={{ backgroundColor: "#040738" }}>
       <View
         style={{
           flexDirection: "row",
@@ -155,10 +157,7 @@ const CreateEvent = () => {
                       source={require("../assets/noteLogo.png")}
                       style={{ width: 15, height: 15 }}
                     />
-                    <Image
-                      source={require("../assets/noteLogo.png")}
-                      style={{ width: 15, height: 15 }}
-                    />
+
                   </View>
                 </View>
                 <TouchableOpacity
@@ -211,7 +210,7 @@ const CreateEvent = () => {
                 <Text
                   style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
                 >
-                  Polideportivo Virgen del Carmen
+                  Polideportivo Carmen
                 </Text>
                 <Text
                   style={{
@@ -249,10 +248,7 @@ const CreateEvent = () => {
                       source={require("../assets/noteLogo.png")}
                       style={{ width: 15, height: 15 }}
                     />
-                    <Image
-                      source={require("../assets/noteLogo.png")}
-                      style={{ width: 15, height: 15 }}
-                    />
+
                   </View>
                 </View>
                 <TouchableOpacity
@@ -342,10 +338,7 @@ const CreateEvent = () => {
                       source={require("../assets/noteLogo.png")}
                       style={{ width: 15, height: 15 }}
                     />
-                    <Image
-                      source={require("../assets/noteLogo.png")}
-                      style={{ width: 15, height: 15 }}
-                    />
+
                   </View>
                 </View>
                 <TouchableOpacity
@@ -435,10 +428,7 @@ const CreateEvent = () => {
                       source={require("../assets/noteLogo.png")}
                       style={{ width: 15, height: 15 }}
                     />
-                    <Image
-                      source={require("../assets/noteLogo.png")}
-                      style={{ width: 15, height: 15 }}
-                    />
+
                   </View>
                 </View>
                 <TouchableOpacity
@@ -489,7 +479,7 @@ const CreateEvent = () => {
                 <Text
                   style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
                 >
-                  Poliesportiu MARXALENES-SAIDIA
+                  Poliesportiu Marxalenes
                 </Text>
                 <Text
                   style={{
@@ -527,10 +517,7 @@ const CreateEvent = () => {
                       source={require("../assets/noteLogo.png")}
                       style={{ width: 15, height: 15 }}
                     />
-                    <Image
-                      source={require("../assets/noteLogo.png")}
-                      style={{ width: 15, height: 15 }}
-                    />
+
                   </View>
                 </View>
                 <TouchableOpacity
@@ -599,7 +586,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     borderWidth: 0.5,
-    borderColor: "#ffffff20",
+    borderColor: "#52C23480",
   },
   card: {
     flexDirection: "row",

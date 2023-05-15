@@ -1,11 +1,10 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { useNavigation, StackActions } from '@react-navigation/native';
 import BtnAmisAndDate from "./BtnAmisAndDate";
 
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import CourtUnknown from "../assets/padelUnknown.jpg";
 import {
   setEventStep,
   setImageEvent,
@@ -16,8 +15,8 @@ import {
   setTimeEvent,
   setDateEvent,
   selectIsActiveNavigate,
-  SetPadelCourtUnknown,
   resetPadelCourtUnknown,
+  resetOrigin
 } from "../slices/navSlice";
 
 const NavBar = () => {
@@ -25,10 +24,28 @@ const NavBar = () => {
   const navigation = useNavigation();
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
 
+
+//! permet de reinitialiser le stack navigator au screen que tu souhaite
+  const navigateToCreateMain = () => {
+    navigation.dispatch(
+      StackActions.replace('CreateMain', {
+        shouldAnimate: false,
+      })
+    );
+  };
+//! permet de reinitialiser le stack navigator a l element premier de la pile de screen
+  // const resetToCreateMain = StackActions.reset({
+  //   index: 0,
+  //   routes: [{ name: 'CreateMain' }],
+  // });
+  
+  // navigation.dispatch(resetToCreateMain);
+  
+  
+
   return (
     <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
       <BtnAmisAndDate />
-
       <View
         style={{
           paddingBottom: 40,
@@ -64,6 +81,8 @@ const NavBar = () => {
             dispatch(setTimeEvent(null));
             navigation.navigate("FindEventMain");
             dispatch(resetPadelCourtUnknown());
+            dispatch(resetOrigin());
+            
           }}
         >
           <Image
@@ -91,6 +110,8 @@ const NavBar = () => {
             dispatch(setTimeEvent(null));
             navigation.navigate("CreateMain");
             dispatch(resetPadelCourtUnknown())
+            dispatch(resetOrigin());
+            navigateToCreateMain()
           }}
         >
           <Image
@@ -118,6 +139,7 @@ const NavBar = () => {
             dispatch(setDateEvent(null));
             dispatch(setTimeEvent(null));
             dispatch(resetPadelCourtUnknown())
+            dispatch(resetOrigin());
           }}
         >
           <Image
@@ -145,6 +167,7 @@ const NavBar = () => {
             dispatch(setDateEvent(null));
             dispatch(setTimeEvent(null));
             dispatch(resetPadelCourtUnknown())
+            dispatch(resetOrigin());
           }}
         >
           <Image

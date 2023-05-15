@@ -17,8 +17,7 @@ import {
   setIsActiveNavigate,
   setEventStep,
   SetPadelCourtUnknown,
-  SelectPadelCourtUnknown,
-  setIsImageFromAppli,
+  SelectPadelCourtUnknown
 } from "../slices/navSlice";
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -112,6 +111,7 @@ const MapEvent = () => {
       <TouchableOpacity
         disabled={PadelCourtUnknown.location.lat === null}
         style={[styles.btn, { position: "absolute", bottom: "15%" }]}
+
         onPress={() => {
           CreateEvent();
           dispatch(setIsActiveNavigate("Profil"));
@@ -159,7 +159,8 @@ const MapEvent = () => {
           dispatch(
             SetPadelCourtUnknown({   
               location: detail.geometry.location,
-              name: CourtUnknown
+              name: CourtUnknown,
+              adress:data.description
             })
           );
           dispatch(

@@ -28,7 +28,7 @@ const Profil = () => {
 {userDBMONGO !== null ? 
 (<SafeAreaView
       style={{
-        backgroundColor: "#1D2328",
+        backgroundColor: "#040738",
         color: "#fff",
         borderBottomRightRadius: 37,
       }}

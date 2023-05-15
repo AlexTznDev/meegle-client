@@ -21,13 +21,11 @@ import {
   setIsActiveNavigate,
   selectImageAppli,
   selectImage,
-  selectImageEvent,
-  selectIsImageFromAppli,
   setTimeEvent,
   setDateEvent,
   SelectPadelCourtUnknown,
   resetPadelCourtUnknown,
-  resetOrigin
+  resetOrigin,
 } from "../slices/navSlice";
 
 import { useNavigation } from "@react-navigation/native";
@@ -35,28 +33,22 @@ import MapEventLocalization from "./MapEventLocalization";
 
 const CreateEventLegende = () => {
   const dispatch = useDispatch();
-  const imageEvent = useSelector(selectImageEvent);
   const SelectImage = useSelector(selectImage);
   const ImageAppli = useSelector(selectImageAppli);
-  const IsImageFromAppli = useSelector(selectIsImageFromAppli);
-  const [text, setText] = useState("");
   const navigation = useNavigation();
   const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
   const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
+  const windowWidth = Dimensions.get("window").width; //! equivaut a un 100vw
   const [selectedPlayers, setSelectedPlayers] = useState(null);
-
   const [modalVisible, setModalVisible] = useState(false);
 
-
-  const NameChoose =[  
-     "Padel horta nord",
-     "Polideportivo Virgen del carmen",
-     "Tù padel",
-     "7 padel",
-     "Poliesportiu MARXALENES-SAIDIA",
-    ]
-
-  
+  const NameChoose = [
+    { name: "Padel horta nord", note: 4.1 },
+    { name: "Polideportivo carmen", note: 4.5 },
+    { name: "Tù padel", note: 4.2 },
+    { name: "7 padel", note: 4.7 },
+    { name: "Poliesportiu Marxalenes", note: 4.6 },
+  ];
 
   const handlePlayerSelection = (numPlayers) => {
     setSelectedPlayers(numPlayers);
@@ -97,14 +89,13 @@ const CreateEventLegende = () => {
             <View style={styles.container}>
               <TouchableOpacity
                 onPress={() => {
-                  
                   dispatch(setEventStep(0));
                   dispatch(setDateEvent(null));
                   dispatch(setTimeEvent(null));
                   dispatch(setIsActiveNavigate("CreateMain"));
                   dispatch(resetPadelCourtUnknown());
                   dispatch(resetOrigin());
-                  navigation.navigate("CreateEvent")
+                  navigation.navigate("CreateEvent");
                 }}
               >
                 <View
@@ -127,8 +118,10 @@ const CreateEventLegende = () => {
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  dispatch(setIsActiveNavigate("CreateMain"))
-                  navigation.navigate("FinalizeEventCreate");
+                  dispatch(setIsActiveNavigate("CreateMain"));
+                  navigation.navigate("FinalizeEventCreate", {
+                    numberPlayer: selectedPlayers,
+                  });
                 }}
               >
                 <Text
@@ -151,20 +144,66 @@ const CreateEventLegende = () => {
             >
               {PadelCourtUnknown.location.lat === null ? (
                 <View
-                style={{
-                  width:"100%",
-                  alignItems:"center"
-                }}
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                  }}
                 >
-                <Image
-                  source={ImageAppli[SelectImage].name}
-                  style={{ width: "95%", height: 200 }}
-                />
-                <Text
-                style={{paddingTop:10, fontSize:15,paddingBottom:10, fontWeight:"600"}}
-                >{NameChoose[SelectImage]}</Text>
+                  <Image
+                    source={ImageAppli[SelectImage].name}
+                    style={{ width: "95%", height: 200 }}
+                  />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: windowWidth,
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      paddingTop: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        paddingTop: 10,
+                        fontSize: 15,
+                        paddingBottom: 10,
+                        fontWeight: "600",
+                      }}
+                    >
+                      {NameChoose[SelectImage].name}
+                    </Text>
+                    <View style={styles.containerNote}>
+                      <Text
+                        style={{
+                          color: "#00000090",
+                          fontSize: 15,
+                          fontWeight: "500",
+                        }}
+                      >
+                        {NameChoose[SelectImage].note}
+                      </Text>
+                      <View style={{ flexDirection: "row", gap: 3 }}>
+                        <Image
+                          source={require("../assets/noteLogo.png")}
+                          style={{ width: 15, height: 15 }}
+                        />
+                        <Image
+                          source={require("../assets/noteLogo.png")}
+                          style={{ width: 15, height: 15 }}
+                        />
+                        <Image
+                          source={require("../assets/noteLogo.png")}
+                          style={{ width: 15, height: 15 }}
+                        />
+                        <Image
+                          source={require("../assets/noteLogo.png")}
+                          style={{ width: 15, height: 15 }}
+                        />
+                      </View>
+                    </View>
+                  </View>
                 </View>
-
               ) : (
                 <Image
                   source={PadelCourtUnknown.name}
@@ -188,32 +227,35 @@ const CreateEventLegende = () => {
               </Modal>
 
               <TouchableOpacity
-                style={styles.button}
+                activeOpacity={0}
+                style={[styles.mapButton, { marginTop: -12 , backgroundColor:"#fff"}]}
+                onPress={() => {
+                  navigation.navigate("Profil");
+                }}
+              >
+              <Text style={{paddingTop:15, paddingBottom:2, fontWeight:"600"}} >Court localisation</Text>
+                <MapEventLocalization />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.button, { marginTop: 20 }]}
                 activeOpacity={0.5}
                 onPress={() => setModalVisible(true)}
               >
                 <View>
                   {selectedPlayers ? (
-                    <Text style={{ color: "#fff", fontSize: 25, fontWeight:"400" }}>
+                    <Text
+                      style={{ color: "#fff", fontSize: 25, fontWeight: "400" }}
+                    >
                       {selectedPlayers} player
                       {selectedPlayers > 1 ? "s" : ""}
                     </Text>
                   ) : (
                     <Text style={{ color: "#fff", fontSize: 20 }}>
-                      How many people you need?
+                      How many player you need?
                     </Text>
                   )}
                 </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                activeOpacity={0}
-                style={styles.mapButton}
-                onPress={() => {
-                  navigation.navigate("Profil");
-                }}
-              >
-                <MapEventLocalization />
               </TouchableOpacity>
             </View>
           </View>
@@ -245,17 +287,17 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#52C234",
-    width: "90%",
+    width: "95%",
     alignItems: "center",
     height: "15%",
     justifyContent: "center",
     borderRadius: 10,
   },
   mapButton: {
-    backgroundColor: "#52C234",
-    width: "90%",
+    backgroundColor: "#fff",
+    width: "95%",
     alignItems: "center",
-    height: "30%",
+    height: "35%",
     justifyContent: "center",
     borderRadius: 10,
     overflow: "hidden",
@@ -265,18 +307,23 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalContent: {
-    backgroundColor: "#222222",
+    backgroundColor: "#040738",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 40,
-    paddingBottom:50
+    paddingBottom: 50,
   },
   optionText: {
     fontSize: 18,
     marginVertical: 15,
     color: "#fff",
+  },
+  containerNote: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
   },
 });

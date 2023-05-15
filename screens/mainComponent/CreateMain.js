@@ -20,8 +20,7 @@ const CreateMain = () => {
     <>
       <View
         style={{
-          flex: 1,
-          backgroundColor: "#222222",
+          flex: 1,    
         }}
       >
         <Stack.Navigator

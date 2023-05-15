@@ -1,7 +1,5 @@
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
   Keyboard,
 } from "react-native";

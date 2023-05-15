@@ -25,6 +25,7 @@ const initialState = {
       lat: null,
       lng: null,
     },
+    adress:""
   },
   ImageAppli: [
     {name:PadleHortaNord,
@@ -33,6 +34,7 @@ const initialState = {
         lat: 39.4999571,
         lng: -0.339315,
       },
+      adress:"Carrer dels Palleters, 14, 46120 Alboraia, Valencia"
     }},
     {name:TerrainBeterro,
     origin:{
@@ -40,6 +42,7 @@ const initialState = {
         lat: 39.475,
         lng: -0.3370044,
       },
+      adress:"Carrer de Campillo de Altobuey, 1, 46022 València, Valencia"
     }},
     {name:TuPadel,
     origin:{
@@ -47,6 +50,7 @@ const initialState = {
         lat: 39.4613918,
         lng: -0.4061311,
       },
+      adress:"Carrer dels Fogainers, 5, 46014 València, Valencia"
     }},
     {name:SevenPadel,
     origin:{
@@ -54,6 +58,7 @@ const initialState = {
         lat: 39.46128879999999,
         lng: -0.4085225999999999,
       },
+      adress:"Polígon Industrial de, Carrer dels Llanterners, 6, 46014 Valencia"
     }},
     {name:TerrainMarxa,
     origin:{
@@ -61,6 +66,7 @@ const initialState = {
         lat: 39.48872779999999,
         lng: -0.3811638,
       },
+      adress:"C/ de Just Ramírez, s/n, 46009 València, Valencia"
     }},
     
     
