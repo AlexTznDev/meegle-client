@@ -5,7 +5,6 @@ import {
   View,
   TouchableOpacity,
   Image,
-  TextInput,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
@@ -13,6 +12,7 @@ import {
   Keyboard,
   SafeAreaView,
   Modal,
+  Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,6 +26,7 @@ import {
   SelectPadelCourtUnknown,
   resetPadelCourtUnknown,
   resetOrigin,
+  selectDateEvent,
 } from "../slices/navSlice";
 
 import { useNavigation } from "@react-navigation/native";
@@ -41,6 +42,7 @@ const CreateEventLegende = () => {
   const windowWidth = Dimensions.get("window").width; //! equivaut a un 100vw
   const [selectedPlayers, setSelectedPlayers] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const SelectDateEvent = useSelector(selectDateEvent);
 
   const NameChoose = [
     { name: "Padel horta nord", note: 4.1 },
@@ -53,6 +55,19 @@ const CreateEventLegende = () => {
   const handlePlayerSelection = (numPlayers) => {
     setSelectedPlayers(numPlayers);
     setModalVisible(false);
+  };
+
+  const handleButtonClick = () => {
+    if (!selectedPlayers || SelectDateEvent === null) {
+      Alert.alert(
+        'Missing Information', 'Please fill in the required date and number of players.'
+      );
+    } else {
+      dispatch(setIsActiveNavigate("CreateMain"));
+      navigation.navigate("FinalizeEventCreate", {
+        numberPlayer: selectedPlayers,
+      });
+    }
   };
 
   const renderModalContent = () => {
@@ -116,23 +131,30 @@ const CreateEventLegende = () => {
               >
                 create your anounce
               </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  dispatch(setIsActiveNavigate("CreateMain"));
-                  navigation.navigate("FinalizeEventCreate", {
-                    numberPlayer: selectedPlayers,
-                  });
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#007BFF",
-                    fontSize: 18,
-                    transform: [{ translateX: 10 }],
-                  }}
-                >
-                  next
-                </Text>
+              <TouchableOpacity 
+              activeOpacity={.8}
+              onPress={handleButtonClick}>
+                {!selectedPlayers || SelectDateEvent === null ? (
+                  <Text
+                    style={{
+                      color: "grey",
+                      fontSize: 18,
+                      transform: [{ translateX: 10 }],
+                    }}
+                  >
+                    next
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      color: "#007BFF",
+                      fontSize: 18,
+                      transform: [{ translateX: 10 }],
+                    }}
+                  >
+                    next
+                  </Text>
+                )}
               </TouchableOpacity>
             </View>
             <View
@@ -227,13 +249,21 @@ const CreateEventLegende = () => {
               </Modal>
 
               <TouchableOpacity
-                activeOpacity={0}
-                style={[styles.mapButton, { marginTop: -12 , backgroundColor:"#fff"}]}
-                onPress={() => {
-                  navigation.navigate("Profil");
-                }}
+                activeOpacity={1}
+                style={[
+                  styles.mapButton,
+                  { marginTop: -12, backgroundColor: "#fff" },
+                ]}
               >
-              <Text style={{paddingTop:15, paddingBottom:2, fontWeight:"600"}} >Court localisation</Text>
+                <Text
+                  style={{
+                    paddingTop: 15,
+                    paddingBottom: 2,
+                    fontWeight: "600",
+                  }}
+                >
+                  Court localisation
+                </Text>
                 <MapEventLocalization />
               </TouchableOpacity>
 

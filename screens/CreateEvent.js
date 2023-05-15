@@ -23,6 +23,9 @@ import {
   setSelectImage,
   selectImageAppli,
   SelectPadelCourtUnknown,
+  setIsBtnAmisAndDateOn,
+  setTimeEvent,
+  setDateEvent
 } from "../slices/navSlice.js";
 
 
@@ -34,6 +37,26 @@ const CreateEvent = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      dispatch(setIsBtnAmisAndDateOn(true));
+      dispatch(setIsActiveNavigate("CreateMain"));
+      dispatch(setTimeEvent(null))
+      dispatch(setDateEvent(null))
+    });
+    const subscribe = navigation.addListener("blur", () => {
+      setTimeout(() => {
+        dispatch(setIsBtnAmisAndDateOn(false));
+      }, 50);
+    });
+
+    return () => {
+      //demontage des composants
+      unsubscribe();
+      subscribe();
+    };
+  }, [navigation]);
 
 
   return (
@@ -462,6 +485,7 @@ const CreateEvent = () => {
               dispatch(setEventStep(1));
               dispatch(setIsActiveNavigate("CreateMain2"));
               dispatch(setSelectImage(4));
+              navigation.navigate("CreateEventLegende")
             }}
             style={styles.ContainerLocationCard}
           >

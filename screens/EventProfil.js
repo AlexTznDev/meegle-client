@@ -6,18 +6,58 @@ import {
   ScrollView,
   Text,
 } from "react-native";
-import React, {useEffect} from "react";
-
-import { useSelector } from "react-redux";
-import { selectIsActiveNavigate , selectImageAppli} from "../slices/navSlice";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectIsActiveNavigate,
+  selectImageAppli,
+  setEventListUserDB,
+  SelecteventListUserDB,
+} from "../slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 const EventProfil = () => {
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
+  const selecteventListUserDB = useSelector(SelecteventListUserDB);
   const navigation = useNavigation();
-  const ImageAppli = useSelector(selectImageAppli)
+  const ImageAppli = useSelector(selectImageAppli);
+  const [iFetching, setiFetching] = useState(true);
+  const { authToken } = useAuth(); //! context auth
+  const dispatch = useDispatch();
 
-  
+  useEffect(() => {
+    getDataFromDB();
+  }, []);
+
+  useEffect(() => {
+    console.log(selecteventListUserDB);
+  }, [selecteventListUserDB]);
+
+  const getDataFromDB = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        "http://localhost:5005/api/event",
+        config
+      );
+      if (
+        JSON.stringify(response.data) !== JSON.stringify(selecteventListUserDB)
+      ) {
+        dispatch(setEventListUserDB(response.data));
+      }
+      setiFetching(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const containerStyle = {
     ...styles.container,
@@ -86,516 +126,81 @@ const EventProfil = () => {
       )}
 
       <ScrollView style={containerStyle}>
-        <TouchableOpacity
-          onPress={() => {
-            {
-              isActiveNavigate === "Profil"
-                ? navigation.navigate("EventInfo", { origin: "ProfilMain" })
-                : navigation.navigate("EventInfo", { origin: "FindEventMain" });
-            }
-          }}
-        >
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: 13,
-              width: "100%",
-              backgroundColor: "#fff",
-              borderRadius: 10,
-              marginBottom: 10,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                width: 160,
-                height: 130,
-                borderRadius: 20,
-              }}
-              source={ImageAppli[0].name}
-            />
+        {iFetching ? (
+          <Text>is...fetching</Text>
+        ) : (
+          <TouchableOpacity>
             <View
               style={{
-                gap: 20,
-                alignItems: "flex-start",
+                display: "flex",
+                flexDirection: "row",
+                padding: 13,
+                width: "100%",
+                backgroundColor: "#fff",
+                borderRadius: 10,
+                marginBottom: 10,
+                alignItems: "center",
               }}
             >
+              <Image
+                style={{
+                  width: 160,
+                  height: 130,
+                  borderRadius: 20,
+                }}
+                source={ImageAppli[1].name}
+              />
               <View
                 style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
+                  gap: 20,
+                  alignItems: "flex-start",
                 }}
               >
-                <Image
-                  source={require("../assets/localisation.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>Port saplaya</Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/date.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>03/04, 17:30</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/friend.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
                 <View
-                  testID="wrappertext"
                   style={{
-                    width: 140,
+                    flexDirection: "row",
+                    gap: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingLeft: 10,
                   }}
                 >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    Anthony, alex, andrea, camila, piere
-                  </Text>
+                  <Image
+                    source={require("../assets/localisation.png")}
+                    style={{
+                      width: 20,
+                      height: 20,
+                    }}
+                    resizeMode="contain"
+                  />
+
+                  <Text>Port saplaya</Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingLeft: 10,
+                  }}
+                >
+                  <Image
+                    source={require("../assets/date.png")}
+                    style={{
+                      width: 20,
+                      height: 20,
+                    }}
+                    resizeMode="contain"
+                  />
+
+                  <Text>03/04, 17:30</Text>
                 </View>
               </View>
             </View>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: 13,
-              width: "100%",
-              backgroundColor: "#fff",
-              borderRadius: 10,
-              marginBottom: 10,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                width: 160,
-                height: 130,
-                borderRadius: 20,
-              }}
-              source={ImageAppli[3].name}
-            />
-            <View
-              style={{
-                gap: 20,
-                alignItems: "flex-start",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/localisation.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>Port saplaya</Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/date.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>03/04, 17:30</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/friend.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <View
-                  testID="wrappertext"
-                  style={{
-                    width: 140,
-                  }}
-                >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    Anthony, alex, andrea, camila, piere
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: 13,
-              width: "100%",
-              backgroundColor: "#fff",
-              borderRadius: 10,
-              marginBottom: 10,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                width: 160,
-                height: 130,
-                borderRadius: 20,
-              }}
-              source={ImageAppli[2].name}
-            />
-            <View
-              style={{
-                gap: 20,
-                alignItems: "flex-start",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/localisation.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>Port saplaya</Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/date.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>03/04, 17:30</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/friend.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <View
-                  testID="wrappertext"
-                  style={{
-                    width: 140,
-                  }}
-                >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    Anthony, alex, andrea, camila, piere
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: 13,
-              width: "100%",
-              backgroundColor: "#fff",
-              borderRadius: 10,
-              marginBottom: 10,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                width: 160,
-                height: 130,
-                borderRadius: 20,
-              }}
-              source={ImageAppli[4].name}
-            />
-            <View
-              style={{
-                gap: 20,
-                alignItems: "flex-start",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/localisation.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>Port saplaya</Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/date.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>03/04, 17:30</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/friend.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <View
-                  testID="wrappertext"
-                  style={{
-                    width: 140,
-                  }}
-                >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    Anthony, alex, andrea, camila, piere
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: 13,
-              width: "100%",
-              backgroundColor: "#fff",
-              borderRadius: 10,
-              marginBottom: 10,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                width: 160,
-                height: 130,
-                borderRadius: 20,
-              }}
-              source={ImageAppli[1].name}
-            />
-            <View
-              style={{
-                gap: 20,
-                alignItems: "flex-start",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/localisation.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>Port saplaya</Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/date.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <Text>03/04, 17:30</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: 10,
-                }}
-              >
-                <Image
-                  source={require("../assets/friend.png")}
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  resizeMode="contain"
-                />
-
-                <View
-                  testID="wrappertext"
-                  style={{
-                    width: 140,
-                  }}
-                >
-                  <Text numberOfLines={1} ellipsizeMode="tail">
-                    Anthony, alex, andrea, camila, piere
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
 
         {isActiveNavigate === "Profil" && (
           <View

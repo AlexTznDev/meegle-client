@@ -90,7 +90,6 @@ if(response.data){
       if (firebaseUser) {
         try {
           if (isSignUp === false) {
-            console.log("signin road")
             const response = await axios.post(
               "http://localhost:5005/api/auth/login",
               {
@@ -122,7 +121,7 @@ if(response.data){
           }
 
           if (isSignUp === true) {
-            console.log("signUP road")
+           
             const response = await axios.post(
               "http://localhost:5005/api/auth/signup",
               {

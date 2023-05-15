@@ -16,6 +16,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import useAuth from "../hooks/useAuth";
+import MapEventLocalization from "./MapEventLocalization";
+import axios from "axios";
 
 import * as Application from "expo-application";
 import * as Linking from "expo-linking";
@@ -28,7 +30,7 @@ import {
   selectImageAppli,
   selectTimeEvent,
   selectDateEvent,
-  SelectListFriendAdded
+  SelectListFriendAdded,
 } from "../slices/navSlice";
 
 const FinalizeEventCreate = () => {
@@ -44,8 +46,9 @@ const FinalizeEventCreate = () => {
   const SelectDateEvent = useSelector(selectDateEvent);
   const selectListFriendAdded = useSelector(SelectListFriendAdded);
   const [DayData, setDayData] = useState(null);
-  const { userDBMONGO } = useAuth(); //! context auth
+  const { userDBMONGO, authToken } = useAuth(); //! context auth
   const [LinkLatLng, setLinkLatLng] = useState(null);
+  const [numberSendToBack, setnumberSendToBack] = useState(null);
 
   function formatDate(dateString) {
     const days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
@@ -75,7 +78,6 @@ const FinalizeEventCreate = () => {
     return `${dayOfWeek} ${day} ${month} ${year}`;
   }
 
-
   useEffect(() => {
     const dayOfWeek = formatDate(SelectDateEvent);
     setDayData(dayOfWeek);
@@ -89,6 +91,13 @@ const FinalizeEventCreate = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (PadelCourtUnknown.location.lat === null) {
+      setnumberSendToBack(SelectImage);
+    } else {
+      setnumberSendToBack(-1);
+    }
+  }, []);
 
   //! recuperer les data de navigation
   const route = useRoute();
@@ -160,6 +169,39 @@ const FinalizeEventCreate = () => {
       ],
       { cancelable: true }
     );
+  };
+
+  const handleSubmitEvent = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+    };
+
+    const data = {
+      date: SelectDateEvent,
+      hour: SelectTimeEvent,
+      localisation: {
+        location: {
+          lat: LinkLatLng.location.lat,
+          lng: LinkLatLng.location.lat,
+        },
+        adress: LinkLatLng.adress,
+      },
+      NumberImage: numberSendToBack,
+      numberPlayerNeed: numberPlayer,
+      datePrecise: DayData
+    };
+
+    try {
+      await axios.post("http://localhost:5005/api/event", data, config);
+
+      navigation.navigate("ProfilMain");
+      dispatch(setIsActiveNavigate("Profil"));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -362,7 +404,7 @@ const FinalizeEventCreate = () => {
               fontWeight: "600",
             }}
           >
-            go to the field
+            Go to the field
           </Text>
           <View
             style={{
@@ -379,10 +421,7 @@ const FinalizeEventCreate = () => {
                   LinkLatLng.location.lng
                 )
               }
-              style={[
-                styles.shadowBox,
-                { width: "90%", height: 90, marginBottom: 150, gap: 10 },
-              ]}
+              style={[styles.shadowBox, { width: "90%", height: 90, gap: 10 }]}
             >
               <MaterialCommunityIcons
                 name="google-maps"
@@ -390,6 +429,27 @@ const FinalizeEventCreate = () => {
                 color="#52C234"
               />
               <Text style={{ textAlign: "center" }}>{LinkLatLng?.adress}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={{ paddingBottom: 130, marginTop: 30 }}>
+          <Text
+            style={{
+              paddingTop: 10,
+              fontSize: 15,
+              paddingLeft: 10,
+              paddingBottom: 10,
+              fontWeight: "600",
+            }}
+          >
+            court localization
+          </Text>
+          <View style={{ width: windowWidth, alignItems: "center" }}>
+            <TouchableOpacity
+              activeOpacity={0}
+              style={[styles.mapButton, { marginBottom: 120 }]}
+            >
+              <MapEventLocalization />
             </TouchableOpacity>
           </View>
         </View>
@@ -417,6 +477,9 @@ const FinalizeEventCreate = () => {
             borderRadius: 5,
             justifyContent: "center",
             alignItems: "center",
+          }}
+          onPress={() => {
+            handleSubmitEvent();
           }}
         >
           <Text style={{ color: "#fff", fontSize: 20 }}>Create</Text>
@@ -448,5 +511,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     justifyContent: "center",
     alignItems: "center",
+  },
+  mapButton: {
+    backgroundColor: "#fff",
+    width: "95%",
+    alignItems: "center",
+    height: "40%",
+    justifyContent: "center",
+    borderRadius: 10,
+    overflow: "hidden",
   },
 });

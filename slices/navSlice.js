@@ -83,7 +83,8 @@ const initialState = {
   dateEvent: null,
   ListFriendAdded: [],
   Username: "",
-  Gender: null
+  Gender: null,
+  eventListUserDB: []
 };
 
 //preparation du reducer grace a action
@@ -151,6 +152,9 @@ export const navSlice = createSlice({
     resetOrigin: (state) => {
       state.origin = initialState.origin;
     },
+    setEventListUserDB: (state, action) => {
+      state.eventListUserDB = action.payload;
+    },
   
   },
 });
@@ -175,7 +179,8 @@ export const {
   SetGender,
   SetPadelCourtUnknown,
   resetPadelCourtUnknown,
-  resetOrigin
+  resetOrigin,
+  setEventListUserDB
 } = navSlice.actions;
 
 //selector pour recupere la data
@@ -196,5 +201,6 @@ export const SelectListFriendAdded = (state) => state.nav.ListFriendAdded;
 export const SelectUsername = (state) => state.nav.Username;
 export const SelectGender = (state) => state.nav.Gender;
 export const SelectPadelCourtUnknown = (state) => state.nav.PadelCourtUnknown;
+export const SelecteventListUserDB = (state) => state.nav.eventListUserDB;
 
 export default navSlice.reducer;

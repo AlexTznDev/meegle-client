@@ -1,6 +1,7 @@
 import { StatusBar } from "react-native";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import React, {useEffect} from "react";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -11,8 +12,19 @@ enableScreens(); //! tres important pour le buil eas avec le package react nativ
 
 import "expo-dev-client"; //! to authentification eas build
 import StackNavigator from "./screens/StackNavigator";
+import * as Notifications from 'expo-notifications';
 
 export default function App() {
+
+  useEffect(() => {
+    async function requestNotificationPermission() {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert("Notifications are disabled. You will not receive any notifications.");
+      }
+    }
+    requestNotificationPermission();
+  }, []);
   return (
     <NavigationContainer>
       <SafeAreaProvider>
