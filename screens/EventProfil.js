@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Text,
+  Dimensions,
+  FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,10 +15,14 @@ import {
   selectImageAppli,
   setEventListUserDB,
   SelecteventListUserDB,
+  SelectPadelCourtUnknown,
 } from "../slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
+import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const EventProfil = () => {
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
@@ -26,10 +32,27 @@ const EventProfil = () => {
   const [iFetching, setiFetching] = useState(true);
   const { authToken } = useAuth(); //! context auth
   const dispatch = useDispatch();
+  const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
+  const windowWidth = Dimensions.get("window").width; //! equivaut a un 100vw
+  const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
 
   useEffect(() => {
-    getDataFromDB();
-  }, []);
+    const unsubscribe = navigation.addListener("focus", () => {
+      getDataFromDB();
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
+
+  const NameChoose = [
+    { name: "Padel horta nord", note: 4.1 },
+    { name: "Polideportivo carmen", note: 4.5 },
+    { name: "Tù padel", note: 4.2 },
+    { name: "7 padel", note: 4.7 },
+    { name: "Poliesportiu Marxalenes", note: 4.6 },
+  ];
 
   useEffect(() => {
     console.log(selecteventListUserDB);
@@ -86,11 +109,13 @@ const EventProfil = () => {
             zIndex: 10,
             top: 10,
             backgroundColor: "transparent",
+            width: windowWidth * 0.9,
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <TouchableOpacity
             style={{
-              width: 150,
               paddingTop: 10,
               paddingBottom: 10,
               backgroundColor: "#52C234",
@@ -98,13 +123,14 @@ const EventProfil = () => {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 5,
+              width: "50%",
             }}
           >
             <Text>EVENT I GO</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              width: 150,
+              width: "50%",
               paddingTop: 10,
               paddingBottom: 10,
               backgroundColor: "#52C23450",
@@ -125,88 +151,149 @@ const EventProfil = () => {
         </View>
       )}
 
-      <ScrollView style={containerStyle}>
+      <ScrollView>
         {iFetching ? (
           <Text>is...fetching</Text>
         ) : (
-          <TouchableOpacity>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                padding: 13,
-                width: "100%",
-                backgroundColor: "#fff",
-                borderRadius: 10,
-                marginBottom: 10,
+          <View
+            style={{
+              marginTop: 60,
+              width: windowWidth,
+              alignItems: "center",
+            }}
+          >
+            <FlatList
+              contentContainerStyle={{
+                flexDirection: "column",
+                width: windowWidth,
                 alignItems: "center",
               }}
-            >
-              <Image
-                style={{
-                  width: 160,
-                  height: 130,
-                  borderRadius: 20,
-                }}
-                source={ImageAppli[1].name}
-              />
-              <View
-                style={{
-                  gap: 20,
-                  alignItems: "flex-start",
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingLeft: 10,
-                  }}
-                >
-                  <Image
-                    source={require("../assets/localisation.png")}
-                    style={{
-                      width: 20,
-                      height: 20,
-                    }}
-                    resizeMode="contain"
-                  />
+              pagingEnabled={true}
+              showsHorizontalScrollIndicator={false}
+              data={selecteventListUserDB}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity style={styles.containerCard} key={item._id}>
+                    <View style={{ flexDirection: "row", width: "100%" }}>
+                      <Image
+                        style={{
+                          width: "35%",
+                          height: 160,
+                          borderRadius: 5,
+                        }}
+                        source={
+                          item.NumberImage !== -1
+                            ? ImageAppli[item.NumberImage].name
+                            : PadelCourtUnknown.name
+                        }
+                      />
+                      <View
+                        style={{
+                          gap: 12,
+                          alignItems: "flex-start",
+                          width: "65%",
+                        }}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              paddingLeft: 5,
+                              fontWeight: "600",
+                            }}
+                          >
+                            {item.datePrecise}
+                          </Text>
 
-                  <Text>Port saplaya</Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingLeft: 10,
-                  }}
-                >
-                  <Image
-                    source={require("../assets/date.png")}
-                    style={{
-                      width: 20,
-                      height: 20,
-                    }}
-                    resizeMode="contain"
-                  />
-
-                  <Text>03/04, 17:30</Text>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              paddingLeft: 5,
+                              fontWeight: "600",
+                            }}
+                          >
+                            {item.hour}
+                          </Text>
+                        </View>
+                        {item.NumberImage !== -1 ? (
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              paddingLeft: 5,
+                              marginTop: -5,
+                              fontWeight: "600",
+                              color: "#00000060",
+                            }}
+                          >
+                            {NameChoose[item.NumberImage].name}
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              paddingLeft: 5,
+                              marginTop: -5,
+                              fontWeight: "600",
+                              color: "#00000060",
+                            }}
+                          >
+                            Unknown Court
+                          </Text>
+                        )}
+                        <Text style={{ fontSize: 12, paddingLeft: 5 }}>
+                          {item.localisation.adress}
+                        </Text>
+                        <View
+                          style={{
+                            width: "100%",
+                            height: 68,
+                            position: "absolute",
+                            bottom: 0,
+                            right: 0,
+                            gap: 5,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <View style={styles.containerSmallCard}>
+                            <MaterialIcons
+                              name="supervised-user-circle"
+                              size={24}
+                              color="#040738"
+                            />
+                          </View>
+                          <View style={styles.containerSmallCard}>
+                          <Feather
+                              name="star"
+                              size={24}
+                              color="#040738"
+                            />
+                          </View>
+                          <View style={styles.containerSmallCard}></View>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+              horizontal={true}
+            />
+          </View>
         )}
 
         {isActiveNavigate === "Profil" && (
           <View
             testID="ajustView"
             style={{
-              height: 120,
+              height: 60,
             }}
           ></View>
         )}
@@ -231,5 +318,31 @@ const styles = StyleSheet.create({
     padding: 10,
     gap: 10,
     paddingTop: 10,
+  },
+  containerCard: {
+    display: "flex",
+    flexDirection: "row",
+    padding: 5,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    marginBottom: 10,
+    alignItems: "center",
+    width: "93%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  containerSmallCard: {
+    width: "30%",
+    height: "100%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    backgroundColor: "#FFF",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
