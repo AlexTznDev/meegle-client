@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import FindEvent from "../FindEvent";
 
-import EventProfil from "../EventProfil.js";
+import FindEventInfo from "../FindEventInfo.js";
 
 
 
@@ -16,7 +16,7 @@ const FindEventMain = () => {
       }}
     >
       <FindEvent />
-      <EventProfil/>
+      <FindEventInfo/>
 
 
     </View>

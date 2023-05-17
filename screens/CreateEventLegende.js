@@ -129,7 +129,7 @@ const CreateEventLegende = () => {
                   transform: [{ translateX: 10 }],
                 }}
               >
-                create your anounce
+                Organise your game
               </Text>
               <TouchableOpacity 
               activeOpacity={.8}

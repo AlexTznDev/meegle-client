@@ -16,13 +16,14 @@ import {
   setEventListUserDB,
   SelecteventListUserDB,
   SelectPadelCourtUnknown,
+  setIsActiveNavigate,
 } from "../slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 
 const EventProfil = () => {
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
@@ -38,10 +39,11 @@ const EventProfil = () => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      getDataFromDB();
+      dispatch(setIsActiveNavigate("Profil"));
     });
 
     return () => {
+      //demontage des composants
       unsubscribe();
     };
   }, [navigation]);
@@ -54,9 +56,27 @@ const EventProfil = () => {
     { name: "Poliesportiu Marxalenes", note: 4.6 },
   ];
 
+  const playerNeeded = (num) => {
+    if (num === 1) {
+      return 3;
+    }
+    if (num === 2) {
+      return 2;
+    }
+    if (num === 3) {
+      return 1;
+    }
+  };
+
   useEffect(() => {
-    console.log(selecteventListUserDB);
-  }, [selecteventListUserDB]);
+    const unsubscribe = navigation.addListener("focus", () => {
+      getDataFromDB();
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
 
   const getDataFromDB = async () => {
     const config = {
@@ -99,7 +119,7 @@ const EventProfil = () => {
         backgroundColor: "transparent",
       }}
     >
-      {isActiveNavigate === "Profil" && ( //! le && pour remplacer l interogation et pas besoin de mettre de "null"
+
         <View
           testID="containerButtonEventProfil"
           style={{
@@ -149,7 +169,7 @@ const EventProfil = () => {
             </Text>
           </TouchableOpacity>
         </View>
-      )}
+
 
       <ScrollView>
         {iFetching ? (
@@ -174,7 +194,15 @@ const EventProfil = () => {
               keyExtractor={(item) => item._id}
               renderItem={({ item }) => {
                 return (
-                  <TouchableOpacity style={styles.containerCard} key={item._id}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("EventInfo", {
+                        _id: item._id,
+                      });
+                    }}
+                    style={styles.containerCard}
+                    key={item._id}
+                  >
                     <View style={{ flexDirection: "row", width: "100%" }}>
                       <Image
                         style={{
@@ -269,13 +297,10 @@ const EventProfil = () => {
                               size={24}
                               color="#040738"
                             />
+                            <Text>{playerNeeded(item.numberPlayerNeed)}/4</Text>
                           </View>
                           <View style={styles.containerSmallCard}>
-                          <Feather
-                              name="star"
-                              size={24}
-                              color="#040738"
-                            />
+                            <Feather name="star" size={24} color="#040738" />
                           </View>
                           <View style={styles.containerSmallCard}></View>
                         </View>
@@ -344,5 +369,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+    gap: 2,
   },
 });

@@ -17,8 +17,6 @@ import MapView, { Marker } from "react-native-maps";
 
 const MapEvent = (props) => {
   const mapRef = useRef(null);
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   const SelectImage = useSelector(selectImage);
@@ -78,9 +76,6 @@ const MapEvent = (props) => {
     }
   }, []);
 
-  const CreateEvent = () => {
-    console.log("Evenement Créé");
-  };
 
   return (
     <View style={styles.container}>

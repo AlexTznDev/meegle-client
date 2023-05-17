@@ -1,286 +1,432 @@
-import React from "react";
 import {
-  View,
-  Text,
   StyleSheet,
+  Text,
+  View,
   Image,
-  ScrollView,
+  Dimensions,
   TouchableOpacity,
+  ScrollView,
+  Alert,
 } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import { Fontisto } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import useAuth from "../hooks/useAuth";
+import MapEventInfo from "./MapEventInfo";
+import axios from "axios";
 
-const EventInfo = ({ navigation, route }) => {
-  const onGestureEvent = ({ nativeEvent }) => {
-    const { translationX } = nativeEvent;
+import * as Application from "expo-application";
+import * as Linking from "expo-linking";
 
-    if (translationX > 50) {
-      if (navigation.canGoBack()) {
-        const originScreen = route.params?.origin;
-        if (originScreen) {
-          navigation.navigate(originScreen);
-        } else {
-          navigation.goBack();
-        }
-      }
+import {
+  setIsBtnAmisAndDateOn,
+  setIsActiveNavigate,
+  SelectPadelCourtUnknown,
+  selectImage,
+  selectImageAppli,
+  selectDateEvent,
+  SelecteventListUserDB
+} from "../slices/navSlice";
+
+const EventInfo = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
+  const windowWidth = Dimensions.get("window").width; //! equivaut a un 100vw
+  const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
+  const eventListUserDB = useSelector(SelecteventListUserDB);
+  const ImageAppli = useSelector(selectImageAppli);
+  const { userDBMONGO } = useAuth(); //! context auth
+  const [LinkLatLng, setLinkLatLng] = useState(null);
+  const [isFetching, setisFetching] = useState(true);
+
+const [dataEventToRender, setdataEventToRender] = useState(null);
+
+
+
+  //! recuperer les data de navigation
+  const route = useRoute();
+  const _id = route.params._id;
+
+  const findEventById = (eventId, eventsArray) => {
+    return eventsArray.find(event => event._id === eventId);
+  };
+  
+
+  useEffect(() => {
+    const eventId = _id; 
+    const eventsArray = eventListUserDB;
+  
+    const foundEvent = findEventById(eventId, eventsArray);
+    setdataEventToRender(foundEvent);
+    setisFetching(false)
+  }, [route]); 
+  
+
+
+  function formatDate(dateString) {
+    const days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
+    const months = [
+      "Jan.",
+      "Feb.",
+      "Mar.",
+      "Apr.",
+      "May",
+      "Jun.",
+      "Jul.",
+      "Aug.",
+      "Sep.",
+      "Oct.",
+      "Nov.",
+      "Dec.",
+    ];
+    const date = new Date(dateString);
+
+    const dayIndex = date.getDay();
+    const dayOfWeek = days[dayIndex];
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const month = months[monthIndex];
+    const year = date.getFullYear();
+
+    return `${dayOfWeek} ${day} ${month} ${year}`;
+  }
+
+
+
+
+
+  const NameChoose = [
+    { name: "Padel horta nord", note: 4.1 },
+    { name: "Polideportivo carmen", note: 4.5 },
+    { name: "Tù padel", note: 4.2 },
+    { name: "7 padel", note: 4.7 },
+    { name: "Poliesportiu Marxalenes", note: 4.6 },
+  ];
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      dispatch(setIsBtnAmisAndDateOn(true));
+    });
+    const subscribe = navigation.addListener("blur", () => {
+      dispatch(setIsActiveNavigate("CreateMain2"));
+      setTimeout(() => {
+        dispatch(setIsBtnAmisAndDateOn(false));
+      }, 50);
+    });
+
+    return () => {
+      //demontage des composants
+      unsubscribe();
+      subscribe();
+    };
+  }, [navigation]);
+
+  const openMaps = async (address, lat, lng) => {
+    const encodedAddress = encodeURIComponent(address);
+    const googleMapsUrl = `https://www.google.com/maps?q=${encodedAddress}`;
+    const appleMapsUrl = `http://maps.apple.com/?address=${encodedAddress}`;
+
+    // Si vous n'avez pas d'adresse, utilisez la latitude et la longitude
+    const googleMapsUrlFallback = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    const appleMapsUrlFallback = `http://maps.apple.com/?daddr=${lat},${lng}&dirflg=d`;
+
+    const isGoogleMapsInstalled = await Linking.canOpenURL(googleMapsUrl);
+    const urlToOpen = isGoogleMapsInstalled
+      ? googleMapsUrl
+      : Application.applicationId === "ios"
+      ? appleMapsUrl
+      : `geo:${lat},${lng}?q=${lat},${lng}`;
+
+    // Utilisez les URL de repli si vous n'avez pas d'adresse
+    if (!address) {
+      urlToOpen = isGoogleMapsInstalled
+        ? googleMapsUrlFallback
+        : Application.applicationId === "ios"
+        ? appleMapsUrlFallback
+        : `geo:${lat},${lng}?q=${lat},${lng}`;
     }
+
+    Alert.alert(
+      "Open Directions",
+      "Would you like to open the mapping application to display the route?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Open",
+          onPress: () => Linking.openURL(urlToOpen),
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
+
+
+if(isFetching){
+  return <View><Text>... is fetching</Text></View>
+}
+
+
   return (
-    <PanGestureHandler onGestureEvent={onGestureEvent}>
-      <View style={styles.container}>
-        <ScrollView style={{}}>
-          <Image
-            style={{
-              width: "100%",
-              height: 270,
-            }}
-            source={{
-              uri: "https://www.muhealth.org/sites/default/files/2019-04/shutterstock_385301440-1040.jpg",
-            }}
-          />
+    <View style={styles.container}>
+      <View
+        style={{
+          width: windowWidth,
+          height: windowHeight * 0.35,
+          overflow: "hidden",
+        }}
+      >
+        {dataEventToRender.NumberImage !== -1 ? (
           <View
             style={{
-              backgroundColor: "#fff",
-              marginTop: 20,
-              marginLeft: 20,
-              marginRight: 20,
-              marginBottom: 20,
-              borderRadius: 10,
-              marginBottom: 100,
-              padding: 20,
-              gap: 30,
+              height: "100%",
+              alignItems: "center",
             }}
           >
-            <View
+            <Image
+              source={ImageAppli[dataEventToRender.NumberImage].name}
               style={{
-                flexDirection: "row",
-                gap: 10,
-                justifyContent: "flex-start",
-                alignItems: "center",
-                paddingLeft: 10,
+                width: windowWidth,
+                height: windowHeight * 0.4,
+                resizeMode: "cover",
+              }}
+            />
+          </View>
+        ) : (
+          <Image
+            source={PadelCourtUnknown.name}
+            style={{
+              width: windowWidth,
+              height: windowHeight * 0.4,
+              resizeMode: "cover",
+            }}
+          />
+        )}
+      </View>
+      <ScrollView>
+        {dataEventToRender.NumberImage !== -1 ? (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: windowWidth,
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingTop: 20,
+            }}
+          >
+            <Text
+              style={{
+                paddingTop: 10,
+                fontSize: 17,
+                paddingBottom: 10,
+                fontWeight: "600",
               }}
             >
-              <Fontisto name="date" size={25} color="#000000" />
-
-              <Text style={styles.h2}>03/04, 17:30</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 10,
-                justifyContent: "flex-start",
-                alignItems: "center",
-                paddingLeft: 10,
-                paddingBottom: 30,
-              }}
-            >
-              <FontAwesome name="users" size={25} color="#000000" />
-              <View
-                testID="wrappertext"
-                style={{
-                  width: 200,
-                }}
-              >
-                <Text style={styles.h2} numberOfLines={1} ellipsizeMode="tail">
-                  Anthony, alex, andrea, camila, piere
-                </Text>
-              </View>
-            </View>
-            <Text style={styles.descriptionText}>
-              Rejoignez-nous pour une soirée détendue et chaleureuse entre amis
-              ! Cet événement est l'occasion parfaite pour décompresser après
-              une longue semaine de travail, rencontrer de nouvelles personnes
-              et renforcer les liens avec vos amis actuels. Nous nous
-              retrouverons dans un bar local avec une atmosphère décontractée,
-              où vous pourrez déguster une variété de boissons, des cocktails
-              créatifs aux bières artisanales et aux vins sélectionnés. Venez
-              partager des rires, des conversations intéressantes et créer des
-              souvenirs inoubliables avec nous. Que vous soyez un habitué des
-              soirées entre amis ou que vous cherchiez simplement à élargir
-              votre cercle social, cet événement est fait pour vous. N'hésitez
-              pas à inviter d'autres personnes pour rendre cette soirée encore
-              plus mémorable. Nous avons hâte de vous voir pour trinquer
-              ensemble et célébrer l'amitié !
+              {NameChoose[dataEventToRender.NumberImage].name}
             </Text>
-
-            <TouchableOpacity
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            >
-              <View
+            <View style={styles.containerNote}>
+              <Text
                 style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  borderWidth: 1,
-                  padding: 10,
-                  borderRadius: 10,
-                  borderColor: "#007bff",
+                  color: "#00000090",
+                  fontSize: 15,
+                  fontWeight: "500",
                 }}
               >
-                <Ionicons name="ios-navigate-sharp" size={25} color="#007bff" />
+                {NameChoose[dataEventToRender.NumberImage].note}
+              </Text>
+              <View style={{ flexDirection: "row", gap: 3 }}>
+                <Image
+                  source={require("../assets/noteLogo.png")}
+                  style={{ width: 15, height: 15 }}
+                />
+                <Image
+                  source={require("../assets/noteLogo.png")}
+                  style={{ width: 15, height: 15 }}
+                />
+                <Image
+                  source={require("../assets/noteLogo.png")}
+                  style={{ width: 15, height: 15 }}
+                />
+                <Image
+                  source={require("../assets/noteLogo.png")}
+                  style={{ width: 15, height: 15 }}
+                />
+              </View>
+            </View>
+          </View>
+        ) : null}
 
-                <Text style={[styles.h2, { color: "#007bff" }]}>
-                  Port saplaya
+        <View style={{ width: windowWidth, paddingLeft: 0, marginTop: 15 }}>
+          <Text
+            style={{
+              paddingTop: 10,
+              fontSize: 15,
+              paddingLeft: 10,
+              paddingBottom: 10,
+              fontWeight: "600",
+            }}
+          >
+            Information match organisation
+          </Text>
+          <View
+            style={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <View style={{ flexDirection: "row", gap: 12 }}>
+              <View style={[styles.shadowBox, { width: 90, height: 90 }]}>
+                <MaterialIcons
+                  name="supervised-user-circle"
+                  size={26}
+                  color="#52C234"
+                />
+                <Text style={{ fontSize: 10, marginTop: 5 }}>Looking for:</Text>
+                <Text style={{}}>
+                  {dataEventToRender.numberPlayerNeed} player{dataEventToRender.numberPlayerNeed > 1 ? "s" : ""}
                 </Text>
               </View>
-            </TouchableOpacity>
 
-            <View style={{ paddingTop: 50 }} testID="DemandeAjout">
-              <Text style={[styles.h2, { paddingBottom: 20 }]}>
-                Demande d'ajout:
-              </Text>
-              <View testID="ContainerDemande">
-                <View
+              <View style={[styles.shadowBox, { width: 90, height: 90 }]}>
+                <Image
                   style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    borderBottomWidth: 0.5,
-                    borderColor: "#00000015",
-                    paddingBottom: 20,
-                    paddingTop: 20,
+                    width: 40,
+                    height: 40,
+                    borderRadius: 30,
                   }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Image
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 30,
-                      }}
-                      source={require("../assets/moi.jpg")}
-                    />
-                    <Text
-                      style={{
-                        paddingLeft: 10,
-                        color: "#00000095",
-                      }}
-                      testID="nameDemandeAjout"
-                    >
-                      Alexandre Tuysuzian
-                    </Text>
-                  </View>
+                  source={{ uri: userDBMONGO.imageProfile }}
+                />
+                <Text style={{ fontSize: 10, marginTop: 5, fontWeight: "600" }}>
+                  Create by:
+                </Text>
+                <Text style={{ fontSize: 10, color: "blue", marginTop: 2 }}>
+                  {userDBMONGO.username}
+                </Text>
+              </View>
+              <View
+                style={[styles.shadowBox, { width: "35%", height: 90 }]}
+              ></View>
+            </View>
 
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 8,
-                    }}
-                  >
-                    <TouchableOpacity>
-                      <View
-                        style={[
-                          styles.ViewBtnAwesome,
-                          { borderColor: "#52C234" },
-                        ]}
-                      >
-                        <Ionicons name="checkmark" size={25} color="#52C234" />
-                      </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                      <View
-                        style={[
-                          styles.ViewBtnAwesome,
-                          { borderColor: "#00000090" },
-                        ]}
-                      >
-                        <Ionicons
-                          name="close-outline"
-                          size={25}
-                          color="#00000090"
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
+            <View style={{ flexDirection: "row", gap: 15 }}>
+              <View
+                style={[
+                  styles.shadowBox,
+                  { width: "42%", height: 60, flexDirection: "row" },
+                ]}
+              >
+                <View style={{ width: "30%", paddingLeft: 10 }}>
+                  <Ionicons name="calendar-outline" size={26} color="#52C234" />
                 </View>
                 <View
                   style={{
-                    flexDirection: "row",
+                    width: "70%",
+                    justifyContent: "center",
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    borderColor: "#00000015",
-                    paddingBottom: 20,
-                    paddingTop: 20,
-                    borderBottomWidth: 0.5,
+                    paddingRight: 10,
                   }}
                 >
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Image
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 30,
-                      }}
-                      source={require("../assets/girlAngela.png")}
-                    />
-                    <Text
-                      style={{
-                        paddingLeft: 10,
-                        color: "#00000095",
-                      }}
-                      testID="nameDemandeAjout"
-                    >
-                      Angela electra
-                    </Text>
-                  </View>
+                  <Text style={{ textAlign: "center" }}>{dataEventToRender.datePrecise}</Text>
+                </View>
+              </View>
 
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 8,
-                    }}
-                  >
-                    <TouchableOpacity>
-                      <View
-                        style={[
-                          styles.ViewBtnAwesome,
-                          { borderColor: "#52C234" },
-                        ]}
-                      >
-                        <Ionicons name="checkmark" size={25} color="#52C234" />
-                      </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                      <View
-                        style={[
-                          styles.ViewBtnAwesome,
-                          { borderColor: "#00000090" },
-                        ]}
-                      >
-                        <Ionicons
-                          name="close-outline"
-                          size={25}
-                          color="#00000090"
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
+              <View
+                style={[
+                  styles.shadowBox,
+                  { width: "42%", height: 60, flexDirection: "row" },
+                ]}
+              >
+                <View style={{ width: "30%", paddingLeft: 10 }}>
+                  <Ionicons name="time-outline" size={26} color="#52C234" />
+                </View>
+                <View
+                  style={{
+                    width: "70%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingRight: 10,
+                  }}
+                >
+                  <Text>{dataEventToRender.hour}</Text>
                 </View>
               </View>
             </View>
           </View>
-        </ScrollView>
-      </View>
-    </PanGestureHandler>
+        </View>
+
+        <View style={{ width: windowWidth, paddingTop: 30 }}>
+          <Text
+            style={{
+              paddingTop: 10,
+              fontSize: 15,
+              paddingLeft: 10,
+              paddingBottom: 10,
+              fontWeight: "600",
+            }}
+          >
+            Go to the field
+          </Text>
+          <View
+            style={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() =>
+                openMaps(
+                  LinkLatLng.adress,
+                  LinkLatLng.location.lat,
+                  LinkLatLng.location.lng
+                )
+              }
+              style={[styles.shadowBox, { width: "90%", height: 90, gap: 10 }]}
+            >
+              <MaterialCommunityIcons
+                name="google-maps"
+                size={26}
+                color="#52C234"
+              />
+              <Text style={{ textAlign: "center" }}>{dataEventToRender?.localisation?.adress}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={{ paddingBottom: 110, marginTop: 30 }}>
+          <Text
+            style={{
+              paddingTop: 10,
+              fontSize: 15,
+              paddingLeft: 10,
+              paddingBottom: 10,
+              fontWeight: "600",
+            }}
+          >
+            court localization
+          </Text>
+          <View style={{ width: windowWidth, alignItems: "center" }}>
+            <TouchableOpacity
+              activeOpacity={0}
+              style={[styles.mapButton, { marginBottom: 120 }]}
+            >
+              <MapEventInfo dataEventToRender={dataEventToRender} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+
+    </View>
   );
 };
 
@@ -289,16 +435,31 @@ export default EventInfo;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
-  h2: {
-    fontSize: 20,
+  containerNote: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
   },
-  descriptionText: {
-    letterSpacing: 1,
+  shadowBox: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  ViewBtnAwesome: {
-    borderWidth: 1,
-    borderRadius: 30,
-    padding: 2,
+  mapButton: {
+    backgroundColor: "#fff",
+    width: "90%",
+    alignItems: "center",
+    height: "40%",
+    justifyContent: "center",
+    borderRadius: 10,
+    overflow: "hidden",
   },
 });

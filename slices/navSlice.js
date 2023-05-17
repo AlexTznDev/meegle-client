@@ -6,8 +6,6 @@ import SevenPadel from "../assets/7padel.jpg";
 import CourtUnknown from "../assets/padelUnknown.jpg"
 import TerrainMarxa from "../assets/terrainMarxa.jpeg";
 
-
-
 //initialisation etat
 const initialState = {
   origin: {

@@ -185,7 +185,7 @@ const FinalizeEventCreate = () => {
       localisation: {
         location: {
           lat: LinkLatLng.location.lat,
-          lng: LinkLatLng.location.lat,
+          lng: LinkLatLng.location.lng,
         },
         adress: LinkLatLng.adress,
       },
