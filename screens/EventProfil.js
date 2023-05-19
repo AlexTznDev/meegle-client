@@ -102,11 +102,7 @@ const EventProfil = () => {
     }
   };
 
-  const containerStyle = {
-    ...styles.container,
-    paddingTop:
-      isActiveNavigate === "Profil" ? 60 : styles.container.paddingTop,
-  };
+
 
   return (
     <View
@@ -319,14 +315,6 @@ const EventProfil = () => {
             testID="ajustView"
             style={{
               height: 60,
-            }}
-          ></View>
-        )}
-        {isActiveNavigate === "FindEvent" && (
-          <View
-            testID="ajustView"
-            style={{
-              height: 70,
             }}
           ></View>
         )}

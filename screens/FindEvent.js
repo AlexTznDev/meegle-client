@@ -22,59 +22,51 @@ const FindEvent = () => {
         borderBottomLeftRadius: 37,
         justifyContent: "center",
         alignItems: "center",
+        gap:10,
       }}
     >
-
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 10,
-        }}
-      >
 
         <View
           style={{
             paddingTop: 10,
-            width: "90%",
+            width: "100%",
+            justifyContent:"center",
+            alignItems:"center",
+          
+            
           }}
-        >
-          <TextInput
-            style={{
-              paddingTop: 15,
-              paddingBottom: 15,
-              paddingLeft: 15,
-              paddingRight: 15,
-              borderRadius: 10,
-              borderWidth: .5,
-              borderColor: "#fff",
-              color: "#fff",
-              marginBottom: 15,
-            }}
-            placeholder="Date ?"
-            placeholderTextColor="#ffffff80"
-          ></TextInput>
-        </View>
-      </View>
 
-      <ScrollView
-        horizontal={true}
-        pagingEnabled={true}
-        showsHorizontalScrollIndicator={false}
+        >
+        <View
+      style={{ width: 70, height:50 }}
+        >
+        <Image
+            source={require("../assets/Meegel.png")}
+            style={{ width: "100%", height:"100%", resizeMode:"contain"}}
+          />
+        </View>
+
+        </View>
+
+
+      <View
         style={{
-          display: "flex",
+          flexDirection: "row",
           paddingLeft: 20,
           paddingRight: 20,
+          paddingBottom:10
         }}
       >
         <TouchableOpacity
           style={{
-            width: 80,
-            height: 80,
+            width: "45%",
+            flexDirection: "row",
+            height: 50,
             alignItems: "center",
             justifyContent: "center",
-            gap: 5,
-            borderRadius: 50,
-            backgroundColor: "#7A7A7A18",
+            gap: 20,
+            borderRadius: 15,
+            backgroundColor: "#7A7A7A50",
             marginBottom: 15,
             marginRight: 10,
 
@@ -82,7 +74,9 @@ const FindEvent = () => {
               ? { borderWidth: 1, borderColor: "#52C234" }
               : {}),
           }}
-          onPress={()=>{setIndexFindEvent(0)}}
+          onPress={() => {
+            setIndexFindEvent(0);
+          }}
         >
           <Image
             source={require("../assets/friendWhite.png")}
@@ -95,29 +89,31 @@ const FindEvent = () => {
           <Text
             style={{
               color: "#fff",
-              fontSize: 10,
+              fontSize: 12,
             }}
           >
-            Meeting
+          Users games
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width: 80,
-            height: 80,
+            width: "45%",
+            height: 50,
             alignItems: "center",
             justifyContent: "center",
+            flexDirection: "row",
             gap: 5,
-            borderRadius: 50,
-            backgroundColor: "#7A7A7A18",
+            borderRadius: 15,
+            backgroundColor: "#52C23440",
             marginBottom: 15,
             marginRight: 10,
             ...(IndexFindEvent === 1
               ? { borderWidth: 1, borderColor: "#52C234" }
               : {}),
-
           }}
-          onPress={()=>{setIndexFindEvent(1)}}
+          onPress={() => {
+            setIndexFindEvent(1);
+          }}
         >
           <Image
             source={require("../assets/sport.png")}
@@ -130,14 +126,13 @@ const FindEvent = () => {
           <Text
             style={{
               color: "#fff",
-              fontSize: 10,
+              fontSize: 12,
             }}
           >
-            Sport
+            Meegel games
           </Text>
         </TouchableOpacity>
-
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
