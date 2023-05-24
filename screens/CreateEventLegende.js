@@ -27,6 +27,7 @@ import {
   resetPadelCourtUnknown,
   resetOrigin,
   selectDateEvent,
+  setIsBtnAmisAndDateOn
 } from "../slices/navSlice";
 
 import { useNavigation } from "@react-navigation/native";
@@ -43,6 +44,8 @@ const CreateEventLegende = () => {
   const [selectedPlayers, setSelectedPlayers] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const SelectDateEvent = useSelector(selectDateEvent);
+
+
 
   const NameChoose = [
     { name: "Padel horta nord", note: 4.1 },

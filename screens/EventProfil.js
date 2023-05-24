@@ -24,18 +24,18 @@ import useAuth from "../hooks/useAuth";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-
 const EventProfil = () => {
   const isActiveNavigate = useSelector(selectIsActiveNavigate);
   const selecteventListUserDB = useSelector(SelecteventListUserDB);
   const navigation = useNavigation();
   const ImageAppli = useSelector(selectImageAppli);
   const [iFetching, setiFetching] = useState(true);
-  const { authToken } = useAuth(); //! context auth
+  const { authToken, userDBMONGO } = useAuth(); //! context auth
   const dispatch = useDispatch();
   const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
   const windowWidth = Dimensions.get("window").width; //! equivaut a un 100vw
   const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
+  const [eventToRender, seteventToRender] = useState(null);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -79,30 +79,20 @@ const EventProfil = () => {
   }, [navigation]);
 
   const getDataFromDB = async () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
-      },
-    };
-
     try {
-      const response = await axios.get(
-        "http://localhost:5005/api/event",
-        config
+      const response = await axios.get("http://localhost:5005/api/event/All");
+      dispatch(setEventListUserDB(response.data));
+
+
+      let filteredEvents = response.data.filter(
+        (event) => event.owner._id === userDBMONGO._id
       );
-      if (
-        JSON.stringify(response.data) !== JSON.stringify(selecteventListUserDB)
-      ) {
-        dispatch(setEventListUserDB(response.data));
-      }
+      seteventToRender(filteredEvents)
       setiFetching(false);
     } catch (error) {
       console.log(error);
     }
   };
-
-
 
   return (
     <View
@@ -115,57 +105,55 @@ const EventProfil = () => {
         backgroundColor: "transparent",
       }}
     >
-
-        <View
-          testID="containerButtonEventProfil"
+      <View
+        testID="containerButtonEventProfil"
+        style={{
+          flexDirection: "row",
+          gap: 10,
+          position: "absolute",
+          zIndex: 10,
+          top: 10,
+          backgroundColor: "transparent",
+          width: windowWidth * 0.9,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity
           style={{
-            flexDirection: "row",
-            gap: 10,
-            position: "absolute",
-            zIndex: 10,
-            top: 10,
-            backgroundColor: "transparent",
-            width: windowWidth * 0.9,
+            paddingTop: 10,
+            paddingBottom: 10,
+            backgroundColor: "#52C234",
+            display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            borderRadius: 5,
+            width: "50%",
           }}
         >
-          <TouchableOpacity
+          <Text>EVENT I GO</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: "50%",
+            paddingTop: 10,
+            paddingBottom: 10,
+            backgroundColor: "#52C23450",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 5,
+          }}
+        >
+          <Text
             style={{
-              paddingTop: 10,
-              paddingBottom: 10,
-              backgroundColor: "#52C234",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
-              width: "50%",
+              opacity: 0.5,
             }}
           >
-            <Text>EVENT I GO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              width: "50%",
-              paddingTop: 10,
-              paddingBottom: 10,
-              backgroundColor: "#52C23450",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                opacity: 0.5,
-              }}
-            >
-              EVENT CREATED
-            </Text>
-          </TouchableOpacity>
-        </View>
-
+            EVENT CREATED
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       <ScrollView>
         {iFetching ? (
@@ -186,7 +174,7 @@ const EventProfil = () => {
               }}
               pagingEnabled={true}
               showsHorizontalScrollIndicator={false}
-              data={selecteventListUserDB}
+              data={eventToRender}
               keyExtractor={(item) => item._id}
               renderItem={({ item }) => {
                 return (

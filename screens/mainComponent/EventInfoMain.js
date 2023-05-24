@@ -1,13 +1,20 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import FindEvent from "../FindEvent";
-import FindEventInfo from "../FindEventInfo.js";
-import MeegleGames from "../MeegleGames";
+import EventInfo from "../EventInfo";
+import EventInfoDataRender from "../EventInfoDataRender";
+import EventInfoDiscusion from "../EventInfoDiscusion";
+import { useRoute } from "@react-navigation/native";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
-const FindEventMain = () => {
+const EventInfoMain = () => {
   const Stack = createStackNavigator();
+
+  const route = useRoute();
+  const _id = route.params._id;
+
+
+// console.log(_id)
 
   return (
     <View
@@ -15,20 +22,21 @@ const FindEventMain = () => {
         flex: 1
       }}
     >
-      <FindEvent />
+      <EventInfo />
 
-      <Stack.Navigator>
+
+      <Stack.Navigator >
         <Stack.Screen
-          name="FindEventInfo"
-          component={FindEventInfo}
+          name="EventInfoDataRender"
+          children={()=><EventInfoDataRender _id={_id}/>}
           options={{
             headerShown: false,
             animationEnabled: true,
           }}
         />
         <Stack.Screen
-          name="MeegleGames"
-          component={MeegleGames}
+          name="EventInfoDiscusion"
+          children={()=><EventInfoDiscusion _id={_id}/>}
           options={{
             headerShown: false,
             animationEnabled: true,
@@ -39,6 +47,6 @@ const FindEventMain = () => {
   );
 };
 
-export default FindEventMain;
+export default EventInfoMain;
 
 const styles = StyleSheet.create({});

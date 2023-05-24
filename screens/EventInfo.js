@@ -12,12 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { useRoute } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import useAuth from "../hooks/useAuth";
-import MapEventInfo from "./MapEventInfo";
-import axios from "axios";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import * as Application from "expo-application";
 import * as Linking from "expo-linking";
@@ -26,10 +21,8 @@ import {
   setIsBtnAmisAndDateOn,
   setIsActiveNavigate,
   SelectPadelCourtUnknown,
-  selectImage,
   selectImageAppli,
-  selectDateEvent,
-  SelecteventListUserDB
+  SelecteventListUserDB,
 } from "../slices/navSlice";
 
 const EventInfo = () => {
@@ -40,65 +33,28 @@ const EventInfo = () => {
   const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
   const eventListUserDB = useSelector(SelecteventListUserDB);
   const ImageAppli = useSelector(selectImageAppli);
-  const { userDBMONGO } = useAuth(); //! context auth
-  const [LinkLatLng, setLinkLatLng] = useState(null);
+
   const [isFetching, setisFetching] = useState(true);
 
-const [dataEventToRender, setdataEventToRender] = useState(null);
-
-
+  const [dataEventToRender, setdataEventToRender] = useState(null);
 
   //! recuperer les data de navigation
   const route = useRoute();
   const _id = route.params._id;
 
   const findEventById = (eventId, eventsArray) => {
-    return eventsArray.find(event => event._id === eventId);
+    return eventsArray.find((event) => event._id === eventId);
   };
-  
 
   useEffect(() => {
-    const eventId = _id; 
+    const eventId = _id;
     const eventsArray = eventListUserDB;
-  
+
     const foundEvent = findEventById(eventId, eventsArray);
+
     setdataEventToRender(foundEvent);
-    setisFetching(false)
-  }, [route]); 
-  
-
-
-  function formatDate(dateString) {
-    const days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
-    const months = [
-      "Jan.",
-      "Feb.",
-      "Mar.",
-      "Apr.",
-      "May",
-      "Jun.",
-      "Jul.",
-      "Aug.",
-      "Sep.",
-      "Oct.",
-      "Nov.",
-      "Dec.",
-    ];
-    const date = new Date(dateString);
-
-    const dayIndex = date.getDay();
-    const dayOfWeek = days[dayIndex];
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const month = months[monthIndex];
-    const year = date.getFullYear();
-
-    return `${dayOfWeek} ${day} ${month} ${year}`;
-  }
-
-
-
-
+    setisFetching(false);
+  }, [route]);
 
   const NameChoose = [
     { name: "Padel horta nord", note: 4.1 },
@@ -168,12 +124,13 @@ const [dataEventToRender, setdataEventToRender] = useState(null);
     );
   };
 
-
-
-if(isFetching){
-  return <View><Text>... is fetching</Text></View>
-}
-
+  if (isFetching) {
+    return (
+      <View>
+        <Text>... is fetching</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -184,7 +141,7 @@ if(isFetching){
           overflow: "hidden",
         }}
       >
-        {dataEventToRender.NumberImage !== -1 ? (
+        {dataEventToRender?.NumberImage !== -1 ? (
           <View
             style={{
               height: "100%",
@@ -192,7 +149,7 @@ if(isFetching){
             }}
           >
             <Image
-              source={ImageAppli[dataEventToRender.NumberImage].name}
+              source={ImageAppli[dataEventToRender?.NumberImage].name}
               style={{
                 width: windowWidth,
                 height: windowHeight * 0.4,
@@ -211,221 +168,31 @@ if(isFetching){
           />
         )}
       </View>
-      <ScrollView>
-        {dataEventToRender.NumberImage !== -1 ? (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: windowWidth,
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingTop: 20,
-            }}
-          >
-            <Text
-              style={{
-                paddingTop: 10,
-                fontSize: 17,
-                paddingBottom: 10,
-                fontWeight: "600",
-              }}
-            >
-              {NameChoose[dataEventToRender.NumberImage].name}
-            </Text>
-            <View style={styles.containerNote}>
-              <Text
-                style={{
-                  color: "#00000090",
-                  fontSize: 15,
-                  fontWeight: "500",
-                }}
-              >
-                {NameChoose[dataEventToRender.NumberImage].note}
-              </Text>
-              <View style={{ flexDirection: "row", gap: 3 }}>
-                <Image
-                  source={require("../assets/noteLogo.png")}
-                  style={{ width: 15, height: 15 }}
-                />
-                <Image
-                  source={require("../assets/noteLogo.png")}
-                  style={{ width: 15, height: 15 }}
-                />
-                <Image
-                  source={require("../assets/noteLogo.png")}
-                  style={{ width: 15, height: 15 }}
-                />
-                <Image
-                  source={require("../assets/noteLogo.png")}
-                  style={{ width: 15, height: 15 }}
-                />
-              </View>
-            </View>
-          </View>
-        ) : null}
-
-        <View style={{ width: windowWidth, paddingLeft: 0, marginTop: 15 }}>
-          <Text
-            style={{
-              paddingTop: 10,
-              fontSize: 15,
-              paddingLeft: 10,
-              paddingBottom: 10,
-              fontWeight: "600",
-            }}
-          >
-            Information match organisation
-          </Text>
-          <View
-            style={{
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <View style={{ flexDirection: "row", gap: 12 }}>
-              <View style={[styles.shadowBox, { width: 90, height: 90 }]}>
-                <MaterialIcons
-                  name="supervised-user-circle"
-                  size={26}
-                  color="#52C234"
-                />
-                <Text style={{ fontSize: 10, marginTop: 5 }}>Looking for:</Text>
-                <Text style={{}}>
-                  {dataEventToRender.numberPlayerNeed} player{dataEventToRender.numberPlayerNeed > 1 ? "s" : ""}
-                </Text>
-              </View>
-
-              <View style={[styles.shadowBox, { width: 90, height: 90 }]}>
-                <Image
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 30,
-                  }}
-                  source={{ uri: userDBMONGO.imageProfile }}
-                />
-                <Text style={{ fontSize: 10, marginTop: 5, fontWeight: "600" }}>
-                  Create by:
-                </Text>
-                <Text style={{ fontSize: 10, color: "blue", marginTop: 2 }}>
-                  {userDBMONGO.username}
-                </Text>
-              </View>
-              <View
-                style={[styles.shadowBox, { width: "35%", height: 90 }]}
-              ></View>
-            </View>
-
-            <View style={{ flexDirection: "row", gap: 15 }}>
-              <View
-                style={[
-                  styles.shadowBox,
-                  { width: "42%", height: 60, flexDirection: "row" },
-                ]}
-              >
-                <View style={{ width: "30%", paddingLeft: 10 }}>
-                  <Ionicons name="calendar-outline" size={26} color="#52C234" />
-                </View>
-                <View
-                  style={{
-                    width: "70%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingRight: 10,
-                  }}
-                >
-                  <Text style={{ textAlign: "center" }}>{dataEventToRender.datePrecise}</Text>
-                </View>
-              </View>
-
-              <View
-                style={[
-                  styles.shadowBox,
-                  { width: "42%", height: 60, flexDirection: "row" },
-                ]}
-              >
-                <View style={{ width: "30%", paddingLeft: 10 }}>
-                  <Ionicons name="time-outline" size={26} color="#52C234" />
-                </View>
-                <View
-                  style={{
-                    width: "70%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingRight: 10,
-                  }}
-                >
-                  <Text>{dataEventToRender.hour}</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        <View style={{ width: windowWidth, paddingTop: 30 }}>
-          <Text
-            style={{
-              paddingTop: 10,
-              fontSize: 15,
-              paddingLeft: 10,
-              paddingBottom: 10,
-              fontWeight: "600",
-            }}
-          >
-            Go to the field
-          </Text>
-          <View
-            style={{
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() =>
-                openMaps(
-                  LinkLatLng.adress,
-                  LinkLatLng.location.lat,
-                  LinkLatLng.location.lng
-                )
-              }
-              style={[styles.shadowBox, { width: "90%", height: 90, gap: 10 }]}
-            >
-              <MaterialCommunityIcons
-                name="google-maps"
-                size={26}
-                color="#52C234"
-              />
-              <Text style={{ textAlign: "center" }}>{dataEventToRender?.localisation?.adress}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{ paddingBottom: 110, marginTop: 30 }}>
-          <Text
-            style={{
-              paddingTop: 10,
-              fontSize: 15,
-              paddingLeft: 10,
-              paddingBottom: 10,
-              fontWeight: "600",
-            }}
-          >
-            court localization
-          </Text>
-          <View style={{ width: windowWidth, alignItems: "center" }}>
-            <TouchableOpacity
-              activeOpacity={0}
-              style={[styles.mapButton, { marginBottom: 120 }]}
-            >
-              <MapEventInfo dataEventToRender={dataEventToRender} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
-
+      <View
+        style={{
+          width: windowWidth * 1,
+          height: 25,
+          flexDirection: "row",
+          justifyContent: "center",
+          gap: 20,
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("EventInfoDataRender");
+          }}
+        >
+          <Text>info</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("EventInfoDiscusion");
+          }}
+        >
+          <Text>Discusions</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -434,8 +201,8 @@ export default EventInfo;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#fff",
   },
   containerNote: {

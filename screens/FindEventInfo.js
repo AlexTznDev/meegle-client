@@ -133,7 +133,7 @@ const FindEventInfo = () => {
     const thisWeekEvents = allEvents.filter(
       (event) => isThisWeek(event.date) === "this week"
     );
-    console.log(thisWeekEvents);
+    
     setEventToRender(thisWeekEvents);
   };
 
@@ -146,7 +146,7 @@ const FindEventInfo = () => {
     const nextWeekEvents = allEvents.filter(
       (event) => isThisWeek(event.date) === "next week"
     );
-    console.log(nextWeekEvents);
+    
     setEventToRender(nextWeekEvents);
   };
 

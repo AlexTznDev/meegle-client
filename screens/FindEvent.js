@@ -9,9 +9,11 @@ import {
   Text,
 } from "react-native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const FindEvent = () => {
   const [IndexFindEvent, setIndexFindEvent] = useState(0);
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView
@@ -22,39 +24,31 @@ const FindEvent = () => {
         borderBottomLeftRadius: 37,
         justifyContent: "center",
         alignItems: "center",
-        gap:10,
+        gap: 10,
       }}
     >
-
-        <View
-          style={{
-            paddingTop: 10,
-            width: "100%",
-            justifyContent:"center",
-            alignItems:"center",
-          
-            
-          }}
-
-        >
-        <View
-      style={{ width: 70, height:50 }}
-        >
-        <Image
+      <View
+        style={{
+          paddingTop: 10,
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ width: 70, height: 50 }}>
+          <Image
             source={require("../assets/Meegel.png")}
-            style={{ width: "100%", height:"100%", resizeMode:"contain"}}
+            style={{ width: "100%", height: "100%", resizeMode: "contain" }}
           />
         </View>
-
-        </View>
-
+      </View>
 
       <View
         style={{
           flexDirection: "row",
           paddingLeft: 20,
           paddingRight: 20,
-          paddingBottom:10
+          paddingBottom: 10,
         }}
       >
         <TouchableOpacity
@@ -76,6 +70,7 @@ const FindEvent = () => {
           }}
           onPress={() => {
             setIndexFindEvent(0);
+            navigation.navigate("FindEventInfo");
           }}
         >
           <Image
@@ -92,7 +87,7 @@ const FindEvent = () => {
               fontSize: 12,
             }}
           >
-          Users games
+            Users games
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -104,7 +99,7 @@ const FindEvent = () => {
             flexDirection: "row",
             gap: 5,
             borderRadius: 15,
-            backgroundColor: "#52C23440",
+            backgroundColor: "#52C23445",
             marginBottom: 15,
             marginRight: 10,
             ...(IndexFindEvent === 1
@@ -113,13 +108,14 @@ const FindEvent = () => {
           }}
           onPress={() => {
             setIndexFindEvent(1);
+            navigation.navigate("MeegleGames");
           }}
         >
           <Image
-            source={require("../assets/sport.png")}
+            source={require("../assets/logoSimple.png")}
             style={{
-              width: 30,
-              height: 30,
+              width: 35,
+              height: 35,
               resizeMode: "contain",
             }}
           />

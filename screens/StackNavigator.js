@@ -8,7 +8,7 @@ import EventInfo from "../screens/EventInfo";
 import ChatMain from "../screens/mainComponent/ChatMain";
 import AuthMain from "../screens/auth/AuthMain";
 import NavBar from "../screens/NavBar";
-
+import EventInfoMain from "./mainComponent/EventInfoMain";
 import { useSelector } from "react-redux";
 
 import {
@@ -102,7 +102,7 @@ const StackNavigator = () => {
         />
         <Stack.Screen
           name="EventInfo"
-          component={EventInfo}
+          component={EventInfoMain}
           options={{
             headerShown: false,
             animationEnabled: true,
