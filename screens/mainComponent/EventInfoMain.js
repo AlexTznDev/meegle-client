@@ -19,7 +19,8 @@ const EventInfoMain = () => {
   return (
     <View
       style={{
-        flex: 1
+        flex: 1,
+        backgroundColor:"#fff"
       }}
     >
       <EventInfo />

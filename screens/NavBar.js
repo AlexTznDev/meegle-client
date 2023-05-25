@@ -44,7 +44,7 @@ const NavBar = () => {
   
 
   return (
-    <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
+    <View style={{ position: "absolute", bottom: 0, width: "100%" , borderTopWidth:.5, borderTopColor:"#00000020"}}>
       <BtnAmisAndDate />
       <View
         style={{

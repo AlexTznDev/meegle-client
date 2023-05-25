@@ -4,7 +4,8 @@ import React from 'react'
 const EventInfoDiscusion = ({ _id }) => {
   return (
     <View style={styles.container}>
-      <Text>EventInfoDiscusion</Text>
+      <Text 
+      >EventInfoDiscusionn</Text>
     </View>
   )
 }
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        backgroundColor:"#fff"
     }
 })

@@ -135,7 +135,7 @@ const EventInfoDataRender = ({ _id }) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:"#fff"}} >
       {dataEventToRender?.NumberImage !== -1 ? (
         <View
           style={{
@@ -144,7 +144,7 @@ const EventInfoDataRender = ({ _id }) => {
             width: windowWidth,
             paddingLeft: 10,
             paddingRight: 10,
-            paddingTop: 20,
+            paddingTop: 20
           }}
         >
           <Text
@@ -364,6 +364,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
+    backgroundColor:"#fff"
   },
   containerNote: {
     flexDirection: "row",

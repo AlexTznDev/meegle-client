@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Animated
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef} from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { useRoute } from "@react-navigation/native";
@@ -33,10 +34,24 @@ const EventInfo = () => {
   const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
   const eventListUserDB = useSelector(SelecteventListUserDB);
   const ImageAppli = useSelector(selectImageAppli);
-
   const [isFetching, setisFetching] = useState(true);
-
   const [dataEventToRender, setdataEventToRender] = useState(null);
+
+
+  const [active, setActive] = useState("Info"); // pour suivre l'état actif
+  const position = useRef(new Animated.Value(0)).current; // pour animer le cercle
+
+  const toggleActive = (nextState) => {
+    setActive(nextState);
+
+    Animated.timing(position, {
+      toValue: nextState === "Info" ? 0 : 1, // déplacer le bouton
+      duration: 300, // durée de l'animation
+      useNativeDriver: true, // utiliser le pilote natif pour de meilleures performances
+    }).start();
+  };
+
+
 
   //! recuperer les data de navigation
   const route = useRoute();
@@ -171,27 +186,83 @@ const EventInfo = () => {
       <View
         style={{
           width: windowWidth * 1,
-          height: 25,
           flexDirection: "row",
           justifyContent: "center",
           gap: 20,
           alignItems: "center",
+          padding: 2,
+          marginTop: 6,
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("EventInfoDataRender");
+        <View
+          style={{
+            backgroundColor: "#00000010",
+            flexDirection: "row",
+            width: "95%",
+            justifyContent: "space-between",
+            padding: 2,
+            borderRadius: 5,
           }}
         >
-          <Text>info</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("EventInfoDiscusion");
-          }}
-        >
-          <Text>Discusions</Text>
-        </TouchableOpacity>
+          <Animated.View
+            style={{
+              position: "absolute",
+              width: "50%",
+              backgroundColor: "#52C234",
+              height: "99%",
+              borderRadius:3,
+              top:2,
+              left:2,
+              transform: [
+                  {
+                    translateX: position.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, windowWidth*.465], // déplacer le cercle en fonction de la position
+                    }),
+                  },
+                ],
+            }}
+          ></Animated.View>
+          <TouchableOpacity
+            style={{
+              width: "50%",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 5,
+            }}
+            onPress={() => {
+              toggleActive("Info")
+              navigation.navigate("EventInfoDataRender");
+            }}
+          >
+            <Animated.Text style={{ 
+              fontWeight: active === "Info" ? "bold" : "normal", // changer la fonte en fonction de l'état
+              color: active === "Info" ? "#fff" : "#000000",
+
+            }}>Info</Animated.Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: "50%",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 5,
+              borderRadius: 5,
+            }}
+            onPress={() => {
+              toggleActive("Discussion")
+              navigation.navigate("EventInfoDiscusion");
+            }}
+          >
+            <Animated.Text 
+            style={{
+              fontWeight: active === "Discussion" ? "bold" : "normal", // changer la fonte en fonction de l'état
+              color: active === "Discussion" ? "#fff" : "#000000",
+                }}>
+              Discusion
+            </Animated.Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
