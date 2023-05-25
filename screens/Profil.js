@@ -113,7 +113,7 @@ const Profil = () => {
               borderRadius: 5,
             }}
           >
-            <Text style={styles.h3}>log out</Text>
+            <Text style={styles.h3}>Log out</Text>
           </TouchableOpacity>
         </View>
 
