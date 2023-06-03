@@ -22,11 +22,7 @@ import axios from "axios";
 import {
   collection,
   getDocs,
-  addDoc,
-  doc,
-  onSnapshot,
-  query,
-  orderBy,
+  addDoc
 } from "firebase/firestore";
 import { db } from "../firebase";
 

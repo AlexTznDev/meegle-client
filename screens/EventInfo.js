@@ -187,7 +187,7 @@ const EventInfo = () => {
             }}
           >
             <Image
-              source={ImageAppli[dataEventToRender?.NumberImage].name}
+              source={ImageAppli[dataEventToRender?.NumberImage]?.name}
               style={{
                 width: windowWidth,
                 height: windowHeight * 0.4,
@@ -197,7 +197,7 @@ const EventInfo = () => {
           </View>
         ) : (
           <Image
-            source={PadelCourtUnknown.name}
+            source={PadelCourtUnknown?.name}
             style={{
               width: windowWidth,
               height: windowHeight * 0.4,

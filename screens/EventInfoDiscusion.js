@@ -10,6 +10,7 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -42,11 +43,6 @@ const EventInfoDiscusion = ({ _id }) => {
   const [messages, setMessages] = useState([]);
   const scrollViewRef = React.useRef();
 
-
-
-
-
-
   //  useEffect(() => {
   //     const unsubscribe = navigation.addListener("focus", () => {
   //       dispatch(setIsActiveNavigate("CreateMain"));
@@ -75,6 +71,10 @@ const EventInfoDiscusion = ({ _id }) => {
     };
   }, [keybordOpen]);
 
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+  }, [messages]);
+
   const _keyboardWillShow = () => {
     setkeybordOpen(true);
     // console.log('Keyboard will show');
@@ -86,19 +86,16 @@ const EventInfoDiscusion = ({ _id }) => {
   };
 
   const sendMessage = async () => {
-    setinput("");
     try {
       const querySnapshot = await getDocs(collection(db, "chats"));
 
       querySnapshot.forEach(async (doc) => {
-
         const eventsSnapshot = await getDocs(
           collection(db, "chats", doc.id, "events")
         );
 
         eventsSnapshot.forEach(async (eventDoc) => {
           if (eventDoc.data().idEvents === _id) {
-
             const messageRef = collection(
               db,
               "chats",
@@ -113,8 +110,11 @@ const EventInfoDiscusion = ({ _id }) => {
               timestamp: serverTimestamp(),
               // displayName: ...,
               email: userDBMONGO.email,
-              photoUrl: userDBMONGO.imageProfile
+              photoUrl: userDBMONGO.imageProfile,
             });
+            // Move setinput here
+            setinput("");
+            scrollViewRef.current?.scrollToEnd({ animated: true });
           }
         });
       });
@@ -184,31 +184,75 @@ const EventInfoDiscusion = ({ _id }) => {
           <ScrollView ref={scrollViewRef} style={styles.containerAllMessage}>
             {messages.map((message, index) =>
               message.email === userDBMONGO.email ? (
-                <View key={index} style={{ alignItems: "flex-end" }}>
+                <View
+                  key={index}
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    flex: 1,
+                    alignItems: "flex-end",
+                  }}
+                >
                   <View
                     style={{
                       padding: 10,
                       backgroundColor: "#52C23420",
                       borderRadius: 10,
                       marginTop: 10,
-                      maxWidth: "80%",
+                      maxWidth: "70%",
                     }}
                   >
                     <Text>{message.message}</Text>
                   </View>
                   <View
-                  style={{width:10, height:10, backgroundColor:"green",position:"absolute" }}
-                  ></View>
+                    style={{
+                      width: 27,
+                      height: 27,
+                      backgroundColor: "green",
+                      marginLeft: 10,
+                      borderRadius: 30,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      style={{ width: "100%", height: "100%" }}
+                      source={{ uri: message.photoUrl }}
+                    />
+                  </View>
                 </View>
               ) : (
-                <View key={index} style={{ alignItems: "flex-start" }}>
+                <View
+                  key={index}
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    flex: 1,
+                    alignItems: "flex-end",
+                    gap: 10,
+                    marginLeft: -10,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 27,
+                      height: 27,
+                      marginLeft: 10,
+                      borderRadius: 30,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      style={{ width: "100%", height: "100%" }}
+                      source={{ uri: message.photoUrl }}
+                    />
+                  </View>
                   <View
                     style={{
                       padding: 10,
-                      backgroundColor: "#00000010",
+                      backgroundColor: "#52C23420",
                       borderRadius: 10,
                       marginTop: 10,
-                      maxWidth: "80%",
+                      maxWidth: "70%",
                     }}
                   >
                     <Text>{message.message}</Text>
@@ -239,7 +283,7 @@ const EventInfoDiscusion = ({ _id }) => {
               onSubmitEditing={sendMessage}
               style={styles.textInput}
             />
-            <TouchableOpacity activeOpacity={0.5}>
+            <TouchableOpacity activeOpacity={0.5} onPress={sendMessage}>
               <Feather name="send" size={20} color="#52C234" />
             </TouchableOpacity>
           </View>
