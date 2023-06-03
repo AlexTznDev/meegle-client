@@ -19,6 +19,17 @@ import useAuth from "../hooks/useAuth";
 import MapEventLocalization from "./MapEventLocalization";
 import axios from "axios";
 
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { db } from "../firebase";
+
 import * as Application from "expo-application";
 import * as Linking from "expo-linking";
 
@@ -191,18 +202,45 @@ const FinalizeEventCreate = () => {
       },
       NumberImage: numberSendToBack,
       numberPlayerNeed: numberPlayer,
-      datePrecise: DayData
+      datePrecise: DayData,
     };
 
     try {
-      await axios.post("http://localhost:5005/api/event", data, config);
-
+      const response = await axios.post(
+        "http://localhost:5005/api/event",
+        data,
+        config
+      );
+      createDbDiscussion(response.data.eventCreatedData._id);
       navigation.navigate("ProfilMain");
       dispatch(setIsActiveNavigate("Profil"));
     } catch (error) {
       console.log(error);
     }
   };
+
+  const createDbDiscussion = async (_id) => {
+    try {
+        // Récupérer tous les documents dans la collection 'chats'
+        const chatsSnapshot = await getDocs(collection(db, "chats"));
+
+
+        // Utiliser le premier document dans la collection 'chats'
+        const firstChatDoc = chatsSnapshot.docs[0];
+
+        // Créer un nouveau document dans la sous-collection 'events' de ce document
+        const eventRef = collection(firstChatDoc.ref, "events");
+        await addDoc(eventRef, {
+            idEvents: _id,
+        });
+
+    } catch (error) {
+        console.error("Erreur lors de l'ajout du message: ", error);
+    }
+};
+
+
+  
 
   return (
     <View style={styles.container}>

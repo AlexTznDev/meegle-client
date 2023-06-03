@@ -53,6 +53,7 @@ const BtnAmisAndDate = () => {
         <View>
           <View style={styles.footer}>
             <TouchableOpacity
+            activeOpacity={.5}
               onPress={() => {
                 navigation.navigate("AddFriendEvent");
               }}
@@ -76,6 +77,7 @@ const BtnAmisAndDate = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
+            activeOpacity={.5}
               onPress={() => {
                 navigation.navigate("AddDateToEvent");
               }}

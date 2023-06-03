@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Animated
+  Animated,
+  Keyboard
 } from "react-native";
 import React, { useEffect, useState , useRef} from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -36,6 +37,28 @@ const EventInfo = () => {
   const ImageAppli = useSelector(selectImageAppli);
   const [isFetching, setisFetching] = useState(true);
   const [dataEventToRender, setdataEventToRender] = useState(null);
+  const [keybordOpen, setkeybordOpen] = useState(false);
+
+  useEffect(() => {
+    const keyboardWillShowListener = Platform.OS === 'ios' ? Keyboard.addListener("keyboardWillShow", _keyboardWillShow) : null;
+    const keyboardWillHideListener = Platform.OS === 'ios' ? Keyboard.addListener("keyboardWillHide", _keyboardWillHide) : null;
+
+    // nettoyage de la fonction
+    return () => {
+      keyboardWillShowListener?.remove();
+      keyboardWillHideListener?.remove();
+    };
+  }, [keybordOpen]);
+
+  const _keyboardWillShow = () => {
+    setkeybordOpen(true)
+    // console.log('Keyboard will show');
+  };
+
+  const _keyboardWillHide = () => {
+    setkeybordOpen(false)
+    // console.log('Keyboard will hide');
+  };
 
 
   const [active, setActive] = useState("Info"); // pour suivre l'état actif
@@ -148,7 +171,7 @@ const EventInfo = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, , {marginBottom: keybordOpen === true? -200: 0}]}>
       <View
         style={{
           width: windowWidth,

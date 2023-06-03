@@ -186,6 +186,7 @@ const AddFriendEvent = () => {
       }}
     >
       <TouchableOpacity
+      activeOpacity={.5}
         style={[
           styles.btn,
           {
@@ -204,6 +205,7 @@ const AddFriendEvent = () => {
         <Text style={{ color: "#fff", fontSize: 20 }}>Valider</Text>
       </TouchableOpacity>
       <TouchableOpacity
+      activeOpacity={.5}
         onPress={() => {
           navigation.navigate("CreateEventLegende");
         }}
@@ -252,6 +254,7 @@ const AddFriendEvent = () => {
             renderItem={({ item }) => {
               return (
                 <TouchableOpacity
+                activeOpacity={.5}
                   onPress={() => {
                     toggleFriend(item);
                   }}

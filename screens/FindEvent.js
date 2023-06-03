@@ -52,6 +52,7 @@ const FindEvent = () => {
         }}
       >
         <TouchableOpacity
+        activeOpacity={.5}
           style={{
             width: "45%",
             flexDirection: "row",
@@ -91,6 +92,7 @@ const FindEvent = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+        activeOpacity={.5}
           style={{
             width: "45%",
             height: 50,

@@ -17,12 +17,14 @@ const EventInfoMain = () => {
 // console.log(_id)
 
   return (
+    
     <View
       style={{
         flex: 1,
         backgroundColor:"#fff"
       }}
     >
+    
       <EventInfo />
 
 

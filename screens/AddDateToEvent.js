@@ -154,6 +154,7 @@ const AddDateToEvent = () => {
         </View>
 
         <TouchableOpacity
+        activeOpacity={.5}
           onPress={() => {
             navigation.navigate("CreateEventLegende");
             RegisterDateAndTimeInfo(time);
