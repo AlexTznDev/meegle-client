@@ -35,7 +35,7 @@ const EventInfo = () => {
   const PadelCourtUnknown = useSelector(SelectPadelCourtUnknown);
   const eventListUserDB = useSelector(SelecteventListUserDB);
   const ImageAppli = useSelector(selectImageAppli);
-  const [isFetching, setisFetching] = useState(true);
+  const [isFetching, setisFetching] = useState(false);
   const [dataEventToRender, setdataEventToRender] = useState(null);
   const [keybordOpen, setkeybordOpen] = useState(false);
 
@@ -78,21 +78,26 @@ const EventInfo = () => {
 
   //! recuperer les data de navigation
   const route = useRoute();
-  const _id = route.params._id;
+  const eventData = route.params.eventData;
 
   const findEventById = (eventId, eventsArray) => {
     return eventsArray.find((event) => event._id === eventId);
   };
 
-  useEffect(() => {
-    const eventId = _id;
-    const eventsArray = eventListUserDB;
+  // useEffect(() => {
+  //   const eventId = _id;
+  //   const eventsArray = eventListUserDB;
 
-    const foundEvent = findEventById(eventId, eventsArray);
+  //   const foundEvent = findEventById(eventId, eventsArray);
 
-    setdataEventToRender(foundEvent);
-    setisFetching(false);
-  }, [route]);
+  //   setdataEventToRender(foundEvent);
+  //   setisFetching(false);
+  // }, [route]);
+
+useEffect(() => {
+  
+console.log(eventData)
+}, [eventData]);
 
   const NameChoose = [
     { name: "Padel horta nord", note: 4.1 },
@@ -171,7 +176,7 @@ const EventInfo = () => {
   }
 
   return (
-    <View style={[styles.container, , {marginBottom: keybordOpen === true? -200: 0}]}>
+    <View style={[styles.container,{marginBottom: keybordOpen === true? -200: 0}]}>
       <View
         style={{
           width: windowWidth,
@@ -179,7 +184,7 @@ const EventInfo = () => {
           overflow: "hidden",
         }}
       >
-        {dataEventToRender?.NumberImage !== -1 ? (
+        {eventData?.NumberImage !== -1 ? (
           <View
             style={{
               height: "100%",
@@ -187,7 +192,7 @@ const EventInfo = () => {
             }}
           >
             <Image
-              source={ImageAppli[dataEventToRender?.NumberImage]?.name}
+              source={ImageAppli[eventData?.NumberImage]?.name}
               style={{
                 width: windowWidth,
                 height: windowHeight * 0.4,

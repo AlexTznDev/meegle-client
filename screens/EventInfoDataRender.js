@@ -28,7 +28,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MapEventInfo from "./MapEventInfo";
 
-const EventInfoDataRender = ({ _id }) => {
+const EventInfoDataRender = ({ eventData }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
@@ -37,26 +37,29 @@ const EventInfoDataRender = ({ _id }) => {
   const eventListUserDB = useSelector(SelecteventListUserDB);
   const ImageAppli = useSelector(selectImageAppli);
 
-  const [isFetching, setisFetching] = useState(true);
+  const [isFetching, setisFetching] = useState(false);
 
   const [dataEventToRender, setdataEventToRender] = useState(null);
 
   //! recuperer les data de navigation
 
-  const findEventById = (eventId, eventsArray) => {
-    return eventsArray.find((event) => event._id === eventId);
-  };
+  // const findEventById = (eventId, eventsArray) => {
+  //   return eventsArray.find((event) => event._id === eventId);
+  // };
+
+  // useEffect(() => {
+  //   const eventId = _id;
+  //   const eventsArray = eventListUserDB;
+
+  //   const foundEvent = findEventById(eventId, eventsArray);
+
+  //   setdataEventToRender(foundEvent);
+  //   setisFetching(false);
+  // }, []);
 
   useEffect(() => {
-    const eventId = _id;
-    const eventsArray = eventListUserDB;
-
-    const foundEvent = findEventById(eventId, eventsArray);
-
-    setdataEventToRender(foundEvent);
-    setisFetching(false);
-  }, []);
-
+    console.log(eventData);
+  }, [eventData]);
 
   const NameChoose = [
     { name: "Padel horta nord", note: 4.1 },
@@ -135,8 +138,8 @@ const EventInfoDataRender = ({ _id }) => {
   }
 
   return (
-    <ScrollView style={{backgroundColor:"#fff"}} >
-      {dataEventToRender?.NumberImage !== -1 ? (
+    <ScrollView style={{ backgroundColor: "#fff" }}>
+      {eventData?.NumberImage !== -1 ? (
         <View
           style={{
             flexDirection: "row",
@@ -144,7 +147,7 @@ const EventInfoDataRender = ({ _id }) => {
             width: windowWidth,
             paddingLeft: 10,
             paddingRight: 10,
-            paddingTop: 20
+            paddingTop: 20,
           }}
         >
           <Text
@@ -155,7 +158,7 @@ const EventInfoDataRender = ({ _id }) => {
               fontWeight: "600",
             }}
           >
-            {NameChoose[dataEventToRender?.NumberImage]?.name}
+            {NameChoose[eventData?.NumberImage]?.name}
           </Text>
           <View style={styles.containerNote}>
             <Text
@@ -165,7 +168,7 @@ const EventInfoDataRender = ({ _id }) => {
                 fontWeight: "500",
               }}
             >
-              {NameChoose[dataEventToRender?.NumberImage]?.note}
+              {NameChoose[eventData?.NumberImage]?.note}
             </Text>
             <View style={{ flexDirection: "row", gap: 3 }}>
               <Image
@@ -218,8 +221,8 @@ const EventInfoDataRender = ({ _id }) => {
               />
               <Text style={{ fontSize: 10, marginTop: 5 }}>Looking for:</Text>
               <Text style={{}}>
-                {dataEventToRender?.numberPlayerNeed} player
-                {dataEventToRender?.numberPlayerNeed > 1 ? "s" : ""}
+                {eventData?.numberPlayerNeed} player
+                {eventData?.numberPlayerNeed > 1 ? "s" : ""}
               </Text>
             </View>
 
@@ -230,13 +233,13 @@ const EventInfoDataRender = ({ _id }) => {
                   height: 40,
                   borderRadius: 30,
                 }}
-                source={{ uri: dataEventToRender?.owner.imageProfile }}
+                source={{ uri: eventData?.owner.imageProfile }}
               />
               <Text style={{ fontSize: 10, marginTop: 5, fontWeight: "600" }}>
                 Create by:
               </Text>
               <Text style={{ fontSize: 10, color: "blue", marginTop: 2 }}>
-                {dataEventToRender?.owner.username}
+                {eventData?.owner.username}
               </Text>
             </View>
             <View
@@ -263,7 +266,7 @@ const EventInfoDataRender = ({ _id }) => {
                 }}
               >
                 <Text style={{ textAlign: "center" }}>
-                  {dataEventToRender?.datePrecise}
+                  {eventData?.datePrecise}
                 </Text>
               </View>
             </View>
@@ -285,7 +288,7 @@ const EventInfoDataRender = ({ _id }) => {
                   paddingRight: 10,
                 }}
               >
-                <Text>{dataEventToRender?.hour}</Text>
+                <Text>{eventData?.hour}</Text>
               </View>
             </View>
           </View>
@@ -314,9 +317,9 @@ const EventInfoDataRender = ({ _id }) => {
           <TouchableOpacity
             onPress={() =>
               openMaps(
-                dataEventToRender?.localisation.adress,
-                dataEventToRender?.localisation.location.lat,
-                dataEventToRender?.localisation.location.lng
+                eventData?.localisation.adress,
+                eventData?.localisation.location.lat,
+                eventData?.localisation.location.lng
               )
             }
             style={[styles.shadowBox, { width: "90%", height: 90, gap: 10 }]}
@@ -327,7 +330,7 @@ const EventInfoDataRender = ({ _id }) => {
               color="#52C234"
             />
             <Text style={{ textAlign: "center" }}>
-              {dataEventToRender?.localisation?.adress}
+              {eventData?.localisation?.adress}
             </Text>
           </TouchableOpacity>
         </View>
@@ -349,7 +352,7 @@ const EventInfoDataRender = ({ _id }) => {
             activeOpacity={0}
             style={[styles.mapButton, { marginBottom: 120 }]}
           >
-            <MapEventInfo dataEventToRender={dataEventToRender} />
+            <MapEventInfo dataEventToRender={eventData} />
           </TouchableOpacity>
         </View>
       </View>
@@ -364,7 +367,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    backgroundColor:"#fff"
+    backgroundColor: "#fff",
   },
   containerNote: {
     flexDirection: "row",

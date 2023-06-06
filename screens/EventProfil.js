@@ -83,7 +83,6 @@ const EventProfil = () => {
       const response = await axios.get("http://localhost:5005/api/event/All");
       dispatch(setEventListUserDB(response.data));
 
-
       let filteredEvents = response.data.filter(
         (event) => event.owner._id === userDBMONGO._id
       );
@@ -181,7 +180,7 @@ const EventProfil = () => {
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate("EventInfo", {
-                        _id: item._id,
+                        eventData: item,
                       });
                     }}
                     style={styles.containerCard}

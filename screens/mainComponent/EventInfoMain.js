@@ -11,10 +11,9 @@ const EventInfoMain = () => {
   const Stack = createStackNavigator();
 
   const route = useRoute();
-  const _id = route.params._id;
+  const eventData = route.params.eventData;
 
 
-// console.log(_id)
 
   return (
     
@@ -31,7 +30,7 @@ const EventInfoMain = () => {
       <Stack.Navigator >
         <Stack.Screen
           name="EventInfoDataRender"
-          children={()=><EventInfoDataRender _id={_id}/>}
+          children={()=><EventInfoDataRender eventData={eventData}/>}
           options={{
             headerShown: false,
             animationEnabled: true,
@@ -39,7 +38,7 @@ const EventInfoMain = () => {
         />
         <Stack.Screen
           name="EventInfoDiscusion"
-          children={()=><EventInfoDiscusion _id={_id}/>}
+          children={()=><EventInfoDiscusion eventData={eventData}/>}
           options={{
             headerShown: false,
             animationEnabled: true,

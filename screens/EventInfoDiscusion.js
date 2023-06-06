@@ -32,7 +32,7 @@ import { db } from "../firebase";
 import { serverTimestamp } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
 
-const EventInfoDiscusion = ({ _id }) => {
+const EventInfoDiscusion = ({ eventData }) => {
   const windowHeight = Dimensions.get("window").height; //! equivaut a un 100vh
   const windowWidth = Dimensions.get("window").width; //! equivaut a un 100vw
   const [input, setinput] = useState("");
@@ -95,7 +95,7 @@ const EventInfoDiscusion = ({ _id }) => {
         );
 
         eventsSnapshot.forEach(async (eventDoc) => {
-          if (eventDoc.data().idEvents === _id) {
+          if (eventDoc.data().idEvents === eventData._id) {
             const messageRef = collection(
               db,
               "chats",
@@ -137,7 +137,7 @@ const EventInfoDiscusion = ({ _id }) => {
         const eventCollection = collection(db, "chats", chatDoc.id, "events");
         onSnapshot(eventCollection, (eventsSnapshot) => {
           eventsSnapshot.forEach((eventDoc) => {
-            if (eventDoc.data().idEvents === _id) {
+            if (eventDoc.data().idEvents === eventData._id) {
               const messageCollection = collection(
                 db,
                 "chats",

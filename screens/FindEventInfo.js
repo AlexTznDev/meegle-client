@@ -58,6 +58,12 @@ const FindEventInfo = () => {
     };
   }, [navigation]);
 
+// useEffect(() => {
+  
+// console.log(allEvents)
+
+// }, [allEvents]);
+
   const NameChoose = [
     { name: "Padel horta nord", note: 4.1 },
     { name: "Polideportivo carmen", note: 4.5 },
@@ -241,17 +247,6 @@ const FindEventInfo = () => {
         </TouchableOpacity>
       </View>
 
-      {/* <Text>FindEventInfo</Text>
-      <Text>Current Date: {currentDate}</Text>
-      <Text>{isThisWeek("2023-05-22")}</Text>
-      <TouchableOpacity onPress={()=>{
-        eventThisWeek()
-      }}><Text>this week</Text></TouchableOpacity>
-      <TouchableOpacity
-      onPress={()=>{
-        eventNextWeek()
-      }}
-      ><Text>next week</Text></TouchableOpacity> */}
       <ScrollView>
         {isFetching ? (
           <Text>is...fetching</Text>
@@ -277,7 +272,7 @@ const FindEventInfo = () => {
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate("EventInfo", {
-                        _id: item._id,
+                        eventData: item
                       });
                     }}
                     style={styles.containerCard}
